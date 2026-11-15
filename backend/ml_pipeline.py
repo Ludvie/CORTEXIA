@@ -11,7 +11,7 @@ from sklearn.preprocessing import StandardScaler
 from sklearn.linear_model import LogisticRegression
 from sklearn.ensemble import RandomForestClassifier
 from sklearn.dummy import DummyClassifier
-from sklearn.metrics import accuracy_score,f1_score,confusion_matrix
+from sklearn.metrics import accuracy_score,f1_score,confusion_matrix,precision_score,recall_score
 
 import os
 DATA=Path(os.environ.get('ETDD70_DIR') or Path(__file__).resolve().parent.parent/'assets'/'dataset'/'ETDD70_v2')
@@ -24,6 +24,33 @@ def dataset_frame():
         f=pd.read_csv(path);sid=int(f.iloc[0]['sid']);row={c:float(f.iloc[0][c]) for c in TRIAL};words=f[f['aoi_kind']=='subline']
         row.update({f'avg_{c}':float(words[c].mean()) for c in ROI});row.update({'subject_id':str(sid),'task':f.iloc[0]['task'],'label':int(labels[sid])});rows.append(row)
     return pd.DataFrame(rows).replace([np.inf,-np.inf],np.nan)
+
+FEATURE_VERSION='etdd70-trial+roi-v1'
+
+def _sha256(paths):
+    import hashlib
+    h=hashlib.sha256()
+    for p in sorted(paths):
+        h.update(p.name.encode());h.update(p.read_bytes())
+    return h.hexdigest()
+
+def environment():
+    import platform, sklearn
+    return {'python':platform.python_version(),'numpy':np.__version__,'pandas':pd.__version__,'scikit_learn':sklearn.__version__,'joblib':joblib.__version__}
+
+def participant_metrics(frame,probabilities,threshold=0.5):
+    """Agregasi OOF per peserta: rerata probabilitas semua rekaman peserta, lalu ambang 0,5.
+    Semua rekaman satu peserta berada di fold uji yang sama, jadi agregat ini tetap out-of-fold."""
+    f=pd.DataFrame({'subject_id':frame['subject_id'].astype(str).values,'label':frame['label'].astype(int).values,'p':probabilities})
+    g=f.groupby('subject_id').agg(label=('label','first'),p=('p','mean'),recordings=('p','size'))
+    pred=(g['p']>=threshold).astype(int);y=g['label']
+    majority=int(y.mode().iloc[0]);base=np.full(len(y),majority)
+    return {'participants':int(len(g)),'threshold':threshold,'aggregation':'rerata probabilitas OOF semua rekaman peserta',
+            'accuracy':round(accuracy_score(y,pred),4),'macro_f1':round(f1_score(y,pred,average='macro'),4),
+            'precision_macro':round(precision_score(y,pred,average='macro',zero_division=0),4),'recall_macro':round(recall_score(y,pred,average='macro',zero_division=0),4),
+            'precision_dyslexia':round(precision_score(y,pred,pos_label=1,zero_division=0),4),'recall_dyslexia':round(recall_score(y,pred,pos_label=1,zero_division=0),4),
+            'baseline_accuracy':round(accuracy_score(y,base),4),'baseline_macro_f1':round(f1_score(y,base,average='macro'),4),
+            'confusion_matrix':confusion_matrix(y,pred,labels=[0,1]).tolist()}
 
 def train(algorithm='logistic',import_frame=None,output_dir=None):
     frame=import_frame if import_frame is not None else dataset_frame()
@@ -39,8 +66,16 @@ def train(algorithm='logistic',import_frame=None,output_dir=None):
     model.fit(X,y)
     importance=np.abs(estimator.coef_[0]) if algorithm!='forest' else estimator.feature_importances_
     version=datetime.now(timezone.utc).strftime('%Y%m%d-%H%M%S')
-    report={'id':version+'-'+algorithm,'algorithm':algorithm,'model_name':'Random Forest' if algorithm=='forest' else 'Logistic Regression','version':version,'created_at':datetime.now(timezone.utc).isoformat(),'samples':len(frame),'participants':int(groups.nunique()),'features':features,'accuracy':round(accuracy_score(y,predictions),4),'macro_f1':round(f1_score(y,predictions,average='macro'),4),'baseline_macro_f1':round(f1_score(y,baseline,average='macro'),4),'baseline_accuracy':round(accuracy_score(y,baseline),4),'confusion_matrix':confusion_matrix(y,predictions,labels=[0,1]).tolist(),'folds':fold_scores,'feature_importance':sorted([{'feature':f,'value':round(float(v),4)} for f,v in zip(features,importance)],key=lambda x:-x['value']),'evaluation':'5-fold StratifiedGroupKFold, dipisah berdasarkan peserta; preprocessing dipelajari hanya dari fold pelatihan.','dataset':'CSV impor' if import_frame is not None else 'ETDD70 v2','oof':[{'subject_id':str(row['subject_id']),'task':str(row.get('task','import')),'label':int(row['label']),'prediction':int(predictions[i]),'probability':round(float(probabilities[i]),4)} for i,(_,row) in enumerate(frame.iterrows())]}
-    dest=output_dir or MODELS;dest.mkdir(parents=True,exist_ok=True);joblib.dump(model,dest/(report['id']+'.joblib'));(dest/(report['id']+'.json')).write_text(json.dumps(report,indent=2));return report
+    report={'id':version+'-'+algorithm,'algorithm':algorithm,'model_name':'Random Forest' if algorithm=='forest' else 'Logistic Regression','version':version,'created_at':datetime.now(timezone.utc).isoformat(),'samples':len(frame),'participants':int(groups.nunique()),'features':features,'accuracy':round(accuracy_score(y,predictions),4),'macro_f1':round(f1_score(y,predictions,average='macro'),4),'baseline_macro_f1':round(f1_score(y,baseline,average='macro'),4),'baseline_accuracy':round(accuracy_score(y,baseline),4),'precision_macro':round(precision_score(y,predictions,average='macro',zero_division=0),4),'recall_macro':round(recall_score(y,predictions,average='macro',zero_division=0),4),
+           'precision_dyslexia':round(precision_score(y,predictions,pos_label=1,zero_division=0),4),'recall_dyslexia':round(recall_score(y,predictions,pos_label=1,zero_division=0),4),
+           'evaluation_unit':'rekaman per tugas; lihat participant_level untuk agregat per peserta','participant_level':participant_metrics(frame,probabilities),'feature_importance_source':'model akhir yang di-fit pada seluruh data setelah evaluasi OOF',
+           'confusion_matrix':confusion_matrix(y,predictions,labels=[0,1]).tolist(),'folds':fold_scores,'feature_importance':sorted([{'feature':f,'value':round(float(v),4)} for f,v in zip(features,importance)],key=lambda x:-x['value']),'evaluation':'5-fold StratifiedGroupKFold, dipisah berdasarkan peserta; preprocessing dipelajari hanya dari fold pelatihan.','dataset':'CSV impor' if import_frame is not None else 'ETDD70 v2','oof':[{'subject_id':str(row['subject_id']),'task':str(row.get('task','import')),'label':int(row['label']),'prediction':int(predictions[i]),'probability':round(float(probabilities[i]),4)} for i,(_,row) in enumerate(frame.iterrows())]}
+    import hashlib
+    report['reproducibility']={'feature_version':FEATURE_VERSION,'environment':environment(),'random_state':42,'cv':'StratifiedGroupKFold(n_splits=5, shuffle=True, random_state=42)',
+        'dataset_sha256':_sha256([DATA/'dyslexia_class_label.csv',*(DATA/'data'/'data').glob('*_metrics.csv')]) if import_frame is None else None,
+        'import_sha256':hashlib.sha256(pd.util.hash_pandas_object(frame,index=False).values.tobytes()).hexdigest() if import_frame is not None else None}
+    dest=output_dir or MODELS;dest.mkdir(parents=True,exist_ok=True);joblib.dump(model,dest/(report['id']+'.joblib'))
+    report['reproducibility']['model_sha256']=_sha256([dest/(report['id']+'.joblib')]);(dest/(report['id']+'.json')).write_text(json.dumps(report,indent=2));return report
 
 if __name__=='__main__':
     r=train();print(json.dumps({k:v for k,v in r.items() if k not in ['oof','feature_importance']},indent=2))

@@ -4,6 +4,7 @@ from fastapi import APIRouter, Depends, HTTPException, UploadFile, File, Form
 from fastapi.responses import StreamingResponse
 from starlette.concurrency import run_in_threadpool
 from pydantic import BaseModel, Field
+from pymongo.errors import DuplicateKeyError
 from core import db,uid,now,current_user,audit,Document
 from analytics import transcribe,analyze,align,normalize,asr_ready
 
@@ -49,6 +50,8 @@ class SessionInput(BaseModel):
     gaze_points:list[GazePoint]=Field(default_factory=list,max_length=20000)
     layouts:list[Layout]=Field(default_factory=list,max_length=40)
     calibration:CalibrationInput=Field(default_factory=CalibrationInput)
+    # Opsional: kunci idempotensi dari klien agar retry setelah respons hilang tidak membuat sesi ganda.
+    client_request_id:str|None=Field(default=None,min_length=8,max_length=100,pattern=r'^[A-Za-z0-9_-]+$')
 class Correction(BaseModel):
     transcript:str=Field(min_length=1,max_length=10000)
     note:str=Field(default='',max_length=2000)
@@ -70,6 +73,7 @@ async def audio_result(audio,reference=None):
                 try:result['pronunciation']=await run_in_threadpool(word_confidence,name,reference)
                 except Exception:
                     import logging;logging.exception('Vosk word confidence failed')
+                    result['pronunciation_error']='Kejelasan pelafalan gagal dihitung; metrik suara lain tetap tersedia.'
         return result
     except HTTPException:raise
     except Exception as e:
@@ -94,15 +98,27 @@ async def create_session(payload:str=Form(...),audio:UploadFile|None=File(None),
     student=await db.students.find_one({'id':data.student_id,'owner_id':user['id']},{'_id':0})
     text=await db.texts.find_one({'id':data.text_id,'owner_id':{'$in':['shared',user['id']]}},{'_id':0})
     if not student or not text:raise HTTPException(404,'Siswa atau materi tidak ditemukan.')
+    if data.client_request_id:
+        existing=await db.sessions.find_one({'owner_id':user['id'],'client_request_id':data.client_request_id},{'_id':0})
+        if existing:return existing
     speech=await session_speech(audio,text['content']) if audio and audio.filename else {'transcript':'','words':[]}
     duration=speech.get('audio_duration',data.duration)
     points=[p.model_dump() for p in data.gaze_points]
     layouts=[l.model_dump() for l in data.layouts]
     calibration=data.calibration.model_dump()
-    result=analyze(text['content'],speech['transcript'],duration,points,calibration,speech['words'],layouts,speech.get('pronunciation'),speech_error=speech.get('error'))
-    doc={'id':uid(),'owner_id':user['id'],'student_id':student['id'],'student_alias':student['alias'],'text_id':text['id'],'text_title':text['title'],'reference':text['content'],'duration':duration,'mode':data.mode,'transcript':speech['transcript'],'words':speech['words'],'speech_model':speech.get('model'),'speech_error':speech.get('error'),'gaze_points':points,'layouts':layouts,'calibration':calibration,**result,'created_at':now(),'consent_at':now(),'retention_days':30,'expires_at':datetime.now(timezone.utc)+timedelta(days=30),'reviews':[]}
+    from analytics import sanitize
+    speech['words'],_=sanitize(speech.get('words') or [])
+    result=analyze(text['content'],speech['transcript'],duration,points,calibration,speech['words'],layouts,speech.get('pronunciation'),speech_error=speech.get('error'),gaze_duration=data.duration)
+    if speech.get('pronunciation_error'):result['analysis_warnings']=[*result.get('analysis_warnings',[]),speech['pronunciation_error']]
+    doc={'id':uid(),'owner_id':user['id'],'student_id':student['id'],'student_alias':student['alias'],'text_id':text['id'],'text_title':text['title'],'reference':text['content'],'duration':duration,'client_duration':data.duration,'mode':data.mode,'transcript':speech['transcript'],'asr_transcript':speech['transcript'] if speech.get('model') else None,'words':speech['words'],'speech_model':speech.get('model'),'speech_error':speech.get('error'),'gaze_points':points,'layouts':layouts,'calibration':calibration,**result,'client_request_id':data.client_request_id,'created_at':now(),'consent_at':now(),'retention_days':30,'expires_at':datetime.now(timezone.utc)+timedelta(days=30),'reviews':[]}
     await db.sessions.create_index('expires_at',expireAfterSeconds=0)
-    await db.sessions.insert_one(doc.copy());await audit(user['id'],'create_session',doc['id'])
+    try:await db.sessions.insert_one(doc.copy())
+    except DuplicateKeyError:
+        # Dua request bersamaan dengan kunci yang sama: kembalikan sesi yang tersimpan lebih dulu.
+        existing=await db.sessions.find_one({'owner_id':user['id'],'client_request_id':data.client_request_id},{'_id':0})
+        if existing:return existing
+        raise
+    await audit(user['id'],'create_session',doc['id'])
     return doc
 
 @router.get('/sessions',response_model=list[Document])
@@ -117,12 +133,19 @@ async def owned(id,user):
 @router.get('/sessions/{id}',response_model=Document)
 async def get_session(id:str,user=Depends(current_user)):return await owned(id,user)
 
+def automatic_transcript(doc):
+    """Transkrip otomatis asli (untuk ASR WER). Sesi lama tanpa `asr_transcript` memakai transkrip sebelum koreksi pertama."""
+    if doc.get('asr_transcript') is not None:return doc['asr_transcript']
+    if not doc.get('speech_model'):return None
+    reviews=doc.get('reviews') or []
+    return reviews[0].get('previous_transcript') if reviews else doc.get('transcript')
+
 @router.patch('/sessions/{id}/review',response_model=Document)
 async def review(id:str,data:Correction,user=Depends(current_user)):
     if user['role']!='teacher':raise HTTPException(403,'Koreksi hanya dapat dilakukan pendamping.')
     if not normalize(data.transcript):raise HTTPException(422,'Transkripsi tidak boleh kosong.')
     doc=await owned(id,user)
-    result=analyze(doc['reference'],data.transcript,doc['duration'],doc['gaze_points'],doc['calibration'],doc['words'],doc.get('layouts'),(doc.get('metrics') or {}).get('pronunciation'),reviewed=True)
+    result=analyze(doc['reference'],data.transcript,doc['duration'],doc['gaze_points'],doc['calibration'],doc['words'],doc.get('layouts'),(doc.get('metrics') or {}).get('pronunciation'),reviewed=True,asr_transcript=automatic_transcript(doc),gaze_duration=doc.get('client_duration'))
     history={'previous_transcript':doc['transcript'],'transcript':data.transcript,'note':data.note,'reviewer_id':user['id'],'created_at':now()}
     await db.sessions.update_one({'id':id,'owner_id':user['id']},{'$set':{**result,'transcript':data.transcript,'reviewed':True},'$push':{'reviews':history}})
     await audit(user['id'],'review_transcript',id);return await owned(id,user)

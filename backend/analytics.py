@@ -17,20 +17,63 @@ def transcribe(path):
             _model=WhisperModel('base',device='cpu',compute_type='int8',download_root=str(MODEL_DIR),local_files_only=True,cpu_threads=2,num_workers=1)
         # Decode sendiri ke PCM 16 kHz agar tidak bergantung pada API PyAV yang dipakai faster-whisper.
         from pronunciation import decode_pcm
-        audio=np.frombuffer(decode_pcm(path),dtype=np.int16).astype(np.float32)/32768.0
+        pcm=decode_pcm(path)
+        validate_pcm(pcm)
+        audio=np.frombuffer(pcm,dtype=np.int16).astype(np.float32)/32768.0
         segments,info=_model.transcribe(audio,language='id',beam_size=5,word_timestamps=True,vad_filter=True,condition_on_previous_text=False)
         words=[];texts=[]
         for seg in segments:
             if seg.no_speech_prob>0.7:continue
             texts.append(seg.text.strip())
-            for w in seg.words or []:words.append({'word':w.word.strip(),'start':round(w.start,3),'end':round(w.end,3),'probability':round(w.probability,3)})
-        return {'transcript':' '.join(texts),'words':words,'audio_duration':round(info.duration,2),'language':'id','model':'faster-whisper/base-int8'}
+            for w in seg.words or []:words.append({'word':w.word.strip(),'start':w.start,'end':w.end,'probability':w.probability})
+        words,_=clean_words(words)
+        duration=float(info.duration) if _finite(info.duration) and info.duration>0 else len(pcm)/2/16000
+        return {'transcript':' '.join(texts),'words':words,'audio_duration':round(duration,2),'language':'id','model':'faster-whisper/base-int8'}
 
-def normalize(text):return ' '.join(re.findall(r"[^\W_]+(?:-[^\W_]+)*",text.lower(),re.UNICODE))
+MIN_PCM_S=0.1          # audio hasil decode di bawah 0,1 detik dianggap kosong (bukan ambang analisis)
+
+def _finite(v):
+    try:return v is not None and not isinstance(v,bool) and np.isfinite(float(v))
+    except (TypeError,ValueError):return False
+
+def validate_pcm(pcm,rate=16000):
+    """Tolak audio yang kosong/terlalu pendek setelah decode, atau yang seluruhnya hening digital."""
+    if not pcm or len(pcm)<int(MIN_PCM_S*rate)*2:raise ValueError('Audio kosong atau terlalu pendek setelah decode.')
+    if not np.any(np.frombuffer(pcm[:len(pcm)//2*2],dtype=np.int16)):raise ValueError('Audio hanya berisi hening.')
+
+def clean_words(words):
+    """Saring timestamp kata ASR: harus finite, tidak negatif, end >= start; probabilitas dijepit ke [0, 1].
+    Mengembalikan (kata_terurut, jumlah_dibuang)."""
+    out=[];dropped=0
+    for w in words or []:
+        s,e=w.get('start'),w.get('end')
+        if not (_finite(s) and _finite(e)) or float(s)<0 or float(e)<float(s) or not str(w.get('word','')).strip():
+            dropped+=1;continue
+        p=w.get('probability')
+        p=round(min(1.0,max(0.0,float(p))),3) if _finite(p) else None
+        out.append({**w,'word':str(w['word']).strip(),'start':round(float(s),3),'end':round(float(e),3),'probability':p})
+    out.sort(key=lambda w:(w['start'],w['end']))
+    return out,dropped
+
+def normalize(text):return ' '.join(re.findall(r"[^\W_]+(?:-[^\W_]+)*",(text or '').lower(),re.UNICODE))
+
+EMPTY_ALIGNMENT={'wer':None,'accuracy':None,'substitutions':None,'deletions':None,'insertions':None,'correct_words':0,'annotations':[]}
+
+def word_error_rate(reference,hypothesis):
+    """WER (%) antara dua teks ternormalisasi; None bila referensi kosong."""
+    ref=normalize(reference);hyp=normalize(hypothesis)
+    if not ref:return None
+    if not hyp:return 100.0
+    return round(jiwer.wer(ref,hyp)*100,2)
 
 def align(reference,transcript):
     ref=normalize(reference);hyp=normalize(transcript)
-    if not ref:return {}
+    if not ref:return dict(EMPTY_ALIGNMENT,annotations=[])
+    if not hyp:
+        # Tanpa ucapan: semua kata referensi terlewat (jiwer menolak hipotesis kosong).
+        words=ref.split()
+        return {'wer':100.0,'accuracy':0.0,'substitutions':0,'deletions':len(words),'insertions':0,'correct_words':0,
+                'annotations':[{'index':i,'word':w,'type':'delete','spoken':''} for i,w in enumerate(words)]}
     a=jiwer.process_words(ref,hyp)
     reference_words=ref.split();hyp_words=hyp.split();annotations=[]
     for chunk in a.alignments[0]:
@@ -41,39 +84,94 @@ def align(reference,transcript):
 
 EXPECTED_HZ=8          # laju sampel minimum yang dianggap memadai untuk webcam
 DISPERSION_PX=80       # ambang dispersi I-DT (piksel); galat webcam jauh lebih besar dari eye-tracker lab
-MIN_FIX_S=0.12
+MIN_FIX_S=0.12         # durasi fiksasi minimum 120 ms, ditegakkan tanpa toleransi (sesuai keterangan di halaman hasil)
 MAX_GAP_S=0.5
+MIN_GAZE_SAMPLES=20
+MIN_GAZE_COVERAGE=30   # persen dari EXPECTED_HZ x durasi; 30% dari 8 Hz setara rerata ~2,4 Hz (lihat gaze_sampling)
+MAX_CALIBRATION_ERROR=0.16
+MIN_VALIDATION_SAMPLES=15
+GAZE_TIME_TOLERANCE_S=0.25  # toleransi pembulatan jam browser saat membandingkan t tatapan dengan durasi sesi
+_EPS=1e-6              # toleransi pembulatan floating point (t dibulatkan ke 1 ms oleh frontend)
 
 def calibration_ok(calibration):
-    return bool(calibration and calibration.get('median_error') is not None and calibration.get('median_error')<=0.16 and calibration.get('validation_samples',0)>=15)
+    """Kalibrasi layak hanya bila frontend menyatakan `passed` DAN galat median serta jumlah sampel validasi memenuhi batas."""
+    c=calibration or {}
+    err=c.get('median_error')
+    return bool(c.get('passed') is True and _finite(err) and float(err)<=MAX_CALIBRATION_ERROR and (c.get('validation_samples') or 0)>=MIN_VALIDATION_SAMPLES)
+
+def clean_gaze(points,duration=None):
+    """Bersihkan titik tatapan: buang nilai non-finite/negatif, urutkan, hapus timestamp duplikat,
+    buang titik di luar durasi sesi, lalu hitung statistik interval aktual."""
+    received=len(points or [])
+    finite=[p for p in points or [] if all(_finite(p.get(k)) for k in ('x','y','t')) and float(p['t'])>=0]
+    out_of_order=sum(1 for a,b in zip(finite,finite[1:]) if b['t']<a['t'])
+    ordered=sorted(finite,key=lambda p:p['t'])
+    unique=[];last=None
+    for p in ordered:
+        t=round(float(p['t']),3)
+        if last is not None and t==last:continue
+        unique.append(p);last=t
+    limit=float(duration)+GAZE_TIME_TOLERANCE_S if _finite(duration) and float(duration)>0 else None
+    valid=[p for p in unique if limit is None or p['t']<=limit]
+    ts=np.array([p['t'] for p in valid],dtype=float);iv=np.diff(ts)
+    span=float(ts[-1]-ts[0]) if len(ts)>1 else 0.0
+    stats={'received':received,'valid':len(valid),'invalid':received-len(finite),'duplicates':len(ordered)-len(unique),
+           'out_of_range':len(unique)-len(valid),'out_of_order':out_of_order,
+           'interval_median_ms':round(float(np.median(iv))*1000,1) if len(iv) else None,
+           'interval_p95_ms':round(float(np.percentile(iv,95))*1000,1) if len(iv) else None,
+           'large_gaps':int(np.sum(iv>MAX_GAP_S)) if len(iv) else 0,
+           'effective_rate_hz':round((len(ts)-1)/span,1) if span>0 else None,
+           'expected_hz':EXPECTED_HZ}
+    return valid,stats
+
+def clean_layouts(layouts):
+    """Layout terurut waktu; kotak kata harus finite, berukuran positif, dan berindeks unik per layout."""
+    out=[];dropped=0
+    for l in layouts or []:
+        if not (_finite(l.get('width')) and _finite(l.get('height')) and l['width']>0 and l['height']>0):
+            dropped+=len(l.get('words') or []);continue
+        seen=set();boxes=[]
+        for b in l.get('words') or []:
+            if not all(_finite(b.get(k)) for k in ('x','y','w','h')) or b['w']<=0 or b['h']<=0 or b.get('i') in seen:
+                dropped+=1;continue
+            seen.add(b['i']);boxes.append(b)
+        if boxes:out.append({**l,'words':boxes})
+    out.sort(key=lambda l:l.get('t') or 0)
+    return out,dropped
 
 def _spread(w):return (max(p[0] for p in w)-min(p[0] for p in w))+(max(p[1] for p in w)-min(p[1] for p in w))
 
-def fixations_idt(points,width,height):
-    """Deteksi fiksasi I-DT pada koordinat area teks (dinormalisasi) yang diubah ke piksel."""
-    pts=[(p['x']*width,p['y']*height,p['t']) for p in points]
-    out=[];i=0
-    while i<len(pts):
+def _idt(pts):
+    """I-DT pada titik (x_px, y_px, t, x_norm, y_norm). Window awal harus >= MIN_FIX_S, dispersi <= DISPERSION_PX,
+    dan tidak ada celah antar-sampel > MAX_GAP_S."""
+    out=[];i=0;n=len(pts)
+    while i<n:
         j=i
-        while j+1<len(pts) and pts[j][2]-pts[i][2]<MIN_FIX_S and pts[j+1][2]-pts[j][2]<=MAX_GAP_S:j+=1
+        while j+1<n and pts[j][2]-pts[i][2]<MIN_FIX_S and pts[j+1][2]-pts[j][2]<=MAX_GAP_S:j+=1
         window=pts[i:j+1]
-        if len(window)<2 or window[-1][2]-window[0][2]<MIN_FIX_S*0.6 or _spread(window)>DISPERSION_PX:
+        if len(window)<2 or window[-1][2]-window[0][2]<MIN_FIX_S-_EPS or _spread(window)>DISPERSION_PX:
             i+=1;continue
-        while j+1<len(pts) and pts[j+1][2]-pts[j][2]<=MAX_GAP_S and _spread(pts[i:j+2])<=DISPERSION_PX:j+=1
+        while j+1<n and pts[j+1][2]-pts[j][2]<=MAX_GAP_S and _spread(pts[i:j+2])<=DISPERSION_PX:j+=1
         window=pts[i:j+1]
-        out.append({'x':sum(p[0] for p in window)/len(window)/width,'y':sum(p[1] for p in window)/len(window)/height,'start':window[0][2],'end':window[-1][2],'d':round((window[-1][2]-window[0][2])*1000,1),'n':len(window)})
+        out.append({'x':sum(p[3] for p in window)/len(window),'y':sum(p[4] for p in window)/len(window),'start':window[0][2],'end':window[-1][2],'d':round((window[-1][2]-window[0][2])*1000,1),'n':len(window)})
         i=j+1
     return out
 
+def fixations_idt(points,width,height):
+    """Deteksi fiksasi I-DT pada koordinat area teks (dinormalisasi) yang diubah ke piksel dengan satu ukuran area."""
+    return _idt([(p['x']*width,p['y']*height,p['t'],p['x'],p['y']) for p in points])
+
 def layout_at(layouts,t):
-    current=layouts[0]
-    for l in layouts:
-        if l.get('t',0)<=t:current=l
+    """Layout terakhir yang berlaku pada waktu t (layout diurutkan dulu agar urutan input tidak berpengaruh)."""
+    ordered=sorted(layouts,key=lambda l:l.get('t') or 0)
+    current=ordered[0]
+    for l in ordered:
+        if (l.get('t') or 0)<=t:current=l
     return current
 
 def assign_word(fix,layout):
     """Petakan fiksasi ke baris terdekat lalu kata terdekat pada baris itu (toleransi galat webcam)."""
-    words=layout.get('words') or []
+    words=[w for w in layout.get('words') or [] if w.get('w',0)>0 and w.get('h',0)>0]
     if not words:return None,None
     lines={}
     for w in words:lines.setdefault(w['line'],[]).append(w)
@@ -87,21 +185,46 @@ def assign_word(fix,layout):
     if dist(best)>avg_w*1.2:return line,None
     return line,best
 
+def classify_transitions(seq):
+    """Klasifikasi perpindahan antar kata berurutan (kata berulang beruntun sudah digabung):
+    regresi dalam baris (indeks turun, baris sama), regresi antar baris (ke baris sebelumnya),
+    return sweep (ke baris tepat berikutnya), progresi (maju di baris sama atau lompat >1 baris)."""
+    within=between=forward=sweeps=0
+    for a,b in zip(seq,seq[1:]):
+        if b['line']==a['line']:
+            if b['word']<a['word']:within+=1
+            else:forward+=1
+        elif b['line']<a['line']:between+=1
+        elif b['line']==a['line']+1:sweeps+=1
+        else:forward+=1
+    return within,between,forward,sweeps
+
+def _empty_gaze(stats,calibrated,coverage=0.0,rate=0.0):
+    return {'gaze_usable':False,'gaze_analyzable':False,'gaze_samples':stats['valid'],'gaze_rate_hz':round(rate,1),'gaze_coverage':round(coverage*100,1),'calibration_valid':calibrated,
+            'on_text_percent':None,'fixations':None,'mean_fixation_ms':None,'regressions':None,'gaze':None,'gaze_sampling':stats}
+
 def gaze_metrics(points,duration,calibration,layouts=None):
     calibrated=calibration_ok(calibration)
-    valid=[p for p in points if all(np.isfinite(p.get(k,np.nan)) for k in ['x','y','t'])]
-    valid.sort(key=lambda p:p['t'])
-    inside=[p for p in valid if -0.03<=p['x']<=1.03 and -0.05<=p['y']<=1.05]
-    rate=len(valid)/duration if duration>0 else 0
-    coverage=min(1,len(valid)/max(duration*EXPECTED_HZ,1))
-    usable=calibrated and len(valid)>=20 and coverage>=0.3
-    analyzable=len(valid)>=20
-    base={'gaze_usable':usable,'gaze_analyzable':analyzable,'gaze_samples':len(valid),'gaze_rate_hz':round(rate,1),'gaze_coverage':round(coverage*100,1),'calibration_valid':calibrated,
-          'on_text_percent':None,'fixations':None,'mean_fixation_ms':None,'regressions':None,'gaze':None}
+    valid,stats=clean_gaze(points,duration)
+    layouts,dropped_boxes=clean_layouts(layouts)
+    stats['layout_boxes_dropped']=dropped_boxes
+    duration=float(duration) if _finite(duration) and float(duration)>0 else 0.0
+    rate=len(valid)/duration if duration>0 else 0.0
+    # Tanpa durasi valid, cakupan tidak dapat dihitung -> 0 (bukan 100% seperti pembagian dengan max(0,1)).
+    coverage=min(1.0,len(valid)/max(duration*EXPECTED_HZ,1)) if duration>0 else 0.0
+    analyzable=len(valid)>=MIN_GAZE_SAMPLES
+    usable=calibrated and analyzable and coverage*100>=MIN_GAZE_COVERAGE
+    base=_empty_gaze(stats,calibrated,coverage,rate)
+    base.update({'gaze_usable':usable,'gaze_analyzable':analyzable})
     if not analyzable:return base
-    layouts=[l for l in (layouts or []) if l.get('words')]
-    width=(layouts[0].get('width') if layouts else None) or 760;height=(layouts[0].get('height') if layouts else None) or 400
-    fix=fixations_idt(inside,width,height)
+    inside=[p for p in valid if -0.03<=p['x']<=1.03 and -0.05<=p['y']<=1.05]
+    def dims(t):
+        if not layouts:return 760,400
+        l=layout_at(layouts,t);return l['width'],l['height']
+    pts=[]
+    for p in inside:
+        w,h=dims(p['t']);pts.append((p['x']*w,p['y']*h,p['t'],p['x'],p['y']))
+    fix=_idt(pts)
     base['on_text_percent']=round(len(inside)/len(valid)*100,1)
     base['fixations']=len(fix)
     base['mean_fixation_ms']=round(float(np.mean([f['d'] for f in fix])),1) if fix else None
@@ -112,31 +235,26 @@ def gaze_metrics(points,duration,calibration,layouts=None):
         detail['scanpath']=[{'x':round(f['x'],4),'y':round(f['y'],4),'d':f['d'],'t':round(f['start'],2)} for f in fix[:800]]
         base['gaze']=detail;return base
     words=layouts[-1]['words'];total_words=len(words)
-    dwell={};visits={};seq=[]
+    dwell={};visits={};seq=[];unmapped=0
     for f in fix:
         layout=layout_at(layouts,f['start']);line,word=assign_word(f,layout)
+        w,h=layout['width'],layout['height']
         detail['scanpath'].append({'x':round(f['x'],4),'y':round(f['y'],4),'d':f['d'],'t':round(f['start'],2),'line':line,'word':word['i'] if word else None})
         if line is not None:detail['line_timeline'].append({'t':round(f['start'],2),'line':line+1})
         if word:
             dwell[word['i']]=dwell.get(word['i'],0)+f['d']
             if not seq or seq[-1]['word']!=word['i']:
                 visits[word['i']]=visits.get(word['i'],0)+1
-                seq.append({'word':word['i'],'line':line,'x':f['x'],'y':f['y']})
-    within=between=forward=sweeps=0;amps=[]
-    for a,b in zip(seq,seq[1:]):
-        amps.append(float(np.hypot((b['x']-a['x'])*width,(b['y']-a['y'])*height)))
-        if b['line']==a['line']:
-            if b['word']<a['word']:within+=1
-            else:forward+=1
-        elif b['line']<a['line']:between+=1
-        elif b['line']==a['line']+1:sweeps+=1
-        else:forward+=1
+                seq.append({'word':word['i'],'line':line,'x':f['x']*w,'y':f['y']*h})
+        else:unmapped+=1
+    within,between,forward,sweeps=classify_transitions(seq)
+    amps=[float(np.hypot(b['x']-a['x'],b['y']-a['y'])) for a,b in zip(seq,seq[1:])]
     transitions=max(len(seq)-1,1)
     fixated=len(dwell);skipped=max(total_words-fixated,0)
     by_index={w['i']:w for w in words}
     detail.update({
         'lines':len({w['line'] for w in words}),
-        'words_total':total_words,'words_fixated':fixated,
+        'words_total':total_words,'words_fixated':fixated,'fixations_unmapped':unmapped,
         'words_fixated_percent':round(fixated/total_words*100,1) if total_words else None,
         'skipped_words_percent':round(skipped/total_words*100,1) if total_words else None,
         'regressions_within_line':within,'regressions_between_line':between,'progressions':forward,'return_sweeps':sweeps,
@@ -156,8 +274,6 @@ LOW_ASR_WORD=0.5       # probabilitas kata Whisper di bawah ini dianggap ragu
 MIN_ASR_CONFIDENCE=60  # rerata keyakinan (%) minimum agar transkrip dianggap andal tanpa tinjauan
 MIN_SPEECH_S=5
 MIN_SPEECH_WORDS=3
-MIN_GAZE_COVERAGE=30
-MIN_GAZE_SAMPLES=20
 
 def asr_confidence(words):
     probs=[w['probability'] for w in words or [] if w.get('probability') is not None]
@@ -171,42 +287,79 @@ def display_to_reference(reference):
         n=len(normalize(token).split());mapping[i]=list(range(k,k+n));k+=n
     return mapping
 
-def fuse(reference,m,speech_reliable):
-    """Gabungkan bukti per kata: kesalahan ucap (alignment) dan hambatan tatapan (dwell panjang / dikunjungi ulang)."""
+WER_MAX=20             # WER (%) di atas ini -> sinyal ketepatan kata rendah
+WPM_MIN=60             # kata/menit di bawah ini -> sinyal kelancaran rendah
+ON_TEXT_MIN=65         # persen tatapan di area teks
+REGRESSION_MAX=40      # persen transisi yang mundur
+SKIPPED_MAX=50         # persen kata tak tertatap; ambang tambahan v1 (tidak ada di daftar ambang utama), dipertahankan
+CONCORDANCE_MIN=40     # persen kata salah-ucap yang juga sulit menurut tatapan
+DWELL_RATIO=1.5        # kata sulit menurut tatapan: dwell >= 1,5 x median ...
+REVISIT_MIN=2          # ... atau dikunjungi >= 2 kali
+
+def fuse(reference,m,speech_reliable,excluded_reason='transkrip otomatis belum andal'):
+    """Gabungkan bukti per kata: kesalahan ucap (alignment) dan hambatan tatapan (dwell panjang / dikunjungi ulang).
+    Data suara hanya dipakai bila `speech_reliable`; pola "kata yang sama" hanya bila concordance >= CONCORDANCE_MIN."""
     g=m.get('gaze') or {}
-    has_speech=m.get('accuracy') is not None;has_gaze=bool(m['gaze_usable'] and g.get('words') is not None)
+    speech_available=m.get('accuracy') is not None
+    has_speech=speech_available and bool(speech_reliable)
+    has_gaze=bool(m.get('gaze_usable') and g.get('words') is not None)
     basis='suara + tatapan' if has_speech and has_gaze else 'suara saja' if has_speech else 'tatapan saja' if has_gaze else 'tidak ada'
     ref_words=normalize(reference).split()
     speech_err={a['index'] for a in m.get('annotations') or [] if a['type'] in ('substitute','delete')} if has_speech else set()
     gaze_hard=set()
     if has_gaze and g['words']:
-        median=float(np.median([w['ms'] for w in g['words']]));mapping=display_to_reference(reference)
+        dwell=[w['ms'] for w in g['words'] if _finite(w.get('ms'))]
+        median=float(np.median(dwell)) if dwell else 0.0
+        mapping=display_to_reference(reference)
         for w in g['words']:
-            if w['ms']>=1.5*median or w['visits']>=2:gaze_hard.update(mapping.get(w['index'],[]))
+            long_dwell=median>0 and _finite(w.get('ms')) and w['ms']>=DWELL_RATIO*median
+            if long_dwell or (w.get('visits') or 0)>=REVISIT_MIN:gaze_hard.update(mapping.get(w['index'],[]))
     agree=sorted(speech_err&gaze_hard)
+    concordance=round(len(agree)/len(speech_err)*100,1) if has_speech and has_gaze and speech_err else None
+    concordant=concordance is not None and concordance>=CONCORDANCE_MIN
+    wer=m.get('wer') if has_speech else None;wpm=m.get('wpm') if has_speech else None
+    inaccurate=wer is not None and wer>WER_MAX
+    slow=wpm is not None and wpm<WPM_MIN
+    on_text=m.get('on_text_percent');reg=g.get('regression_rate');skip=g.get('skipped_words_percent')
+    gaze_reasons=[]
+    if has_gaze:
+        if on_text is not None and on_text<ON_TEXT_MIN:gaze_reasons.append(f'tatapan di teks {on_text}% < {ON_TEXT_MIN}%')
+        if reg is not None and reg>REGRESSION_MAX:gaze_reasons.append(f'regresi {reg}% > {REGRESSION_MAX}%')
+        if skip is not None and skip>SKIPPED_MAX:gaze_reasons.append(f'kata tak tertatap {skip}% > {SKIPPED_MAX}%')
+    gaze_irregular=bool(gaze_reasons)
     out={'basis':basis,'speech_error_words':len(speech_err),'gaze_difficult_words':len(gaze_hard) if has_gaze else None,
          'agreement_words':[{'index':i,'word':ref_words[i]} for i in agree if i<len(ref_words)][:12],
-         'concordance':round(len(agree)/len(speech_err)*100,1) if has_speech and has_gaze and speech_err else None,
+         'concordance':concordance,'concordant':concordant,'multimodal_complete':has_speech and has_gaze,
+         'speech_excluded_reason':excluded_reason if speech_available and not speech_reliable else None,
+         'signals':{'word_accuracy_low':inaccurate if has_speech else None,'fluency_low':slow if has_speech else None,
+                    'gaze_irregular':gaze_irregular if has_gaze else None,'gaze_reasons':gaze_reasons},
          'pattern':None,'explanation':None}
     if not (has_speech and has_gaze):
         out['explanation']={'suara saja':'Hanya suara yang memenuhi syarat; temuan belum dikonfirmasi oleh tatapan.','tatapan saja':'Hanya tatapan yang memenuhi syarat; ketepatan ucapan tidak dinilai.'}.get(basis,'Belum ada modalitas yang memenuhi syarat.')
+        if out['speech_excluded_reason']:out['explanation']+=f" Data suara tidak dipakai karena {out['speech_excluded_reason']}"+('; koreksi transkripsi untuk menyertakannya.' if 'transkrip' in out['speech_excluded_reason'] else '.')
         return out
-    speech_poor=m['wer']>20 or (m['wpm'] is not None and m['wpm']<60)
-    gaze_irregular=(m['on_text_percent'] or 0)<65 or (g.get('regression_rate') or 0)>40 or (g.get('skipped_words_percent') or 0)>50
-    concordant=out['concordance'] is not None and out['concordance']>=40
-    if speech_poor and (concordant or gaze_irregular):
+    if inaccurate and concordant:
         out['pattern']='Kesulitan pengenalan kata (didukung suara dan tatapan)'
-        out['explanation']='Kata yang salah diucap juga lama ditatap atau dikunjungi ulang, sehingga dua sumber data menunjuk ke kesulitan yang sama.'
-    elif speech_poor:
+        out['explanation']=f'Kata yang salah diucap juga lama ditatap atau dikunjungi ulang (kesesuaian {concordance}% ≥ {CONCORDANCE_MIN}%), sehingga dua sumber data menunjuk ke kesulitan yang sama.'
+    elif inaccurate and gaze_irregular:
+        out['pattern']='Kesalahan ucap dan alur visual tidak teratur (belum pada kata yang sama)'
+        out['explanation']=(f'Ucapan banyak meleset (WER {wer}%) dan pola tatapan tidak teratur ({"; ".join(gaze_reasons)}), '
+                            f'tetapi kata yang salah diucap jarang sama dengan kata yang sulit ditatap (kesesuaian {concordance if concordance is not None else 0}% < {CONCORDANCE_MIN}%). Kedua temuan dicatat terpisah.')
+    elif inaccurate:
         out['pattern']='Kesalahan ucap tanpa hambatan visual yang jelas'
-        out['explanation']='Ucapan banyak meleset atau lambat, tetapi pola tatapan relatif teratur. Kesulitan mungkin terkait pelafalan atau kelancaran, bukan penguraian visual.'
+        out['explanation']=f'Banyak kata meleset (WER {wer}%), tetapi pola tatapan relatif teratur. Kesulitan mungkin terkait pelafalan atau pengenalan bunyi, bukan penguraian visual.'+(f' Kecepatan baca juga rendah ({wpm} kata/menit).' if slow else '')
+    elif slow and gaze_irregular:
+        out['pattern']='Bacaan lambat dengan alur visual tidak teratur'
+        out['explanation']=f'Kata terucap cukup tepat, tetapi kecepatan baca rendah ({wpm} kata/menit) dan pola tatapan tidak teratur ({"; ".join(gaze_reasons)}).'
+    elif slow:
+        out['pattern']='Bacaan lambat tanpa hambatan visual yang jelas'
+        out['explanation']=f'Kata terucap cukup tepat dan tatapan teratur, tetapi kecepatan baca di bawah {WPM_MIN} kata/menit ({wpm}). Fokus pada kelancaran.'
     elif gaze_irregular:
         out['pattern']='Alur visual tidak teratur meski ucapan tepat'
-        out['explanation']='Ucapan tepat, tetapi pandangan sering keluar dari teks, mundur, atau melewati kata. Perhatikan fokus baris.'
+        out['explanation']=f'Ucapan tepat, tetapi pandangan sering keluar dari teks, mundur, atau melewati kata ({"; ".join(gaze_reasons)}). Perhatikan fokus baris.'
     else:
         out['pattern']='Suara dan tatapan sama-sama lancar'
         out['explanation']='Tidak ada hambatan menonjol pada kedua modalitas.'
-    if not speech_reliable:out['explanation']+=' Transkrip otomatis belum andal, jadi pola ini perlu dikonfirmasi pendamping.'
     return out
 
 def quality_reasons(m,speech,enough,reliable,confidence,speech_error,reviewed):
@@ -214,6 +367,7 @@ def quality_reasons(m,speech,enough,reliable,confidence,speech_error,reviewed):
     if speech_error:reasons.append('Suara tidak dianalisis: '+speech_error)
     elif not speech:reasons.append('Tidak ada ucapan yang terdeteksi dalam rekaman.')
     elif not enough:reasons.append(f'Rekaman suara terlalu pendek (minimal {MIN_SPEECH_S} detik dan {MIN_SPEECH_WORDS} kata).')
+    elif not reliable and confidence is None:reasons.append('Keyakinan transkripsi tidak tersedia; transkrip perlu ditinjau pendamping sebelum dipakai.')
     elif not reliable:reasons.append(f'Keyakinan transkripsi {confidence}% (di bawah {MIN_ASR_CONFIDENCE}%); transkrip perlu ditinjau pendamping.')
     elif reviewed:reasons.append('Suara memadai (transkrip sudah ditinjau pendamping).')
     else:reasons.append('Suara memadai'+(f' (keyakinan transkripsi {confidence}%).' if confidence is not None else '.'))
@@ -226,33 +380,93 @@ def quality_reasons(m,speech,enough,reliable,confidence,speech_error,reviewed):
         reasons.append('Tatapan belum memadai: '+'; '.join(why or ['data tidak direkam'])+'.')
     return reasons
 
-def analyze(reference,transcript,duration,points,calibration,words,layouts=None,pronunciation=None,speech_error=None,reviewed=False):
-    speech=bool(normalize(transcript));m=align(reference,transcript) if speech else {'accuracy':None,'wer':None,'annotations':[],'correct_words':0}
-    m.update(gaze_metrics(points,duration,calibration,layouts))
-    m['pronunciation']=pronunciation
-    m['wpm']=round(len(normalize(transcript).split())/duration*60,1) if speech and duration>0 else None
+def sanitize(obj):
+    """Ubah tipe numpy ke tipe Python dan ganti NaN/Infinity dengan None agar tidak tersimpan sebagai hasil valid.
+    Mengembalikan (objek_bersih, jumlah_nilai_non_finite)."""
+    count=0
+    def walk(v):
+        nonlocal count
+        if isinstance(v,dict):return {k:walk(x) for k,x in v.items()}
+        if isinstance(v,(list,tuple)):return [walk(x) for x in v]
+        if isinstance(v,np.generic):v=v.item()
+        if isinstance(v,float) and not np.isfinite(v):
+            count+=1;return None
+        return v
+    return walk(obj),count
+
+def speech_metrics(reference,transcript,duration,words,reviewed=False,asr_transcript=None):
+    """Metrik suara. WER/accuracy lama dipertahankan untuk kompatibilitas API; sumbernya dinyatakan di `wer_source`.
+    - Sebelum koreksi: WER = referensi vs transkrip otomatis (gabungan galat ASR + galat membaca).
+    - Setelah koreksi: `reading_error_rate` = referensi vs transkrip manual; `asr_wer` = transkrip manual vs otomatis."""
+    speech=bool(normalize(transcript))
+    m=align(reference,transcript) if speech else dict(EMPTY_ALIGNMENT,annotations=[])
+    duration=float(duration) if _finite(duration) and float(duration)>0 else None
+    words,dropped=clean_words(words)
+    n_words=len(normalize(transcript).split())
+    m['wpm']=round(n_words/duration*60,1) if speech and duration else None
     pauses=[round(b['start']-a['end'],2) for a,b in zip(words,words[1:]) if b['start']-a['end']>=0.5]
     m['pauses']=len(pauses) if words else None;m['pause_seconds']=round(sum(pauses),2) if words else None
+    m['asr_words_dropped']=dropped
+    m['wer_source']='transkrip_manual' if reviewed else 'transkrip_otomatis' if speech else None
+    m['reading_error_rate']=m['wer'] if reviewed else None
+    m['asr_wer']=word_error_rate(transcript,asr_transcript) if reviewed and asr_transcript is not None and speech else None
     confidence,uncertain=(None,[]) if reviewed else asr_confidence(words)
-    enough=speech and duration>=MIN_SPEECH_S and len(normalize(transcript).split())>=MIN_SPEECH_WORDS
-    reliable=enough and (reviewed or confidence is None or confidence>=MIN_ASR_CONFIDENCE)
-    m.update({'asr_confidence':confidence,'asr_uncertain_words':uncertain[:10],'speech_error':speech_error,'speech_reliable':reliable})
-    quality='layak' if reliable and m['gaze_usable'] else 'parsial' if enough or m['gaze_usable'] else 'tidak_cukup'
-    m['multimodal']=fuse(reference,m,reliable)
-    recommendations=[];profile='Lanjutkan eksplorasi'
-    if quality=='tidak_cukup':profile='Data belum cukup';recommendations.append('Ulangi sesi di tempat tenang dengan suara jelas dan pencahayaan merata.')
-    elif enough and m['wer']>20:profile='Latihan ketepatan kata';recommendations.append('Dengarkan dan ulangi kata yang ditandai, lalu baca kembali kalimatnya.')
-    elif enough and m['wpm']<60:profile='Latihan kelancaran';recommendations.append('Baca ulang teks pendek dengan nyaman. Pendamping dapat memberi contoh ritme membaca.')
-    elif m['gaze_usable'] and m['on_text_percent']<65:profile='Latihan fokus baris';recommendations.append('Gunakan panduan baris dan perbesar teks agar pandangan lebih mudah mengikuti bacaan.')
-    elif m['gaze_usable'] and (m['gaze'] or {}).get('regression_rate') is not None and m['gaze']['regression_rate']>40:profile='Latihan fokus baris';recommendations.append('Pandangan sering kembali ke kata sebelumnya. Latih membaca dengan penunjuk jari atau panduan kata.')
-    else:profile='Lanjutkan eksplorasi';recommendations.append('Lanjutkan latihan dengan materi yang sesuai dan diskusikan pengamatan bersama pendamping.')
+    enough=bool(speech and duration and duration>=MIN_SPEECH_S and n_words>=MIN_SPEECH_WORDS)
+    # Keyakinan tidak diketahui (tanpa probabilitas kata) diperlakukan belum andal sampai ditinjau pendamping.
+    reliable=enough and (reviewed or (confidence is not None and confidence>=MIN_ASR_CONFIDENCE))
+    m.update({'asr_confidence':confidence,'asr_uncertain_words':uncertain[:10],'speech_reliable':reliable})
+    return m,speech,enough,reliable,confidence,uncertain
+
+def analyze(reference,transcript,duration,points,calibration,words,layouts=None,pronunciation=None,speech_error=None,reviewed=False,asr_transcript=None,gaze_duration=None):
+    m,speech,enough,reliable,confidence,uncertain=speech_metrics(reference,transcript,duration,words,reviewed,asr_transcript)
+    warnings=[]
+    try:m.update(gaze_metrics(points,gaze_duration if gaze_duration is not None else duration,calibration,layouts))
+    except Exception:
+        # Kegagalan analisis tatapan tidak boleh menggugurkan hasil suara.
+        import logging;logging.exception('Gaze analysis failed')
+        m.update(_empty_gaze({'received':len(points or []),'valid':0},calibration_ok(calibration)))
+        warnings.append('Analisis tatapan gagal; hasil hanya berdasarkan suara.')
+    m['pronunciation']=pronunciation
+    m['speech_error']=speech_error
+    # Kualitas hanya menghitung modalitas yang lolos quality gate masing-masing.
+    passed=[name for name,ok in (('suara',reliable),('tatapan',m['gaze_usable'])) if ok]
+    quality='layak' if len(passed)==2 else 'parsial' if passed else 'tidak_cukup'
+    m['modalities_passed']=passed
+    excluded=f'rekaman suara terlalu pendek (minimal {MIN_SPEECH_S} detik dan {MIN_SPEECH_WORDS} kata)' if not enough else 'keyakinan transkripsi tidak tersedia' if confidence is None and not reviewed else 'transkrip otomatis belum andal'
+    m['multimodal']=fuse(reference,m,reliable,excluded)
+    on_text=m.get('on_text_percent');reg=(m['gaze'] or {}).get('regression_rate')
+    recommendations=[]
+    if quality=='tidak_cukup':
+        profile='Data belum cukup'
+        profile_reason='Tidak ada modalitas yang lolos syarat kualitas (suara andal atau tatapan layak).'
+        recommendations.append('Koreksi transkripsi agar data suara dapat dipakai, atau ulangi sesi di tempat tenang dengan suara jelas dan pencahayaan merata.' if enough and not reliable else 'Ulangi sesi di tempat tenang dengan suara jelas dan pencahayaan merata.')
+    elif reliable and m['wer'] is not None and m['wer']>WER_MAX:
+        profile='Latihan ketepatan kata';profile_reason=f"WER {m['wer']}% > {WER_MAX}% ({'transkrip ditinjau' if reviewed else 'transkrip otomatis andal'})."
+        recommendations.append('Dengarkan dan ulangi kata yang ditandai, lalu baca kembali kalimatnya.')
+    elif reliable and m['wpm'] is not None and m['wpm']<WPM_MIN:
+        profile='Latihan kelancaran';profile_reason=f"Kecepatan {m['wpm']} kata/menit < {WPM_MIN}."
+        recommendations.append('Baca ulang teks pendek dengan nyaman. Pendamping dapat memberi contoh ritme membaca.')
+    elif m['gaze_usable'] and on_text is not None and on_text<ON_TEXT_MIN:
+        profile='Latihan fokus baris';profile_reason=f'Tatapan di area teks {on_text}% < {ON_TEXT_MIN}%.'
+        recommendations.append('Gunakan panduan baris dan perbesar teks agar pandangan lebih mudah mengikuti bacaan.')
+    elif m['gaze_usable'] and reg is not None and reg>REGRESSION_MAX:
+        profile='Latihan fokus baris';profile_reason=f'Regresi tatapan {reg}% > {REGRESSION_MAX}%.'
+        recommendations.append('Pandangan sering kembali ke kata sebelumnya. Latih membaca dengan penunjuk jari atau panduan kata.')
+    else:
+        profile='Lanjutkan eksplorasi'
+        profile_reason='Tidak ada metrik dari modalitas yang lolos syarat yang melewati ambang latihan.'+(' Data suara tidak dipakai karena transkrip belum andal.' if enough and not reliable else '')
+        recommendations.append('Lanjutkan latihan dengan materi yang sesuai dan diskusikan pengamatan bersama pendamping.')
     g=m['gaze'] or {};fused=m['multimodal']
     if fused['agreement_words']:recommendations.append('Kata yang sulit menurut suara dan tatapan sekaligus: '+', '.join(w['word'] for w in fused['agreement_words'][:5])+'. Prioritaskan kata ini saat latihan.')
     if enough and not reliable:recommendations.append('Transkrip otomatis kurang yakin'+(' pada kata: '+', '.join(uncertain[:4]) if uncertain else '')+'. Pendamping sebaiknya mendengar ulang dan mengoreksi transkripsi.')
     if speech_error:recommendations.append('Suara gagal dianalisis sehingga hasil hanya berdasarkan tatapan. Periksa mikrofon lalu ulangi sesi bila perlu penilaian ucapan.')
-    if m['gaze_usable'] and g.get('skipped_words_percent') is not None and g['skipped_words_percent']>50:recommendations.append('Banyak kata tidak tertatap. Perbesar ukuran teks dan baca lebih pelan, satu baris dalam satu waktu.')
+    if m['gaze_usable'] and g.get('skipped_words_percent') is not None and g['skipped_words_percent']>SKIPPED_MAX:recommendations.append('Banyak kata tidak tertatap. Perbesar ukuran teks dan baca lebih pelan, satu baris dalam satu waktu.')
     if m['gaze_usable'] and g.get('longest_dwell') and not fused['agreement_words']:recommendations.append('Kata yang paling lama ditatap: '+', '.join(w['word'] for w in g['longest_dwell'][:3])+'. Latih kata-kata ini di fitur Pelafalan.')
     if pronunciation and pronunciation.get('weak_words'):recommendations.append('Pelafalan kata berikut terdengar kurang jelas: '+', '.join(w['word'] for w in pronunciation['weak_words'][:4])+'.')
     if not m['gaze_usable'] and m.get('gaze_analyzable'):recommendations.append('Tatapan terekam tetapi kalibrasi/cakupan belum memadai; pola visual hanya sebagai gambaran awal.')
     elif not m['gaze_usable']:recommendations.append('Data tatapan belum layak; kalibrasi ulang sebelum meninjau pola visual.')
-    return {'metrics':m,'profile':profile,'quality':quality,'quality_reasons':quality_reasons(m,speech,enough,reliable,confidence,speech_error,reviewed),'recommendations':recommendations,'profile_method':'Aturan observasional v1 — bukan model diagnosis','confidence':None,'limitations':['Akurasi kata berasal dari transkripsi, bukan penilaian fonem.','Keyakinan transkripsi adalah rerata probabilitas kata dari Whisper, bukan ukuran ketepatan bacaan.','Kepercayaan pelafalan per kata berasal dari model Vosk anak (bookbot) dan bukan penilaian klinis.','Batas 20% WER / 60 kata per menit merupakan aturan latihan awal, bukan norma usia tervalidasi.','Fiksasi webcam dideteksi dengan I-DT sederhana; ketelitian jauh di bawah eye-tracker laboratorium.','Fusi suara + tatapan memakai aturan (kata sulit = dwell ≥1,5× median atau dikunjungi ulang) dan belum divalidasi terhadap penilaian ahli.','Model ETDD70 tidak diterapkan pada sesi webcam berbahasa Indonesia.']}
+    result={'metrics':m,'profile':profile,'profile_reason':profile_reason,'quality':quality,'quality_reasons':quality_reasons(m,speech,enough,reliable,confidence,speech_error,reviewed),'recommendations':recommendations,'profile_method':'Aturan observasional v1 — bukan model diagnosis','confidence':None,'limitations':['Akurasi kata berasal dari transkripsi, bukan penilaian fonem.','Keyakinan transkripsi adalah rerata probabilitas kata dari Whisper, bukan ukuran ketepatan bacaan.','Kepercayaan pelafalan per kata berasal dari model Vosk anak (bookbot) dan bukan penilaian klinis.','Batas 20% WER / 60 kata per menit merupakan aturan latihan awal, bukan norma usia tervalidasi.','Fiksasi webcam dideteksi dengan I-DT sederhana; ketelitian jauh di bawah eye-tracker laboratorium.','Fusi suara + tatapan memakai aturan (kata sulit = dwell ≥1,5× median atau dikunjungi ulang) dan belum divalidasi terhadap penilaian ahli.','Model ETDD70 tidak diterapkan pada sesi webcam berbahasa Indonesia.','Sebelum koreksi pendamping, WER mencampur galat transkripsi otomatis dan galat membaca; reading_error_rate dan asr_wer hanya tersedia setelah transkrip ditinjau.','Data suara yang belum andal tidak dipakai untuk fusi dan profil latihan.']}
+    result,bad=sanitize(result)
+    if bad:warnings.append(f'{bad} nilai metrik tidak valid (NaN/Infinity) diganti kosong.')
+    result['analysis_warnings']=warnings
+    return result

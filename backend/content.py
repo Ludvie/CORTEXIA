@@ -64,9 +64,11 @@ async def dashboard(user=Depends(current_user)):
     # Ringkasan saja: data tatapan/kata mentah hanya diambil di halaman hasil sesi.
     light={'_id':0,'gaze_points':0,'segments':0,'layouts':0,'words':0,'reference':0,'metrics.annotations':0,'metrics.gaze.scanpath':0,'metrics.gaze.line_timeline':0,'metrics.gaze.words':0,'metrics.pronunciation.words':0}
     rows=await db.sessions.find(query,light).sort('created_at',-1).to_list(300)
-    valid=[r for r in rows if r.get('metrics',{}).get('accuracy') is not None]
+    # Rerata ketepatan hanya dari sesi dengan transkrip andal (sesi lama tanpa field dianggap andal).
+    with_accuracy=[r for r in rows if r.get('metrics',{}).get('accuracy') is not None]
+    valid=[r for r in with_accuracy if r['metrics'].get('speech_reliable',True)]
     practices=await db.practices.find(query,{'_id':0,'words':0,'assessment.words':0,'assessment.forced_choice.competitors':0}).sort('created_at',-1).to_list(100)
-    return {'students':await db.students.count_documents(query),'session_count':len(rows),'average_accuracy':round(sum(r['metrics']['accuracy'] for r in valid)/len(valid),1) if valid else None,'reading_minutes':round(sum(r.get('duration',0) for r in rows)/60,1),'sessions':rows,'practice_count':await db.practices.count_documents(query),'practices':practices}
+    return {'students':await db.students.count_documents(query),'session_count':len(rows),'average_accuracy':round(sum(r['metrics']['accuracy'] for r in valid)/len(valid),1) if valid else None,'accuracy_sessions':len(valid),'accuracy_sessions_excluded':len(with_accuracy)-len(valid),'reading_minutes':round(sum(r.get('duration',0) for r in rows)/60,1),'sessions':rows,'practice_count':await db.practices.count_documents(query),'practices':practices}
 
 @router.get('/audit',response_model=list[Document])
 async def audit_log(user=Depends(teacher)):

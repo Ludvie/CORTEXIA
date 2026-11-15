@@ -39,3 +39,23 @@ Lalu buka **http://localhost:3000**. Gunakan `localhost`, bukan `127.0.0.1`, kar
 | Pelacak mata | WebGazer 3.5.3 + MediaPipe FaceMesh (WASM) yang disajikan lokal | `frontend/public/mediapipe` |
 
 Uji asap API: `backend/.venv/Scripts/python scripts/smoke_test.py <audio.wav> <kata>`.
+
+## Pengujian
+
+Dependensi uji ada di `backend/requirements-dev.txt`. Uji unit tidak butuh server; uji integrasi berjalan bila `REACT_APP_BACKEND_URL` diisi dan backend sedang hidup.
+
+```bash
+cd backend && .venv/Scripts/python -m pip install -r requirements-dev.txt
+```
+
+```bash
+cd backend && REACT_APP_BACKEND_URL=http://127.0.0.1:8001 .venv/Scripts/python -m pytest tests
+```
+
+## Validasi ambang profil
+
+Ambang (WER 20%, 60 kata/menit, cakupan tatapan 30%, concordance 40%) adalah aturan awal. Setelah ada sesi nyata, buat CSV `session_id` + label ahli 0/1 (`expert_accuracy_issue`, `expert_fluency_issue`, `expert_gaze_issue`, `expert_gaze_reliable`, `expert_same_word`), lalu jalankan:
+
+```bash
+cd backend && .venv/Scripts/python threshold_validation.py labels.csv
+```

@@ -8,8 +8,29 @@ from core import teacher,db,audit,uid,Document
 from ml_pipeline import DATA,MODELS,dataset_frame,train
 
 router=APIRouter(tags=['research'])
-jobs={}
 class TrainingInput(BaseModel):algorithm:str='logistic'
+
+async def get_job(user_id):
+    """Status pelatihan disimpan di MongoDB agar tidak hilang saat proses backend restart."""
+    job=await db.training_jobs.find_one({'user_id':user_id},{'_id':0,'user_id':0})
+    return job or {'status':'idle'}
+
+async def set_job(user_id,**job):
+    from core import now
+    await db.training_jobs.replace_one({'user_id':user_id},{'user_id':user_id,'updated_at':now(),**job},upsert=True)
+
+async def claim_job(user_id):
+    """Tandai job berjalan secara atomik; False bila sudah ada job yang berjalan (indeks unik user_id)."""
+    from core import now
+    from pymongo.errors import DuplicateKeyError
+    try:
+        await db.training_jobs.update_one({'user_id':user_id,'status':{'$ne':'running'}},{'$set':{'status':'running','message':'Melatih dan mengevaluasi 5 fold…','updated_at':now()}},upsert=True)
+        return True
+    except DuplicateKeyError:return False
+
+async def interrupt_stale_jobs():
+    """Job yang masih 'running' saat startup pasti terputus oleh restart sebelumnya."""
+    await db.training_jobs.update_many({'status':'running'},{'$set':{'status':'failed','message':'Pelatihan terhenti karena server dimulai ulang. Jalankan ulang pelatihan.'}})
 
 def reports_for(user):
     paths=list(MODELS.glob('*.json'))+list((MODELS/user['id']).glob('*.json'))
@@ -18,26 +39,25 @@ def reports_for(user):
 @router.get('/research')
 async def research(user=Depends(teacher)):
     frame=await asyncio.to_thread(dataset_frame);reports=reports_for(user)
-    return {'name':'ETDD70 v2','participants':int(frame.subject_id.nunique()),'recordings':len(frame),'tasks':frame.task.unique().tolist(),'features':len(frame.columns)-3,'labels':{'non-dyslexic':35,'dyslexic':35},'language':'Ceko','age':'9–10 tahun','frequency':'250 Hz','source':'Lampiran ETDD70_v2.zip','citation':'Dostalova et al. (2024), doi:10.5281/zenodo.13332134','subjects':sorted(frame.subject_id.unique().tolist()),'reports':[{k:v for k,v in r.items() if k!='oof'} for r in reports],'job':jobs.get(user['id'],{'status':'idle'})}
+    return {'name':'ETDD70 v2','participants':int(frame.subject_id.nunique()),'recordings':len(frame),'tasks':frame.task.unique().tolist(),'features':len(frame.columns)-3,'labels':{'non-dyslexic':35,'dyslexic':35},'language':'Ceko','age':'9–10 tahun','frequency':'250 Hz','source':'Lampiran ETDD70_v2.zip','citation':'Dostalova et al. (2024), doi:10.5281/zenodo.13332134','subjects':sorted(frame.subject_id.unique().tolist()),'reports':[{k:v for k,v in r.items() if k!='oof'} for r in reports],'job':await get_job(user['id'])}
 
 async def run_training(user,algorithm,frame=None):
-    jobs[user['id']]={'status':'running','message':'Melatih dan mengevaluasi 5 fold…'}
     try:
         r=await asyncio.to_thread(train,algorithm,frame,MODELS/user['id'])
-        jobs[user['id']]={'status':'complete','model_id':r['id']};await audit(user['id'],'train_model',r['id'])
+        await set_job(user['id'],status='complete',model_id=r['id']);await audit(user['id'],'train_model',r['id'])
     except Exception:
-        import logging;logging.exception('Training error');jobs[user['id']]={'status':'failed','message':'Pelatihan gagal. Periksa kelengkapan data dan label.'}
+        import logging;logging.exception('Training error');await set_job(user['id'],status='failed',message='Pelatihan gagal. Periksa kelengkapan data dan label.')
 
 @router.post('/research/train',status_code=202)
 async def start_training(data:TrainingInput,background:BackgroundTasks,user=Depends(teacher)):
     if data.algorithm not in ['logistic','forest']:raise HTTPException(422,'Algoritme tidak tersedia.')
-    if jobs.get(user['id'],{}).get('status')=='running':raise HTTPException(409,'Pelatihan masih berlangsung.')
-    jobs[user['id']]={'status':'running'};background.add_task(run_training,user,data.algorithm)
+    if not await claim_job(user['id']):raise HTTPException(409,'Pelatihan masih berlangsung.')
+    background.add_task(run_training,user,data.algorithm)
     return {'status':'running'}
 
 @router.post('/research/import',status_code=202)
 async def import_csv(background:BackgroundTasks,file:UploadFile=File(...),user=Depends(teacher)):
-    if jobs.get(user['id'],{}).get('status')=='running':raise HTTPException(409,'Pelatihan masih berlangsung.')
+    if (await get_job(user['id'])).get('status')=='running':raise HTTPException(409,'Pelatihan masih berlangsung.')
     raw=await file.read(5*1024*1024+1)
     if len(raw)>5*1024*1024:raise HTTPException(413,'CSV maksimal 5 MB.')
     f=None
@@ -55,7 +75,8 @@ async def import_csv(background:BackgroundTasks,file:UploadFile=File(...),user=D
         if not np.isfinite(f[cols]).all().all():raise ValueError('Fitur numerik tidak boleh kosong atau tak hingga.')
     except ValueError as e:raise HTTPException(422,str(e))
     except Exception:raise HTTPException(422,'CSV tidak dapat dibaca.')
-    jobs[user['id']]={'status':'running'};background.add_task(run_training,user,'logistic',f)
+    if not await claim_job(user['id']):raise HTTPException(409,'Pelatihan masih berlangsung.')
+    background.add_task(run_training,user,'logistic',f)
     return {'status':'running','rows':len(f)}
 
 @router.get('/research/subjects/{subject}')
