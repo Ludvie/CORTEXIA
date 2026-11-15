@@ -6,7 +6,7 @@ dilatih pada ujaran anak. Penilaian menggabungkan dua lintasan dekode:
 2. dekode pilihan-paksa (kata target vs kata pesaing berbunyi mirip) -> apakah
    kata target menang dan seberapa yakin model akustiknya.
 """
-import json, re, threading
+import json, math, re, threading
 from difflib import SequenceMatcher
 from core import ROOT
 
@@ -63,7 +63,26 @@ def recognize(pcm, grammar=None):
         if rec.AcceptWaveform(pcm[i:i + 8000]):
             words += json.loads(rec.Result()).get('result', [])
     words += json.loads(rec.FinalResult()).get('result', [])
-    return [{'word': w['word'], 'conf': round(float(w['conf']), 3), 'start': round(w['start'], 3), 'end': round(w['end'], 3)} for w in words]
+    return [{'word': w['word'], 'conf': _conf(w.get('conf')), 'start': round(w['start'], 3), 'end': round(w['end'], 3)} for w in words]
+
+
+def _conf(value):
+    """Kepercayaan Vosk dijepit ke [0, 1]; nilai non-finite dianggap 0 (tidak yakin)."""
+    try:
+        v = float(value)
+    except (TypeError, ValueError):
+        return 0.0
+    return round(min(1.0, max(0.0, v)), 3) if math.isfinite(v) else 0.0
+
+
+TEPAT_MIN = 85   # skor >= 85 -> tepat
+HAMPIR_MIN = 60  # 60 <= skor < 85 -> hampir; < 60 -> latihan
+
+
+def verdict_for(score):
+    if score is None:
+        return None
+    return 'tepat' if score >= TEPAT_MIN else 'hampir' if score >= HAMPIR_MIN else 'latihan'
 
 
 def tokens(text):
@@ -92,13 +111,86 @@ def syllables(word):
     return [p for p in parts if p]
 
 
+# --- Kemiripan fonetik Bahasa Indonesia ---------------------------------------------------
+# Ejaan Indonesia hampir fonemis, jadi grafem dipetakan ke fonem dengan aturan EYD lalu jarak
+# dihitung dengan Levenshtein berbobot fitur fonetik (tempat/cara artikulasi, bersuara).
+_G2P_MULTI = [('ngg', 'ŋg'), ('ng', 'ŋ'), ('ny', 'ɲ'), ('sy', 'ʃ'), ('kh', 'x'), ('ai', 'A'), ('au', 'W'), ('oi', 'O')]
+_G2P_SINGLE = {'c': 'C', 'j': 'J', 'y': 'j', 'q': 'k', 'v': 'f', 'x': 'ks', 'z': 'z'}
+_VOWELS_P = set('aiueoəAWO')
+# (tempat, cara, bersuara) untuk konsonan
+_CONS = {
+    'p': ('bilabial', 'plosif', 0), 'b': ('bilabial', 'plosif', 1), 'm': ('bilabial', 'nasal', 1), 'w': ('bilabial', 'semivokal', 1),
+    'f': ('labiodental', 'frikatif', 0),
+    't': ('alveolar', 'plosif', 0), 'd': ('alveolar', 'plosif', 1), 'n': ('alveolar', 'nasal', 1), 's': ('alveolar', 'frikatif', 0),
+    'z': ('alveolar', 'frikatif', 1), 'l': ('alveolar', 'lateral', 1), 'r': ('alveolar', 'getar', 1),
+    'C': ('palatal', 'afrikat', 0), 'J': ('palatal', 'afrikat', 1), 'ɲ': ('palatal', 'nasal', 1), 'ʃ': ('palatal', 'frikatif', 0), 'j': ('palatal', 'semivokal', 1),
+    'k': ('velar', 'plosif', 0), 'g': ('velar', 'plosif', 1), 'ŋ': ('velar', 'nasal', 1), 'x': ('velar', 'frikatif', 0),
+    'ʔ': ('glotal', 'plosif', 0), 'h': ('glotal', 'frikatif', 0),
+}
+_CLOSE_VOWELS = {frozenset('ie'), frozenset('uo'), frozenset('ae'), frozenset('ao')}
+
+
+def phonemes(word):
+    """Grafem -> fonem (aturan EYD sederhana). /k/ akhir kata dilafalkan glotal [ʔ]."""
+    w, out, i = word.lower(), [], 0
+    while i < len(w):
+        for g, ph in _G2P_MULTI:
+            if w.startswith(g, i):
+                out.extend(ph); i += len(g); break
+        else:
+            out.extend(_G2P_SINGLE.get(w[i], w[i])); i += 1
+    if out and out[-1] == 'k' and len(out) > 1:
+        out[-1] = 'ʔ'
+    return out
+
+
+def substitution_cost(a, b):
+    if a == b:
+        return 0.0
+    va, vb = a in _VOWELS_P, b in _VOWELS_P
+    if va and vb:
+        return 0.4 if frozenset((a, b)) in _CLOSE_VOWELS else 0.7
+    if va != vb:
+        return 1.0
+    fa, fb = _CONS.get(a), _CONS.get(b)
+    if not fa or not fb:
+        return 1.0
+    same_place, same_manner, same_voice = fa[0] == fb[0], fa[1] == fb[1], fa[2] == fb[2]
+    if same_place and same_manner:
+        return 0.3            # hanya beda bersuara: p/b, t/d, k/g, s/z, c/j
+    if same_manner and same_voice:
+        return 0.5            # mis. m/n/ŋ/ɲ, p/t/k
+    if same_place:
+        return 0.6            # mis. t/s/n, k/ŋ
+    if {fa[1], fb[1]} <= {'lateral', 'getar'}:
+        return 0.4            # l/r
+    return 1.0
+
+
+def phonetic_distance(a, b):
+    """Levenshtein berbobot fitur fonetik antara dua kata (sisip/hapus = 1)."""
+    pa, pb = phonemes(a), phonemes(b)
+    prev = [float(j) for j in range(len(pb) + 1)]
+    for i, x in enumerate(pa, 1):
+        cur = [float(i)]
+        for j, y in enumerate(pb, 1):
+            cur.append(min(prev[j] + 1, cur[j - 1] + 1, prev[j - 1] + substitution_cost(x, y)))
+        prev = cur
+    return round(prev[-1], 3)
+
+
+MAX_PHONETIC_DISTANCE = 1.5
+
+
 def competitors(target, limit=12):
-    """Kata kosakata model yang bunyinya paling mirip dengan target (pesaing pilihan-paksa)."""
+    """Kata kosakata model yang bunyinya paling mirip dengan target (pesaing pilihan-paksa).
+    Kandidat disaring cepat dengan Levenshtein ejaan (<= 3), lalu diurutkan dengan jarak fonetik."""
     from rapidfuzz import process, distance
     _load()
     pool = [w for w in _vocab if abs(len(w) - len(target)) <= 2 and w != target]
-    found = process.extract(target, pool, scorer=distance.Levenshtein.distance, limit=limit, score_cutoff=2)
-    return [w for w, _, _ in found]
+    rough = process.extract(target, pool, scorer=distance.Levenshtein.distance, limit=300, score_cutoff=3)
+    scored = sorted(((phonetic_distance(target, w), w) for w, _, _ in rough), key=lambda x: (x[0], x[1]))
+    return [w for d, w in scored if 0 < d <= MAX_PHONETIC_DISTANCE][:limit]
 
 
 def syllable_feedback(target, heard):
@@ -126,12 +218,15 @@ def assess(path, target_text):
         raise ValueError('Kata tidak valid.')
     target = ' '.join(target_tokens)
     pcm = decode_pcm(path)
+    from analytics import validate_pcm
+    validate_pcm(pcm, RATE)  # audio kosong/hening -> ValueError -> 422 di endpoint
     duration = len(pcm) / 2 / RATE
     free = recognize(pcm)
     heard = ' '.join(w['word'] for w in free)
     _load()
     in_vocab = all(t in _vocab for t in target_tokens)
     forced = None
+    forced_skipped = None
     if in_vocab and free:
         options = [target]
         if len(target_tokens) == 1:
@@ -143,23 +238,32 @@ def assess(path, target_text):
                     options.append(' '.join(target_tokens[:k] + [alt] + target_tokens[k + 1:]))
             options += [t for t in dict.fromkeys(target_tokens)]
             options = list(dict.fromkeys(options))[:30]
-        result = recognize(pcm, options)
+        # Tanpa pesaing, grammar hanya berisi target sehingga target pasti "menang"; lintasan ini dilewati.
+        result = recognize(pcm, options) if len(options) > 1 else []
+        if len(options) <= 1:
+            forced_skipped = 'tanpa kata pesaing'
         said = ' '.join(w['word'] for w in result)
         if result:
             forced = {'winner': said, 'target_won': said == target, 'confidence': round(sum(w['conf'] for w in result) / len(result) * 100, 1), 'competitors': options[1:]}
     similarity = round(SequenceMatcher(None, target.replace(' ', ''), heard.replace(' ', ''), autojunk=False).ratio() * 100, 1) if heard else None
     if not heard:
         score = None
+        method = None
     elif forced:
         acoustic = forced['confidence'] if forced['target_won'] else 0
         score = round(0.35 * similarity + 0.65 * acoustic, 1)
+        method = 'kemiripan_ejaan+pilihan_paksa'
     else:
         score = similarity
-    verdict = None if score is None else 'tepat' if score >= 85 else 'hampir' if score >= 60 else 'latihan'
+        method = 'kemiripan_ejaan'
+    if score is not None:
+        score = round(min(100.0, max(0.0, score)), 1)
+    verdict = verdict_for(score)
     return {
         'target': target, 'transcript': heard, 'words': free, 'duration': round(duration, 2),
         'score': score, 'verdict': verdict, 'similarity': similarity,
         'forced_choice': forced, 'in_vocabulary': in_vocab,
+        'score_method': method, 'forced_choice_skipped': forced_skipped,
         'syllables': syllable_feedback(target, target if verdict == 'tepat' else heard),
         'model': MODEL_NAME,
     }
@@ -169,7 +273,8 @@ def word_confidence(path, reference):
     """Kepercayaan akustik per kata bacaan (untuk sesi membaca) dari dekode bebas Vosk."""
     import jiwer
     from analytics import normalize
-    words = recognize(decode_pcm(path))
+    pcm = decode_pcm(path)
+    words = recognize(pcm) if pcm else []
     hyp = [w['word'] for w in words]
     # Indeks mengikuti normalize(reference).split() agar sejalan dengan anotasi analytics.align;
     # kata ulang seperti "kupu-kupu" dipecah untuk Vosk lalu digabung kembali.
@@ -178,7 +283,8 @@ def word_confidence(path, reference):
         for part in tokens(word):
             ref.append(part); origin.append(i)
     if not ref or not hyp:
-        return {'model': MODEL_NAME, 'transcript': ' '.join(hyp), 'words': [], 'mean_confidence': None, 'weak_words': []}
+        return {'model': MODEL_NAME, 'transcript': ' '.join(hyp), 'words': [], 'mean_confidence': None, 'weak_words': [],
+                'words_total': len(normalize(reference).split()), 'words_matched': 0, 'coverage_percent': 0.0 if ref else None}
     out = jiwer.process_words(' '.join(ref), ' '.join(hyp))
     per_word = {}
     for chunk in out.alignments[0]:
@@ -190,4 +296,7 @@ def word_confidence(path, reference):
     matched = [{'index': i, 'word': original[i], 'conf': round(c, 3)} for i, c in sorted(per_word.items())]
     mean = round(sum(m['conf'] for m in matched) / len(matched) * 100, 1) if matched else None
     weak = sorted([m for m in matched if m['conf'] < 0.6], key=lambda m: m['conf'])[:10]
-    return {'model': MODEL_NAME, 'transcript': ' '.join(hyp), 'words': matched, 'mean_confidence': mean, 'weak_words': weak}
+    # mean_confidence hanya atas kata yang cocok; coverage_percent menunjukkan porsi kata bacaan yang benar-benar terukur.
+    return {'model': MODEL_NAME, 'transcript': ' '.join(hyp), 'words': matched, 'mean_confidence': mean, 'weak_words': weak,
+            'words_total': len(original), 'words_matched': len(matched),
+            'coverage_percent': round(len(matched) / len(original) * 100, 1) if original else None}

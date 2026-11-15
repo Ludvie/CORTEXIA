@@ -1,0 +1,4 @@
+# Dependensi pengujian (sudah dipakai oleh tests/ dan pytest.ini; tidak dipakai saat runtime)
+pytest
+pytest-xdist
+requests

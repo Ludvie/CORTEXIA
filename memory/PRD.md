@@ -24,9 +24,9 @@ Consent sebelum capture, rekaman gaze/suara nyata, pemeriksaan perangkat dan kal
 - React 19, React Router, Shadcn primitives, Nunito/DM Sans; UI oranye/lavender terang mengikuti aset pengguna.
 - FastAPI /api port supervisor 8001, MongoDB dari backend/.env; frontend hanya REACT_APP_BACKEND_URL.
 - Auth bcrypt + bearer token acak, hash token di DB, TTL 2 hari. Hak akses teacher/student dan kepemilikan per akun, tanpa akun default.
-- WebGazer 3.5.3 dipaketkan lokal /public/webgazer.js. Model landmark diunduh pustaka ke browser; video tidak diunggah. 9 titik x5 klik lalu 3 titik validasi terpisah. Galat median dan banyak sampel dinilai; tidak ada simulasi gaze.
-- MediaRecorder mengirim audio temporer ke faster-whisper base CPU int8 lokal. Audio dihapus dalam finally, video tidak disimpan. TTS espeak-ng bahasa Indonesia berjalan lokal.
-- Jiwer alignment WER/substitusi/deletion/insertion. WPM dan jeda dari audio/word timestamps; gaze observasional I-DT sederhana dengan quality gate.
+- WebGazer 3.5.3 dipaketkan lokal /public/webgazer.js. Model landmark diunduh pustaka ke browser; video tidak diunggah. Kalibrasi 4 tahap adaptif: 5 titik inti, titik tambahan adaptif bila perlu penyempurnaan, lalu 3 titik validasi terpisah. Lulus bila galat median ≤ 16% layar dan ≥ 15 sampel validasi; backend memeriksa ulang dan mewajibkan `passed`. Tidak ada simulasi gaze.
+- MediaRecorder mengirim audio temporer ke faster-whisper base CPU int8 lokal. Audio dihapus dalam finally, video tidak disimpan. TTS lokal Piper `id_ID-news_tts-medium`, cadangan espeak-ng bila terpasang, lalu suara browser. Pelafalan dan kejelasan kata memakai Vosk/Kaldi model anak (bookbot).
+- Jiwer alignment WER/substitusi/deletion/insertion. WPM dan jeda dari audio/word timestamps; gaze observasional I-DT (dispersi 80 px, minimal 120 ms tanpa toleransi, celah maks 0,5 s) dengan quality gate; titik duplikat/di luar durasi dibuang dan interval aktual dilaporkan.
 - Profil live memakai aturan observasional v1 (bukan prediksi model multimodal tervalidasi): kualitas, WER, WPM, on-text. Tidak membuat angka confidence. Data tidak cukup tidak diberi skor rekaan.
 - ETDD70 research: 16 fitur numerik, LogisticRegression/RandomForest, imputer+scaler di setiap fold, StratifiedGroupKFold 5 fold per participant. OOF predictions untuk penjelajahan dataset. Hasil tidak diterapkan pada webcam Indonesia.
 - Dataset/model artefak lokal di /app/assets/dataset dan backend/models; berkas model impor hanya bisa dilihat pemilik. Audio temporer tidak membutuhkan object storage.
@@ -43,6 +43,14 @@ Consent sebelum capture, rekaman gaze/suara nyata, pemeriksaan perangkat dan kal
 - Latih ulang logistic/forest via UI dan job polling. Impor CSV fitur numerik tervalidasi, label biner/per participant, min5 participant/class. OOF inspection berdasarkan subjek dan tugas, heatmap fiksasi asli, confusion matrix, fitur, fold scores, versi.
 - Tes: build frontend sukses; health database/ASR ready; 18/18 backend pytest, frontend critical flows dan mobile 360/390 + desktop1920 lulus. Akun dan data tes dibersihkan. Tidak ada mocked API. Ketepatan fisik webcam perlu validasi partisipan nyata.
 
+## Hardening 2026-11 (lihat SYSTEM_HARDENING_REPORT.md dan HARDENING_CHANGES.md)
+- Suara: validasi PCM, timestamp kata ASR divalidasi; sebelum koreksi WER = galat ASR + galat membaca (`wer_source`), setelah koreksi `reading_error_rate` dan `asr_wer` terpisah. Keyakinan ASR yang tidak diketahui dianggap belum andal.
+- Fusi: hanya suara andal yang dipakai; WER (ketepatan) dan WPM (kelancaran) sinyal terpisah; pola "kata yang sama" hanya bila concordance ≥ 40%. Kualitas dihitung dari modalitas yang lolos gate (`modalities_passed`).
+- Pelafalan: pesaing pilihan-paksa diurutkan dengan jarak fonetik Indonesia (G2P EYD + Levenshtein berbobot fitur); pilihan-paksa dilewati bila tidak ada pesaing; `coverage_percent` mendampingi rerata kepercayaan.
+- Integrasi: NaN/Infinity tidak disimpan, `client_request_id` + unique index untuk idempotensi, rerata/tren dashboard hanya dari transkrip andal.
+- ETDD70: precision/recall, evaluasi per peserta (agregat OOF), versi library, hash dataset dan model.
+- Validasi ambang: `backend/threshold_validation.py` menghitung sensitivitas/spesifisitas/Youden terhadap label ahli. Ambang belum diubah karena belum ada data anak Indonesia berlabel.
+
 ## Batasan eksplisit dan backlog prioritas
 ### P0 — validasi sebelum penggunaan keputusan pendidikan
 - Kumpulkan dataset gaze-webcam + audio Indonesia berpasangan, consent/label pendamping dan split per peserta. ETDD70 tidak dapat menyediakan data audio yang tidak ada.
@@ -54,7 +62,7 @@ Consent sebelum capture, rekaman gaze/suara nyata, pemeriksaan perangkat dan kal
 - Forced phoneme alignment/prosody anak; model speech Indonesia yang dievaluasi.
 - Koreksi transkrip mengubah alignment kata/metrik, bukan timestamp ASR asli.
 - Latihan mata garis/kata dan game Ikuti Kata yang terpisah dari reading assessment.
-- Job inferensi persisten tahan restart (saat ini request + retry, pelatihan job status process-local).
+- ~~Status job pelatihan tahan restart~~ — selesai 2026-11: disimpan di koleksi `training_jobs`; job yang terputus restart ditandai gagal saat startup.
 ### P2
 - Reset password, verifikasi email, lisensi/open source model inventory rinci, peningkatan aksesibilitas dan lokalisasi.
 - PDF longitudinal, export anonymized aggregate dataset, grafik per tugas/tingkat kesulitan.
@@ -65,4 +73,4 @@ Consent sebelum capture, rekaman gaze/suara nyata, pemeriksaan perangkat dan kal
 3. Kembangkan pembagian peran orang tua/admin dan penugasan latihan.
 
 ## Menjalankan
-Supervisor mengelola frontend/backend; environment tidak diubah. Model speech sudah diunduh. Untuk setup ulang, jalankan backend/setup_local_models.py; sistem memerlukan espeak-ng untuk TTS. Dataset harus tetap diekstrak di /app/assets/dataset/ETDD70_v2/data/data. Baseline dapat direproduksi dengan python backend/ml_pipeline.py. Model/asset besar bukan bagian source-code yang ringan; pertahankan direktori tersebut.
+Supervisor mengelola frontend/backend; environment tidak diubah. Model speech sudah diunduh. Untuk setup ulang, jalankan backend/setup_local_models.py; Piper diunduh oleh skrip yang sama; espeak-ng hanya cadangan opsional. Dataset harus tetap diekstrak di /app/assets/dataset/ETDD70_v2/data/data. Baseline dapat direproduksi dengan python backend/ml_pipeline.py. Model/asset besar bukan bagian source-code yang ringan; pertahankan direktori tersebut.

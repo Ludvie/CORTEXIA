@@ -14,6 +14,12 @@ async def lifespan(app):
     await db.users.create_index('email', unique=True)
     await db.tokens.create_index('expires_at', expireAfterSeconds=0)
     await db.sessions.create_index([('owner_id', 1), ('created_at', -1)])
+    # Idempotensi: satu sesi per (pemilik, client_request_id); sesi tanpa kunci tidak terkena indeks.
+    await db.sessions.create_index([('owner_id', 1), ('client_request_id', 1)], unique=True, name='idempotency',
+                                   partialFilterExpression={'client_request_id': {'$type': 'string'}})
+    await db.training_jobs.create_index('user_id', unique=True)
+    from research import interrupt_stale_jobs
+    await interrupt_stale_jobs()
     await initialize_content()
     yield
     client.close()
@@ -30,3 +36,21 @@ async def health():
     from pronunciation import vosk_ready
     import tts
     return {'status':'ok', 'database':'connected', 'speech_model': 'ready' if asr_ready() else 'unavailable', 'pronunciation_model': 'ready' if vosk_ready() else 'unavailable', 'tts': tts.engine() or 'browser-fallback', 'gaze':'WebGazer 3.5.3 (model wajah lokal)', 'paid_services':False}
+
+# Sajikan build React dari proses yang sama (satu port untuk frontend + API).
+# Aktif hanya jika frontend/build ada; lokasi bisa diganti lewat FRONTEND_BUILD_DIR.
+from pathlib import Path
+from fastapi import HTTPException
+from fastapi.responses import FileResponse
+
+FRONTEND_BUILD = Path(os.environ.get('FRONTEND_BUILD_DIR', Path(__file__).resolve().parent.parent / 'frontend' / 'build')).resolve()
+
+if (FRONTEND_BUILD / 'index.html').is_file():
+    @app.get('/{full_path:path}', include_in_schema=False)
+    async def serve_frontend(full_path: str):
+        if full_path == 'api' or full_path.startswith('api/'):
+            raise HTTPException(status_code=404)
+        candidate = (FRONTEND_BUILD / full_path).resolve()
+        if full_path and candidate.is_file() and candidate.is_relative_to(FRONTEND_BUILD):
+            return FileResponse(candidate)
+        return FileResponse(FRONTEND_BUILD / 'index.html')
