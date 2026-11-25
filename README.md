@@ -40,6 +40,8 @@ Lalu buka **http://localhost:3000**. Gunakan `localhost`, bukan `127.0.0.1`, kar
 
 Uji asap API: `backend/.venv/Scripts/python scripts/smoke_test.py <audio.wav> <kata>`.
 
+Model Vosk Bookbot disertakan di repositori; lisensi Apache-2.0 ada di `backend/models/vosk-id/LICENSE.md`. Skrip setup akan memakai model tersebut jika `am/final.mdl` sudah tersedia.
+
 ## Pengujian
 
 Dependensi uji ada di `backend/requirements-dev.txt`. Uji unit tidak butuh server; uji integrasi berjalan bila `REACT_APP_BACKEND_URL` diisi dan backend sedang hidup.
