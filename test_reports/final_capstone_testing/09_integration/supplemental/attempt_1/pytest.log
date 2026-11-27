@@ -1,0 +1,36 @@
+============================= test session starts =============================
+platform win32 -- Python 3.13.7, pytest-9.2.0, pluggy-1.7.0
+rootdir: C:\Users\LENOVO PC\CORTEXIA-contribute
+plugins: cov-7.1.0, xdist-3.8.0, anyio-4.16.0
+collected 3 items
+
+..\test_reports\final_capstone_testing\test_isolated_roundtrip.py EEE    [100%]
+
+=================================== ERRORS ====================================
+_______ ERROR at setup of test_cross_owner_session_and_report_isolation _______
+..\test_reports\final_capstone_testing\test_isolated_roundtrip.py:14: in context
+    response.raise_for_status();c.headers['Authorization']='Bearer '+response.json()['token'];clients.append(c)
+    ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+.venv\Lib\site-packages\requests\models.py:1167: in raise_for_status
+    raise HTTPError(http_error_msg, response=self)
+E   requests.exceptions.HTTPError: 422 Client Error: Unprocessable Content for url: http://127.0.0.1:57599/api/auth/register
+____ ERROR at setup of test_full_audio_gaze_fluency_persistence_review_pdf ____
+..\test_reports\final_capstone_testing\test_isolated_roundtrip.py:14: in context
+    response.raise_for_status();c.headers['Authorization']='Bearer '+response.json()['token'];clients.append(c)
+    ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+.venv\Lib\site-packages\requests\models.py:1167: in raise_for_status
+    raise HTTPError(http_error_msg, response=self)
+E   requests.exceptions.HTTPError: 422 Client Error: Unprocessable Content for url: http://127.0.0.1:57599/api/auth/register
+_________ ERROR at setup of test_end_to_end_http_database_performance _________
+..\test_reports\final_capstone_testing\test_isolated_roundtrip.py:14: in context
+    response.raise_for_status();c.headers['Authorization']='Bearer '+response.json()['token'];clients.append(c)
+    ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+.venv\Lib\site-packages\requests\models.py:1167: in raise_for_status
+    raise HTTPError(http_error_msg, response=self)
+E   requests.exceptions.HTTPError: 422 Client Error: Unprocessable Content for url: http://127.0.0.1:57599/api/auth/register
+- generated xml file: C:\Users\LENOVO PC\CORTEXIA-contribute\test_reports\final_capstone_testing\09_integration\supplemental\pytest_results.xml -
+=========================== short test summary info ===========================
+ERROR ..\test_reports\final_capstone_testing\test_isolated_roundtrip.py::test_cross_owner_session_and_report_isolation
+ERROR ..\test_reports\final_capstone_testing\test_isolated_roundtrip.py::test_full_audio_gaze_fluency_persistence_review_pdf
+ERROR ..\test_reports\final_capstone_testing\test_isolated_roundtrip.py::test_end_to_end_http_database_performance
+============================== 3 errors in 1.82s ==============================

@@ -1,0 +1,479 @@
+{
+  "checks": [
+    {
+      "name": "no page overflow 1920",
+      "passed": true
+    },
+    {
+      "name": "body readable 1920",
+      "passed": true
+    },
+    {
+      "name": "three shared words 1920",
+      "passed": true
+    },
+    {
+      "name": "word practice URL 1920",
+      "passed": true
+    },
+    {
+      "name": "visible overview text contrast 1920",
+      "passed": true
+    },
+    {
+      "name": "speech no overflow 1920",
+      "passed": true
+    },
+    {
+      "name": "speech finite labels 1920",
+      "passed": true
+    },
+    {
+      "name": "speech visible text contrast 1920",
+      "passed": true
+    },
+    {
+      "name": "gaze no overflow 1920",
+      "passed": true
+    },
+    {
+      "name": "gaze finite labels 1920",
+      "passed": true
+    },
+    {
+      "name": "gaze visible text contrast 1920",
+      "passed": true
+    },
+    {
+      "name": "details no overflow 1920",
+      "passed": true
+    },
+    {
+      "name": "details finite labels 1920",
+      "passed": true
+    },
+    {
+      "name": "details visible text contrast 1920",
+      "passed": true
+    },
+    {
+      "name": "overview no overflow 1920",
+      "passed": true
+    },
+    {
+      "name": "overview finite labels 1920",
+      "passed": true
+    },
+    {
+      "name": "overview visible text contrast 1920",
+      "passed": true
+    },
+    {
+      "name": "keyboard tabs 1920",
+      "passed": true
+    },
+    {
+      "name": "no page overflow 1366",
+      "passed": true
+    },
+    {
+      "name": "body readable 1366",
+      "passed": true
+    },
+    {
+      "name": "three shared words 1366",
+      "passed": true
+    },
+    {
+      "name": "word practice URL 1366",
+      "passed": true
+    },
+    {
+      "name": "visible overview text contrast 1366",
+      "passed": true
+    },
+    {
+      "name": "speech no overflow 1366",
+      "passed": true
+    },
+    {
+      "name": "speech finite labels 1366",
+      "passed": true
+    },
+    {
+      "name": "speech visible text contrast 1366",
+      "passed": true
+    },
+    {
+      "name": "gaze no overflow 1366",
+      "passed": true
+    },
+    {
+      "name": "gaze finite labels 1366",
+      "passed": true
+    },
+    {
+      "name": "gaze visible text contrast 1366",
+      "passed": true
+    },
+    {
+      "name": "details no overflow 1366",
+      "passed": true
+    },
+    {
+      "name": "details finite labels 1366",
+      "passed": true
+    },
+    {
+      "name": "details visible text contrast 1366",
+      "passed": true
+    },
+    {
+      "name": "overview no overflow 1366",
+      "passed": true
+    },
+    {
+      "name": "overview finite labels 1366",
+      "passed": true
+    },
+    {
+      "name": "overview visible text contrast 1366",
+      "passed": true
+    },
+    {
+      "name": "keyboard tabs 1366",
+      "passed": true
+    },
+    {
+      "name": "no page overflow 768",
+      "passed": true
+    },
+    {
+      "name": "body readable 768",
+      "passed": true
+    },
+    {
+      "name": "three shared words 768",
+      "passed": true
+    },
+    {
+      "name": "word practice URL 768",
+      "passed": true
+    },
+    {
+      "name": "visible overview text contrast 768",
+      "passed": true
+    },
+    {
+      "name": "speech no overflow 768",
+      "passed": true
+    },
+    {
+      "name": "speech finite labels 768",
+      "passed": true
+    },
+    {
+      "name": "speech visible text contrast 768",
+      "passed": true
+    },
+    {
+      "name": "gaze no overflow 768",
+      "passed": true
+    },
+    {
+      "name": "gaze finite labels 768",
+      "passed": true
+    },
+    {
+      "name": "gaze visible text contrast 768",
+      "passed": true
+    },
+    {
+      "name": "details no overflow 768",
+      "passed": true
+    },
+    {
+      "name": "details finite labels 768",
+      "passed": true
+    },
+    {
+      "name": "details visible text contrast 768",
+      "passed": true
+    },
+    {
+      "name": "overview no overflow 768",
+      "passed": true
+    },
+    {
+      "name": "overview finite labels 768",
+      "passed": true
+    },
+    {
+      "name": "overview visible text contrast 768",
+      "passed": true
+    },
+    {
+      "name": "keyboard tabs 768",
+      "passed": true
+    },
+    {
+      "name": "no page overflow 390",
+      "passed": true
+    },
+    {
+      "name": "body readable 390",
+      "passed": true
+    },
+    {
+      "name": "three shared words 390",
+      "passed": true
+    },
+    {
+      "name": "word practice URL 390",
+      "passed": true
+    },
+    {
+      "name": "visible overview text contrast 390",
+      "passed": true
+    },
+    {
+      "name": "speech no overflow 390",
+      "passed": true
+    },
+    {
+      "name": "speech finite labels 390",
+      "passed": true
+    },
+    {
+      "name": "speech visible text contrast 390",
+      "passed": true
+    },
+    {
+      "name": "gaze no overflow 390",
+      "passed": true
+    },
+    {
+      "name": "gaze finite labels 390",
+      "passed": true
+    },
+    {
+      "name": "gaze visible text contrast 390",
+      "passed": true
+    },
+    {
+      "name": "details no overflow 390",
+      "passed": true
+    },
+    {
+      "name": "details finite labels 390",
+      "passed": true
+    },
+    {
+      "name": "details visible text contrast 390",
+      "passed": true
+    },
+    {
+      "name": "overview no overflow 390",
+      "passed": true
+    },
+    {
+      "name": "overview finite labels 390",
+      "passed": true
+    },
+    {
+      "name": "overview visible text contrast 390",
+      "passed": true
+    },
+    {
+      "name": "keyboard tabs 390",
+      "passed": true
+    },
+    {
+      "name": "review endpoint preserved",
+      "passed": true
+    },
+    {
+      "name": "original fluency after review",
+      "passed": true
+    },
+    {
+      "name": "PDF endpoint called",
+      "passed": true
+    },
+    {
+      "name": "audio: no false fusion",
+      "passed": true
+    },
+    {
+      "name": "audio: no overflow",
+      "passed": true
+    },
+    {
+      "name": "gaze: no false fusion",
+      "passed": true
+    },
+    {
+      "name": "gaze: no overflow",
+      "passed": true
+    },
+    {
+      "name": "empty-data: no false fusion",
+      "passed": true
+    },
+    {
+      "name": "empty-data: no overflow",
+      "passed": true
+    },
+    {
+      "name": "legacy: no false fusion",
+      "passed": true
+    },
+    {
+      "name": "legacy: no overflow",
+      "passed": true
+    },
+    {
+      "name": "student cannot edit",
+      "passed": true
+    },
+    {
+      "name": "student: no overflow",
+      "passed": true
+    },
+    {
+      "name": "empty: no overflow",
+      "passed": true
+    },
+    {
+      "name": "error: no overflow",
+      "passed": true
+    },
+    {
+      "name": "loading: no overflow",
+      "passed": true
+    },
+    {
+      "name": "no uncaught browser exceptions",
+      "passed": true
+    }
+  ],
+  "runtime_errors": [],
+  "contrast": [
+    {
+      "width": 1920,
+      "checked": 134,
+      "failures": []
+    },
+    {
+      "width": 1920,
+      "tab": "speech",
+      "checked": 84,
+      "failures": []
+    },
+    {
+      "width": 1920,
+      "tab": "gaze",
+      "checked": 82,
+      "failures": []
+    },
+    {
+      "width": 1920,
+      "tab": "details",
+      "checked": 81,
+      "failures": []
+    },
+    {
+      "width": 1920,
+      "tab": "overview",
+      "checked": 134,
+      "failures": []
+    },
+    {
+      "width": 1366,
+      "checked": 134,
+      "failures": []
+    },
+    {
+      "width": 1366,
+      "tab": "speech",
+      "checked": 84,
+      "failures": []
+    },
+    {
+      "width": 1366,
+      "tab": "gaze",
+      "checked": 82,
+      "failures": []
+    },
+    {
+      "width": 1366,
+      "tab": "details",
+      "checked": 81,
+      "failures": []
+    },
+    {
+      "width": 1366,
+      "tab": "overview",
+      "checked": 134,
+      "failures": []
+    },
+    {
+      "width": 768,
+      "checked": 133,
+      "failures": []
+    },
+    {
+      "width": 768,
+      "tab": "speech",
+      "checked": 83,
+      "failures": []
+    },
+    {
+      "width": 768,
+      "tab": "gaze",
+      "checked": 81,
+      "failures": []
+    },
+    {
+      "width": 768,
+      "tab": "details",
+      "checked": 80,
+      "failures": []
+    },
+    {
+      "width": 768,
+      "tab": "overview",
+      "checked": 133,
+      "failures": []
+    },
+    {
+      "width": 390,
+      "checked": 133,
+      "failures": []
+    },
+    {
+      "width": 390,
+      "tab": "speech",
+      "checked": 83,
+      "failures": []
+    },
+    {
+      "width": 390,
+      "tab": "gaze",
+      "checked": 81,
+      "failures": []
+    },
+    {
+      "width": 390,
+      "tab": "details",
+      "checked": 80,
+      "failures": []
+    },
+    {
+      "width": 390,
+      "tab": "overview",
+      "checked": 133,
+      "failures": []
+    }
+  ]
+}

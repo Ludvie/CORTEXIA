@@ -1,0 +1,2 @@
+﻿operation,audio_sec,n,mean_ms,median_ms,p95_ms,status
+HTTP upload + decode + ASR + VAD + gaze + fusion + MongoDB save,7.427,5,581.5215400012676,593.6193999950774,625.6924800080014,PASSED

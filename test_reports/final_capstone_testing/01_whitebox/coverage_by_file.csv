@@ -1,0 +1,6 @@
+﻿file,covered_statements,statements,statement_percent,covered_branches,branches,branch_percent
+analytics.py,399,434,91.94,145,170,85.29
+core.py,26,37,70.27,2,12,16.67
+fluency.py,73,77,94.81,27,30,90.0
+pronunciation.py,215,219,98.17,92,96,95.83
+sessions.py,104,232,44.83,12,72,16.67

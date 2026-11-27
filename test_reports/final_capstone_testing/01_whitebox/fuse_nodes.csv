@@ -1,0 +1,67 @@
+﻿node,label,line
+1,ENTRY,0
+2,EXIT,0
+3,return out,437
+4,if inaccurate and concordant:,415
+5,out['explanation'] = f'Kata yang salah diucap juga lama ditatap atau dikunjungi ulang (kesesuaian {c,417
+6,out['pattern'] = 'Kesulitan pengenalan kata (didukung suara dan tatapan)',416
+7,if inaccurate and gaze_irregular:,418
+8,"out['explanation'] = f""Ucapan banyak meleset (WER {wer}%) dan pola tatapan tidak teratur ({'; '.join",420
+9,out['pattern'] = 'Kesalahan ucap dan alur visual tidak teratur (belum pada kata yang sama)',419
+10,if inaccurate:,422
+11,"out['explanation'] = f'Banyak kata meleset (WER {wer}%), tetapi pola tatapan relatif teratur. Kesuli",424
+12,out['pattern'] = 'Kesalahan ucap tanpa hambatan visual yang jelas',423
+13,if slow and gaze_irregular:,425
+14,"out['explanation'] = f""Kata terucap cukup tepat, tetapi kecepatan baca rendah ({wpm} kata/menit) dan",427
+15,out['pattern'] = 'Bacaan lambat dengan alur visual tidak teratur',426
+16,if slow:,428
+17,"out['explanation'] = f'Kata terucap cukup tepat dan tatapan teratur, tetapi kecepatan baca di bawah ",430
+18,out['pattern'] = 'Bacaan lambat tanpa hambatan visual yang jelas',429
+19,if gaze_irregular:,431
+20,"out['explanation'] = f""Ucapan tepat, tetapi pandangan sering keluar dari teks, mundur, atau melewati",433
+21,out['pattern'] = 'Alur visual tidak teratur meski ucapan tepat',432
+22,out['explanation'] = 'Tidak ada hambatan menonjol pada kedua modalitas.',436
+23,out['pattern'] = 'Suara dan tatapan sama-sama lancar',435
+24,if not (has_speech and has_gaze):,411
+25,return out,414
+26,if out['speech_excluded_reason']:,413
+27,"out['explanation'] += f"" Data suara tidak dipakai karena {out['speech_excluded_reason']}"" + ('; kore",413
+28,out['explanation'] = {'suara saja': 'Hanya suara yang memenuhi syarat; temuan belum dikonfirmasi ole,412
+29,"out = {'basis': basis, 'pronunciation_gaze_words': acoustic_matches, 'speech_error_words': len(speec",404
+30,gaze_irregular = bool(gaze_reasons),403
+31,if has_gaze:,399
+32,if skip is not None and skip > SKIPPED_MAX:,402
+33,gaze_reasons.append(f'kata tak tertatap {skip}% > {SKIPPED_MAX}%'),402
+34,if reg is not None and reg > REGRESSION_MAX:,401
+35,gaze_reasons.append(f'regresi {reg}% > {REGRESSION_MAX}%'),401
+36,if on_text is not None and on_text < ON_TEXT_MIN:,400
+37,gaze_reasons.append(f'tatapan di teks {on_text}% < {ON_TEXT_MIN}%'),400
+38,gaze_reasons = [],398
+39,skip = g.get('skipped_words_percent'),397
+40,reg = g.get('regression_rate'),397
+41,on_text = m.get('on_text_percent'),397
+42,slow = wpm is not None and wpm < WPM_MIN,396
+43,inaccurate = wer is not None and wer > WER_MAX,395
+44,wpm = m.get('wpm') if has_speech else None,394
+45,wer = m.get('wer') if has_speech else None,394
+46,concordant = concordance is not None and concordance >= CONCORDANCE_MIN,393
+47,"concordance = round(len(agree) / len(speech_err) * 100, 1) if has_speech and has_gaze and speech_err",392
+48,agree = sorted(speech_err & gaze_hard),391
+49,"acoustic_matches = [{'index': word['index'], 'word': ref_words[word['index']], 'conf': word['conf']}",385
+50,if has_gaze and g['words']:,378
+51,for w in g['words']:,382
+52,if long_dwell or (w.get('visits') or 0) >= REVISIT_MIN:,384
+53,"gaze_hard.update(mapping.get(w['index'], []))",384
+54,long_dwell = median > 0 and _finite(w.get('ms')) and (w['ms'] >= DWELL_RATIO * median),383
+55,mapping = display_to_reference(reference),381
+56,median = float(np.median(dwell)) if dwell else 0.0,380
+57,dwell = [w['ms'] for w in g['words'] if _finite(w.get('ms'))],379
+58,gaze_hard = set(),377
+59,"speech_err = {a['index'] for a in m.get('annotations') or [] if a['type'] in ('substitute', 'delete'",376
+60,ref_words = normalize(reference).split(),375
+61,basis = 'suara + tatapan' if has_speech and has_gaze else 'suara saja' if has_speech else 'tatapan s,374
+62,has_gaze = bool(m.get('gaze_usable') and g.get('words') is not None),373
+63,has_speech = speech_available and bool(speech_reliable),372
+64,speech_available = m.get('accuracy') is not None,371
+65,g = m.get('gaze') or {},370
+66,'Gabungkan bukti per kata: kesalahan ucap (alignment) dan hambatan tatapan (dwell panjang / dikunjun,368

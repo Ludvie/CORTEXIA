@@ -1,0 +1,6 @@
+﻿section,case_id,input,expected,actual,unit,status,elapsed_ms
+05_pronunciation,score_target,"{""free"": ""apel"", ""forced"": ""apel"", ""confidence"": 0.8}",87.0,87.0,,PASSED,0.6395000091288239
+05_pronunciation,score_competitor,"{""free"": ""apes"", ""forced"": ""apes"", ""confidence"": 0.8}",26.2,26.2,,PASSED,0.49029999354388565
+05_pronunciation,score_oov,"{""free"": ""apel"", ""forced"": ""apel"", ""confidence"": 0.8}",100.0,100.0,,PASSED,0.4344000044511631
+05_pronunciation,score_no_competitor,"{""free"": ""apel"", ""forced"": ""apel"", ""confidence"": 0.8}",100.0,100.0,,PASSED,0.5295000009937212
+05_pronunciation,score_no_speech,"{""free"": """", ""forced"": """", ""confidence"": 0.8}",null,null,,PASSED,0.22909999825060368

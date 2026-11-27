@@ -1,0 +1,9 @@
+{
+  "archive_sha256": "45d372192db70c606c678614ea17cdefb80306d4ecedf92e296bd7ee15e95b51",
+  "members": 6,
+  "audio_files": 0,
+  "script_sha256": "11d34d060e2cb53ec2ebec83a76048b2a4978916b53cbbd6d83b293e9dbd66fb",
+  "rows": 140,
+  "preprocessing_repeated": false,
+  "available_audio_paths": 140
+}

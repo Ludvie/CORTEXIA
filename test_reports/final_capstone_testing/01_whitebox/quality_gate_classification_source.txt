@@ -1,0 +1,10 @@
+5: def quality_gate_classification(reliable, gaze_usable):
+6:     passed = [name for name, ok in (('suara', reliable), ('tatapan', gaze_usable)) if ok]
+7:     if len(passed) == 2:
+8:         quality = 'layak'
+9:     else:
+10:         if passed:
+11:             quality = 'parsial'
+12:         else:
+13:             quality = 'tidak_cukup'
+14:     return quality

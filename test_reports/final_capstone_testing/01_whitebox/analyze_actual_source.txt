@@ -1,0 +1,56 @@
+494: def analyze(reference,transcript,duration,points,calibration,words,layouts=None,pronunciation=None,speech_error=None,reviewed=False,asr_transcript=None,gaze_duration=None):
+495:     m,speech,enough,reliable,confidence,uncertain=speech_metrics(reference,transcript,duration,words,reviewed,asr_transcript)
+496:     warnings=[]
+497:     try:m.update(gaze_metrics(points,gaze_duration if gaze_duration is not None else duration,calibration,layouts))
+498:     except Exception:
+499:         # Kegagalan analisis tatapan tidak boleh menggugurkan hasil suara.
+500:         import logging;logging.exception('Gaze analysis failed')
+501:         m.update(_empty_gaze({'received':len(points or []),'valid':0},calibration_ok(calibration)))
+502:         warnings.append('Analisis tatapan gagal; hasil hanya berdasarkan suara.')
+503:     m['pronunciation']=pronunciation
+504:     m['word_observations'] = []
+505:     if reliable and not reviewed and m['gaze_usable'] and (m.get('gaze') or {}).get('words'):
+506:         m['word_observations'] = word_observations(reference, transcript, words, m['gaze']['words'], duration)
+507:     m['speech_error']=speech_error
+508:     # Kualitas hanya menghitung modalitas yang lolos quality gate masing-masing.
+509:     passed=[name for name,ok in (('suara',reliable),('tatapan',m['gaze_usable'])) if ok]
+510:     quality='layak' if len(passed)==2 else 'parsial' if passed else 'tidak_cukup'
+511:     m['modalities_passed']=passed
+512:     excluded=f'rekaman suara terlalu pendek (minimal {MIN_SPEECH_S} detik dan {MIN_SPEECH_WORDS} kata)' if not enough else 'keyakinan transkripsi tidak tersedia' if confidence is None and not reviewed else 'transkrip otomatis belum andal'
+513:     m['multimodal']=fuse(reference,m,reliable,excluded)
+514:     on_text=m.get('on_text_percent');reg=(m['gaze'] or {}).get('regression_rate')
+515:     recommendations=[]
+516:     if quality=='tidak_cukup':
+517:         profile='Data belum cukup'
+518:         profile_reason='Tidak ada modalitas yang lolos syarat kualitas (suara andal atau tatapan layak).'
+519:         recommendations.append('Koreksi transkripsi agar data suara dapat dipakai, atau ulangi sesi di tempat tenang dengan suara jelas dan pencahayaan merata.' if enough and not reliable else 'Ulangi sesi di tempat tenang dengan suara jelas dan pencahayaan merata.')
+520:     elif reliable and m['wer'] is not None and m['wer']>WER_MAX:
+521:         profile='Latihan ketepatan kata';profile_reason=f"WER {m['wer']}% > {WER_MAX}% ({'transkrip ditinjau' if reviewed else 'transkrip otomatis andal'})."
+522:         recommendations.append('Dengarkan dan ulangi kata yang ditandai, lalu baca kembali kalimatnya.')
+523:     elif reliable and m['wpm'] is not None and m['wpm']<WPM_MIN:
+524:         profile='Latihan kelancaran';profile_reason=f"Kecepatan {m['wpm']} kata/menit < {WPM_MIN}."
+525:         recommendations.append('Baca ulang teks pendek dengan nyaman. Pendamping dapat memberi contoh ritme membaca.')
+526:     elif m['gaze_usable'] and on_text is not None and on_text<ON_TEXT_MIN:
+527:         profile='Latihan fokus baris';profile_reason=f'Tatapan di area teks {on_text}% < {ON_TEXT_MIN}%.'
+528:         recommendations.append('Gunakan panduan baris dan perbesar teks agar pandangan lebih mudah mengikuti bacaan.')
+529:     elif m['gaze_usable'] and reg is not None and reg>REGRESSION_MAX:
+530:         profile='Latihan fokus baris';profile_reason=f'Regresi tatapan {reg}% > {REGRESSION_MAX}%.'
+531:         recommendations.append('Pandangan sering kembali ke kata sebelumnya. Latih membaca dengan penunjuk jari atau panduan kata.')
+532:     else:
+533:         profile='Lanjutkan eksplorasi'
+534:         profile_reason='Tidak ada metrik dari modalitas yang lolos syarat yang melewati ambang latihan.'+(' Data suara tidak dipakai karena transkrip belum andal.' if enough and not reliable else '')
+535:         recommendations.append('Lanjutkan latihan dengan materi yang sesuai dan diskusikan pengamatan bersama pendamping.')
+536:     g=m['gaze'] or {};fused=m['multimodal']
+537:     if fused['agreement_words']:recommendations.append('Kata yang sulit menurut suara dan tatapan sekaligus: '+', '.join(w['word'] for w in fused['agreement_words'][:5])+'. Prioritaskan kata ini saat latihan.')
+538:     if enough and not reliable:recommendations.append('Transkrip otomatis kurang yakin'+(' pada kata: '+', '.join(uncertain[:4]) if uncertain else '')+'. Pendamping sebaiknya mendengar ulang dan mengoreksi transkripsi.')
+539:     if speech_error:recommendations.append('Suara gagal dianalisis sehingga hasil hanya berdasarkan tatapan. Periksa mikrofon lalu ulangi sesi bila perlu penilaian ucapan.')
+540:     if m['gaze_usable'] and g.get('skipped_words_percent') is not None and g['skipped_words_percent']>SKIPPED_MAX:recommendations.append('Banyak kata tidak tertatap. Perbesar ukuran teks dan baca lebih pelan, satu baris dalam satu waktu.')
+541:     if m['gaze_usable'] and g.get('longest_dwell') and not fused['agreement_words']:recommendations.append('Kata yang paling lama ditatap: '+', '.join(w['word'] for w in g['longest_dwell'][:3])+'. Latih kata-kata ini di fitur Pelafalan.')
+542:     if pronunciation and pronunciation.get('weak_words'):recommendations.append('Pelafalan kata berikut terdengar kurang jelas: '+', '.join(w['word'] for w in pronunciation['weak_words'][:4])+'.')
+543:     if not m['gaze_usable'] and m.get('gaze_analyzable'):recommendations.append('Tatapan terekam tetapi kalibrasi/cakupan belum memadai; pola visual hanya sebagai gambaran awal.')
+544:     elif not m['gaze_usable']:recommendations.append('Data tatapan belum layak; kalibrasi ulang sebelum meninjau pola visual.')
+545:     result={'metrics':m,'profile':profile,'profile_reason':profile_reason,'quality':quality,'quality_reasons':quality_reasons(m,speech,enough,reliable,confidence,speech_error,reviewed),'recommendations':recommendations,'profile_method':'Aturan observasional v1 — bukan model diagnosis','confidence':None,'limitations':['Akurasi kata berasal dari transkripsi, bukan penilaian fonem.','Keyakinan transkripsi adalah rerata keyakinan kata dari model transkripsi, bukan ukuran ketepatan bacaan.','Kepercayaan pelafalan per kata berasal dari model Vosk anak (bookbot) dan bukan penilaian klinis.','Batas 20% WER / 60 kata per menit merupakan aturan latihan awal, bukan norma usia tervalidasi.','Fiksasi webcam dideteksi dengan I-DT sederhana; ketelitian jauh di bawah eye-tracker laboratorium.','Fusi suara + tatapan memakai aturan (kata sulit = dwell ≥1,5× median atau dikunjungi ulang) dan belum divalidasi terhadap penilaian ahli.','Sebelum koreksi pendamping, WER mencampur galat transkripsi otomatis dan galat membaca; reading_error_rate dan asr_wer hanya tersedia setelah transkrip ditinjau.','Data suara yang belum andal tidak dipakai untuk fusi dan profil latihan.']}
+546:     result,bad=sanitize(result)
+547:     if bad:warnings.append(f'{bad} nilai metrik tidak valid (NaN/Infinity) diganti kosong.')
+548:     result['analysis_warnings']=warnings
+549:     return result

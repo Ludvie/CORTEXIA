@@ -1,0 +1,15 @@
+﻿area,unit,passed,failed,skipped,blocked,status
+02_vad,controlled cases,10,0,0,0,PASSED
+03_eye_tracking,controlled cases,40,0,0,0,PASSED
+05_pronunciation,controlled cases,24,1,0,0,FAILED
+06_fluency,controlled cases,10,0,0,0,PASSED
+07_multimodal_fusion,controlled cases,118,0,0,0,PASSED
+01_whitebox,independent paths (overlap controlled cases),24,0,0,0,PASSED
+02_vad BAHANA sample,existing-audio regression cases,6,0,0,0,PASSED
+04_speech_recognition,inference/fallback/corrupt scenarios,4,0,0,1,BLOCKED
+06_fluency BAHANA,aggregate formula checks over existing artifacts,5,0,0,0,PASSED
+09_integration backend,"unique pytest cases, final runs",128,8,6,0,FAILED
+08_nonfunctional UI browser,technical checks,89,0,0,0,PASSED
+08_nonfunctional frontend,Jest tests,16,0,0,0,PASSED
+Human validation,ground truth/SUS/live webcam,0,0,0,0,MANUAL REQUIRED
+Whisper vs Vosk accuracy chart,valid comparative experiment,0,0,0,0,NOT APPLICABLE

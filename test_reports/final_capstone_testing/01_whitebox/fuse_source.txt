@@ -1,0 +1,71 @@
+367: def fuse(reference,m,speech_reliable,excluded_reason='transkrip otomatis belum andal'):
+368:     """Gabungkan bukti per kata: kesalahan ucap (alignment) dan hambatan tatapan (dwell panjang / dikunjungi ulang).
+369:     Data suara hanya dipakai bila `speech_reliable`; pola "kata yang sama" hanya bila concordance >= CONCORDANCE_MIN."""
+370:     g=m.get('gaze') or {}
+371:     speech_available=m.get('accuracy') is not None
+372:     has_speech=speech_available and bool(speech_reliable)
+373:     has_gaze=bool(m.get('gaze_usable') and g.get('words') is not None)
+374:     basis='suara + tatapan' if has_speech and has_gaze else 'suara saja' if has_speech else 'tatapan saja' if has_gaze else 'tidak ada'
+375:     ref_words=normalize(reference).split()
+376:     speech_err={a['index'] for a in m.get('annotations') or [] if a['type'] in ('substitute','delete')} if has_speech else set()
+377:     gaze_hard=set()
+378:     if has_gaze and g['words']:
+379:         dwell=[w['ms'] for w in g['words'] if _finite(w.get('ms'))]
+380:         median=float(np.median(dwell)) if dwell else 0.0
+381:         mapping=display_to_reference(reference)
+382:         for w in g['words']:
+383:             long_dwell=median>0 and _finite(w.get('ms')) and w['ms']>=DWELL_RATIO*median
+384:             if long_dwell or (w.get('visits') or 0)>=REVISIT_MIN:gaze_hard.update(mapping.get(w['index'],[]))
+385:     acoustic_matches = [
+386:         {'index': word['index'], 'word': ref_words[word['index']], 'conf': word['conf']}
+387:         for word in (m.get('pronunciation') or {}).get('words', [])
+388:         if has_speech and word['index'] in gaze_hard and 0 <= word['index'] < len(ref_words)
+389:         and _finite(word.get('conf')) and word['conf'] < 0.6
+390:     ]
+391:     agree=sorted(speech_err&gaze_hard)
+392:     concordance=round(len(agree)/len(speech_err)*100,1) if has_speech and has_gaze and speech_err else None
+393:     concordant=concordance is not None and concordance>=CONCORDANCE_MIN
+394:     wer=m.get('wer') if has_speech else None;wpm=m.get('wpm') if has_speech else None
+395:     inaccurate=wer is not None and wer>WER_MAX
+396:     slow=wpm is not None and wpm<WPM_MIN
+397:     on_text=m.get('on_text_percent');reg=g.get('regression_rate');skip=g.get('skipped_words_percent')
+398:     gaze_reasons=[]
+399:     if has_gaze:
+400:         if on_text is not None and on_text<ON_TEXT_MIN:gaze_reasons.append(f'tatapan di teks {on_text}% < {ON_TEXT_MIN}%')
+401:         if reg is not None and reg>REGRESSION_MAX:gaze_reasons.append(f'regresi {reg}% > {REGRESSION_MAX}%')
+402:         if skip is not None and skip>SKIPPED_MAX:gaze_reasons.append(f'kata tak tertatap {skip}% > {SKIPPED_MAX}%')
+403:     gaze_irregular=bool(gaze_reasons)
+404:     out={'basis':basis,'pronunciation_gaze_words':acoustic_matches,'speech_error_words':len(speech_err),'gaze_difficult_words':len(gaze_hard) if has_gaze else None,
+405:          'agreement_words':[{'index':i,'word':ref_words[i]} for i in agree if i<len(ref_words)][:12],
+406:          'concordance':concordance,'concordant':concordant,'multimodal_complete':has_speech and has_gaze,
+407:          'speech_excluded_reason':excluded_reason if speech_available and not speech_reliable else None,
+408:          'signals':{'word_accuracy_low':inaccurate if has_speech else None,'fluency_low':slow if has_speech else None,
+409:                     'gaze_irregular':gaze_irregular if has_gaze else None,'gaze_reasons':gaze_reasons},
+410:          'pattern':None,'explanation':None}
+411:     if not (has_speech and has_gaze):
+412:         out['explanation']={'suara saja':'Hanya suara yang memenuhi syarat; temuan belum dikonfirmasi oleh tatapan.','tatapan saja':'Hanya tatapan yang memenuhi syarat; ketepatan ucapan tidak dinilai.'}.get(basis,'Belum ada modalitas yang memenuhi syarat.')
+413:         if out['speech_excluded_reason']:out['explanation']+=f" Data suara tidak dipakai karena {out['speech_excluded_reason']}"+('; koreksi transkripsi untuk menyertakannya.' if 'transkrip' in out['speech_excluded_reason'] else '.')
+414:         return out
+415:     if inaccurate and concordant:
+416:         out['pattern']='Kesulitan pengenalan kata (didukung suara dan tatapan)'
+417:         out['explanation']=f'Kata yang salah diucap juga lama ditatap atau dikunjungi ulang (kesesuaian {concordance}% ≥ {CONCORDANCE_MIN}%), sehingga dua sumber data menunjuk ke kesulitan yang sama.'
+418:     elif inaccurate and gaze_irregular:
+419:         out['pattern']='Kesalahan ucap dan alur visual tidak teratur (belum pada kata yang sama)'
+420:         out['explanation']=(f'Ucapan banyak meleset (WER {wer}%) dan pola tatapan tidak teratur ({"; ".join(gaze_reasons)}), '
+421:                             f'tetapi kata yang salah diucap jarang sama dengan kata yang sulit ditatap (kesesuaian {concordance if concordance is not None else 0}% < {CONCORDANCE_MIN}%). Kedua temuan dicatat terpisah.')
+422:     elif inaccurate:
+423:         out['pattern']='Kesalahan ucap tanpa hambatan visual yang jelas'
+424:         out['explanation']=f'Banyak kata meleset (WER {wer}%), tetapi pola tatapan relatif teratur. Kesulitan mungkin terkait pelafalan atau pengenalan bunyi, bukan penguraian visual.'+(f' Kecepatan baca juga rendah ({wpm} kata/menit).' if slow else '')
+425:     elif slow and gaze_irregular:
+426:         out['pattern']='Bacaan lambat dengan alur visual tidak teratur'
+427:         out['explanation']=f'Kata terucap cukup tepat, tetapi kecepatan baca rendah ({wpm} kata/menit) dan pola tatapan tidak teratur ({"; ".join(gaze_reasons)}).'
+428:     elif slow:
+429:         out['pattern']='Bacaan lambat tanpa hambatan visual yang jelas'
+430:         out['explanation']=f'Kata terucap cukup tepat dan tatapan teratur, tetapi kecepatan baca di bawah {WPM_MIN} kata/menit ({wpm}). Fokus pada kelancaran.'
+431:     elif gaze_irregular:
+432:         out['pattern']='Alur visual tidak teratur meski ucapan tepat'
+433:         out['explanation']=f'Ucapan tepat, tetapi pandangan sering keluar dari teks, mundur, atau melewati kata ({"; ".join(gaze_reasons)}). Perhatikan fokus baris.'
+434:     else:
+435:         out['pattern']='Suara dan tatapan sama-sama lancar'
+436:         out['explanation']='Tidak ada hambatan menonjol pada kedua modalitas.'
+437:     return out

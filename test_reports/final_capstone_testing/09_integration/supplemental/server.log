@@ -1,0 +1,23 @@
+INFO:     Started server process [26492]
+INFO:     Waiting for application startup.
+INFO:     Application startup complete.
+INFO:     Uvicorn running on http://127.0.0.1:53760 (Press CTRL+C to quit)
+INFO:     127.0.0.1:53774 - "GET /api/health HTTP/1.1" 200 OK
+INFO:     127.0.0.1:53782 - "POST /api/auth/register HTTP/1.1" 200 OK
+INFO:     127.0.0.1:53783 - "POST /api/auth/register HTTP/1.1" 200 OK
+INFO:     127.0.0.1:53782 - "POST /api/students HTTP/1.1" 200 OK
+INFO:     127.0.0.1:53782 - "POST /api/texts HTTP/1.1" 200 OK
+INFO:     127.0.0.1:53782 - "POST /api/sessions HTTP/1.1" 200 OK
+INFO:     127.0.0.1:53783 - "GET /api/sessions/507aebb7-01cd-49c1-b38d-5a2e423ac0c6 HTTP/1.1" 404 Not Found
+INFO:     127.0.0.1:53783 - "GET /api/sessions/507aebb7-01cd-49c1-b38d-5a2e423ac0c6/report HTTP/1.1" 404 Not Found
+INFO:     127.0.0.1:53783 - "PATCH /api/sessions/507aebb7-01cd-49c1-b38d-5a2e423ac0c6/review HTTP/1.1" 404 Not Found
+INFO:     127.0.0.1:53782 - "GET /api/sessions/507aebb7-01cd-49c1-b38d-5a2e423ac0c6 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:53782 - "PATCH /api/sessions/507aebb7-01cd-49c1-b38d-5a2e423ac0c6/review HTTP/1.1" 200 OK
+INFO:     127.0.0.1:53782 - "GET /api/sessions/507aebb7-01cd-49c1-b38d-5a2e423ac0c6/report HTTP/1.1" 200 OK
+INFO:     127.0.0.1:53782 - "POST /api/sessions HTTP/1.1" 200 OK
+INFO:     127.0.0.1:53782 - "POST /api/sessions HTTP/1.1" 200 OK
+INFO:     127.0.0.1:53782 - "POST /api/sessions HTTP/1.1" 200 OK
+INFO:     127.0.0.1:53782 - "POST /api/sessions HTTP/1.1" 200 OK
+INFO:     127.0.0.1:53782 - "POST /api/sessions HTTP/1.1" 200 OK
+INFO:     127.0.0.1:53782 - "POST /api/auth/logout HTTP/1.1" 200 OK
+INFO:     127.0.0.1:53783 - "POST /api/auth/logout HTTP/1.1" 200 OK

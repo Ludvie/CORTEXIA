@@ -1,0 +1,190 @@
+{
+  "id": "20261127-044624-forest",
+  "algorithm": "forest",
+  "model_name": "Random Forest",
+  "version": "20261127-044624",
+  "created_at": "2026-11-27T04:46:24.519123+00:00",
+  "samples": 210,
+  "participants": 70,
+  "features": [
+    "n_fix_trial",
+    "sum_fix_dur_trial",
+    "dwell_time_trial",
+    "mean_fix_dur_trial",
+    "n_sacc_trial",
+    "mean_sacc_dur_trial",
+    "mean_sacc_ampl_trial",
+    "n_between_line_regress_trial",
+    "n_within_line_regress_trial",
+    "n_regress_trial",
+    "n_progress_trial",
+    "avg_dwell_time_aoi",
+    "avg_n_fix_aoi",
+    "avg_mean_fix_dur_aoi",
+    "avg_skipped_aoi",
+    "avg_n_revisits_aoi"
+  ],
+  "accuracy": 0.781,
+  "macro_f1": 0.7809,
+  "baseline_macro_f1": 0.3333,
+  "baseline_accuracy": 0.5,
+  "precision_macro": 0.7811,
+  "recall_macro": 0.781,
+  "precision_dyslexia": 0.7864,
+  "recall_dyslexia": 0.7714,
+  "evaluation_unit": "rekaman per tugas; lihat participant_level untuk agregat per peserta",
+  "participant_level": {
+    "participants": 70,
+    "threshold": 0.5,
+    "aggregation": "rerata probabilitas OOF semua rekaman peserta",
+    "accuracy": 0.8143,
+    "macro_f1": 0.8139,
+    "precision_macro": 0.8166,
+    "recall_macro": 0.8143,
+    "precision_dyslexia": 0.8438,
+    "recall_dyslexia": 0.7714,
+    "baseline_accuracy": 0.5,
+    "baseline_macro_f1": 0.3333,
+    "confusion_matrix": [
+      [
+        30,
+        5
+      ],
+      [
+        8,
+        27
+      ]
+    ]
+  },
+  "feature_importance_source": "model akhir yang di-fit pada seluruh data setelah evaluasi OOF",
+  "confusion_matrix": [
+    [
+      83,
+      22
+    ],
+    [
+      24,
+      81
+    ]
+  ],
+  "folds": [
+    {
+      "fold": 1,
+      "train_participants": 56,
+      "test_participants": 14,
+      "overlap": 0,
+      "macro_f1": 0.8568
+    },
+    {
+      "fold": 2,
+      "train_participants": 56,
+      "test_participants": 14,
+      "overlap": 0,
+      "macro_f1": 0.7846
+    },
+    {
+      "fold": 3,
+      "train_participants": 56,
+      "test_participants": 14,
+      "overlap": 0,
+      "macro_f1": 0.8571
+    },
+    {
+      "fold": 4,
+      "train_participants": 56,
+      "test_participants": 14,
+      "overlap": 0,
+      "macro_f1": 0.5962
+    },
+    {
+      "fold": 5,
+      "train_participants": 56,
+      "test_participants": 14,
+      "overlap": 0,
+      "macro_f1": 0.7796
+    }
+  ],
+  "feature_importance": [
+    {
+      "feature": "avg_dwell_time_aoi",
+      "value": 0.133
+    },
+    {
+      "feature": "avg_n_revisits_aoi",
+      "value": 0.1115
+    },
+    {
+      "feature": "sum_fix_dur_trial",
+      "value": 0.0941
+    },
+    {
+      "feature": "avg_n_fix_aoi",
+      "value": 0.0915
+    },
+    {
+      "feature": "dwell_time_trial",
+      "value": 0.0911
+    },
+    {
+      "feature": "mean_sacc_dur_trial",
+      "value": 0.0854
+    },
+    {
+      "feature": "mean_fix_dur_trial",
+      "value": 0.0556
+    },
+    {
+      "feature": "n_regress_trial",
+      "value": 0.0532
+    },
+    {
+      "feature": "n_fix_trial",
+      "value": 0.0485
+    },
+    {
+      "feature": "n_sacc_trial",
+      "value": 0.0479
+    },
+    {
+      "feature": "n_within_line_regress_trial",
+      "value": 0.0471
+    },
+    {
+      "feature": "mean_sacc_ampl_trial",
+      "value": 0.0465
+    },
+    {
+      "feature": "avg_mean_fix_dur_aoi",
+      "value": 0.04
+    },
+    {
+      "feature": "avg_skipped_aoi",
+      "value": 0.0317
+    },
+    {
+      "feature": "n_progress_trial",
+      "value": 0.023
+    },
+    {
+      "feature": "n_between_line_regress_trial",
+      "value": 0.0
+    }
+  ],
+  "evaluation": "5-fold StratifiedGroupKFold, dipisah berdasarkan peserta; preprocessing dipelajari hanya dari fold pelatihan.",
+  "dataset": "ETDD70 v2",
+  "reproducibility": {
+    "feature_version": "etdd70-trial+roi-v1",
+    "environment": {
+      "python": "3.13.7",
+      "numpy": "2.4.6",
+      "pandas": "3.0.6",
+      "scikit_learn": "1.9.1",
+      "joblib": "1.6.0"
+    },
+    "random_state": 42,
+    "cv": "StratifiedGroupKFold(n_splits=5, shuffle=True, random_state=42)",
+    "dataset_sha256": "e89e36041d2fd2f332207ee1c6639aa15714d21bf793f11afa1b7e6afd71bbb0",
+    "import_sha256": null,
+    "model_sha256": "a4c4dfed91d2db6c3f9ab1d5d5f4f271a34938393c3025299d9d93ea78eb5105"
+  }
+}

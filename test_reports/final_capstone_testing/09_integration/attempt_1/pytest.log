@@ -1,0 +1,836 @@
+============================= test session starts =============================
+platform win32 -- Python 3.13.7, pytest-9.2.0, pluggy-1.7.0
+rootdir: C:\Users\LENOVO PC\CORTEXIA-contribute\backend
+configfile: pytest.ini
+plugins: cov-7.1.0, xdist-3.8.0, anyio-4.16.0
+created: 2/2 workers
+2 workers [139 items]
+
+.........................................F..Fs..sss...............FFFF.. [ 51%]
+.F.................FEEEEEEEs........................s..F..........FE     [100%]
+=================================== ERRORS ====================================
+___ ERROR at setup of test_retry_with_same_request_id_returns_same_session ____
+[gw1] win32 -- Python 3.13.7 C:\Users\LENOVO PC\CORTEXIA-contribute\backend\.venv\Scripts\python.exe
+.venv\Lib\site-packages\urllib3\connectionpool.py:540: in _make_request
+    response = conn.getresponse()
+               ^^^^^^^^^^^^^^^^^^
+.venv\Lib\site-packages\urllib3\connection.py:638: in getresponse
+    httplib_response = super().getresponse()
+                       ^^^^^^^^^^^^^^^^^^^^^
+E:\Python3.13\Lib\http\client.py:1430: in getresponse
+    response.begin()
+E:\Python3.13\Lib\http\client.py:331: in begin
+    version, status, reason = self._read_status()
+                              ^^^^^^^^^^^^^^^^^^^
+E:\Python3.13\Lib\http\client.py:292: in _read_status
+    line = str(self.fp.readline(_MAXLINE + 1), "iso-8859-1")
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E:\Python3.13\Lib\socket.py:719: in readinto
+    return self._sock.recv_into(b)
+           ^^^^^^^^^^^^^^^^^^^^^^^
+E   TimeoutError: timed out
+
+The above exception was the direct cause of the following exception:
+.venv\Lib\site-packages\requests\adapters.py:696: in send
+    resp = conn.urlopen(
+.venv\Lib\site-packages\urllib3\connectionpool.py:847: in urlopen
+    retries = retries.increment(
+.venv\Lib\site-packages\urllib3\util\retry.py:510: in increment
+    raise reraise(type(error), error, _stacktrace)
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+.venv\Lib\site-packages\urllib3\util\util.py:39: in reraise
+    raise value
+.venv\Lib\site-packages\urllib3\connectionpool.py:793: in urlopen
+    response = self._make_request(
+.venv\Lib\site-packages\urllib3\connectionpool.py:542: in _make_request
+    self._raise_timeout(err=e, url=url, timeout_value=read_timeout)
+.venv\Lib\site-packages\urllib3\connectionpool.py:373: in _raise_timeout
+    raise ReadTimeoutError(
+E   urllib3.exceptions.ReadTimeoutError: HTTPConnectionPool(host='127.0.0.1', port=56216): Read timed out. (read timeout=30)
+
+During handling of the above exception, another exception occurred:
+tests\test_hardening_integration.py:22: in client
+    r = s.post(f"{API}/auth/register", json={"name": "Hard Teacher", "email": email, "password": "HardPass123!", "role": "teacher"}, timeout=30)
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+.venv\Lib\site-packages\requests\sessions.py:712: in post
+    return self.request("POST", url, data=data, json=json, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+.venv\Lib\site-packages\requests\sessions.py:651: in request
+    resp = self.send(prep, **send_kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+.venv\Lib\site-packages\requests\sessions.py:784: in send
+    r = adapter.send(request, **kwargs)
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+.venv\Lib\site-packages\requests\adapters.py:742: in send
+    raise ReadTimeout(e, request=request)
+E   requests.exceptions.ReadTimeout: HTTPConnectionPool(host='127.0.0.1', port=56216): Read timed out. (read timeout=30)
+________ ERROR at setup of test_without_request_id_behaviour_unchanged ________
+[gw1] win32 -- Python 3.13.7 C:\Users\LENOVO PC\CORTEXIA-contribute\backend\.venv\Scripts\python.exe
+.venv\Lib\site-packages\urllib3\connectionpool.py:540: in _make_request
+    response = conn.getresponse()
+               ^^^^^^^^^^^^^^^^^^
+.venv\Lib\site-packages\urllib3\connection.py:638: in getresponse
+    httplib_response = super().getresponse()
+                       ^^^^^^^^^^^^^^^^^^^^^
+E:\Python3.13\Lib\http\client.py:1430: in getresponse
+    response.begin()
+E:\Python3.13\Lib\http\client.py:331: in begin
+    version, status, reason = self._read_status()
+                              ^^^^^^^^^^^^^^^^^^^
+E:\Python3.13\Lib\http\client.py:292: in _read_status
+    line = str(self.fp.readline(_MAXLINE + 1), "iso-8859-1")
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E:\Python3.13\Lib\socket.py:719: in readinto
+    return self._sock.recv_into(b)
+           ^^^^^^^^^^^^^^^^^^^^^^^
+E   TimeoutError: timed out
+
+The above exception was the direct cause of the following exception:
+.venv\Lib\site-packages\requests\adapters.py:696: in send
+    resp = conn.urlopen(
+.venv\Lib\site-packages\urllib3\connectionpool.py:847: in urlopen
+    retries = retries.increment(
+.venv\Lib\site-packages\urllib3\util\retry.py:510: in increment
+    raise reraise(type(error), error, _stacktrace)
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+.venv\Lib\site-packages\urllib3\util\util.py:39: in reraise
+    raise value
+.venv\Lib\site-packages\urllib3\connectionpool.py:793: in urlopen
+    response = self._make_request(
+.venv\Lib\site-packages\urllib3\connectionpool.py:542: in _make_request
+    self._raise_timeout(err=e, url=url, timeout_value=read_timeout)
+.venv\Lib\site-packages\urllib3\connectionpool.py:373: in _raise_timeout
+    raise ReadTimeoutError(
+E   urllib3.exceptions.ReadTimeoutError: HTTPConnectionPool(host='127.0.0.1', port=56216): Read timed out. (read timeout=30)
+
+During handling of the above exception, another exception occurred:
+tests\test_hardening_integration.py:22: in client
+    r = s.post(f"{API}/auth/register", json={"name": "Hard Teacher", "email": email, "password": "HardPass123!", "role": "teacher"}, timeout=30)
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+.venv\Lib\site-packages\requests\sessions.py:712: in post
+    return self.request("POST", url, data=data, json=json, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+.venv\Lib\site-packages\requests\sessions.py:651: in request
+    resp = self.send(prep, **send_kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+.venv\Lib\site-packages\requests\sessions.py:784: in send
+    r = adapter.send(request, **kwargs)
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+.venv\Lib\site-packages\requests\adapters.py:742: in send
+    raise ReadTimeout(e, request=request)
+E   requests.exceptions.ReadTimeout: HTTPConnectionPool(host='127.0.0.1', port=56216): Read timed out. (read timeout=30)
+_____________ ERROR at setup of test_invalid_request_id_rejected ______________
+[gw1] win32 -- Python 3.13.7 C:\Users\LENOVO PC\CORTEXIA-contribute\backend\.venv\Scripts\python.exe
+.venv\Lib\site-packages\urllib3\connectionpool.py:540: in _make_request
+    response = conn.getresponse()
+               ^^^^^^^^^^^^^^^^^^
+.venv\Lib\site-packages\urllib3\connection.py:638: in getresponse
+    httplib_response = super().getresponse()
+                       ^^^^^^^^^^^^^^^^^^^^^
+E:\Python3.13\Lib\http\client.py:1430: in getresponse
+    response.begin()
+E:\Python3.13\Lib\http\client.py:331: in begin
+    version, status, reason = self._read_status()
+                              ^^^^^^^^^^^^^^^^^^^
+E:\Python3.13\Lib\http\client.py:292: in _read_status
+    line = str(self.fp.readline(_MAXLINE + 1), "iso-8859-1")
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E:\Python3.13\Lib\socket.py:719: in readinto
+    return self._sock.recv_into(b)
+           ^^^^^^^^^^^^^^^^^^^^^^^
+E   TimeoutError: timed out
+
+The above exception was the direct cause of the following exception:
+.venv\Lib\site-packages\requests\adapters.py:696: in send
+    resp = conn.urlopen(
+.venv\Lib\site-packages\urllib3\connectionpool.py:847: in urlopen
+    retries = retries.increment(
+.venv\Lib\site-packages\urllib3\util\retry.py:510: in increment
+    raise reraise(type(error), error, _stacktrace)
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+.venv\Lib\site-packages\urllib3\util\util.py:39: in reraise
+    raise value
+.venv\Lib\site-packages\urllib3\connectionpool.py:793: in urlopen
+    response = self._make_request(
+.venv\Lib\site-packages\urllib3\connectionpool.py:542: in _make_request
+    self._raise_timeout(err=e, url=url, timeout_value=read_timeout)
+.venv\Lib\site-packages\urllib3\connectionpool.py:373: in _raise_timeout
+    raise ReadTimeoutError(
+E   urllib3.exceptions.ReadTimeoutError: HTTPConnectionPool(host='127.0.0.1', port=56216): Read timed out. (read timeout=30)
+
+During handling of the above exception, another exception occurred:
+tests\test_hardening_integration.py:22: in client
+    r = s.post(f"{API}/auth/register", json={"name": "Hard Teacher", "email": email, "password": "HardPass123!", "role": "teacher"}, timeout=30)
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+.venv\Lib\site-packages\requests\sessions.py:712: in post
+    return self.request("POST", url, data=data, json=json, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+.venv\Lib\site-packages\requests\sessions.py:651: in request
+    resp = self.send(prep, **send_kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+.venv\Lib\site-packages\requests\sessions.py:784: in send
+    r = adapter.send(request, **kwargs)
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+.venv\Lib\site-packages\requests\adapters.py:742: in send
+    raise ReadTimeout(e, request=request)
+E   requests.exceptions.ReadTimeout: HTTPConnectionPool(host='127.0.0.1', port=56216): Read timed out. (read timeout=30)
+__________ ERROR at setup of test_dirty_gaze_is_cleaned_and_reported __________
+[gw1] win32 -- Python 3.13.7 C:\Users\LENOVO PC\CORTEXIA-contribute\backend\.venv\Scripts\python.exe
+.venv\Lib\site-packages\urllib3\connectionpool.py:540: in _make_request
+    response = conn.getresponse()
+               ^^^^^^^^^^^^^^^^^^
+.venv\Lib\site-packages\urllib3\connection.py:638: in getresponse
+    httplib_response = super().getresponse()
+                       ^^^^^^^^^^^^^^^^^^^^^
+E:\Python3.13\Lib\http\client.py:1430: in getresponse
+    response.begin()
+E:\Python3.13\Lib\http\client.py:331: in begin
+    version, status, reason = self._read_status()
+                              ^^^^^^^^^^^^^^^^^^^
+E:\Python3.13\Lib\http\client.py:292: in _read_status
+    line = str(self.fp.readline(_MAXLINE + 1), "iso-8859-1")
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E:\Python3.13\Lib\socket.py:719: in readinto
+    return self._sock.recv_into(b)
+           ^^^^^^^^^^^^^^^^^^^^^^^
+E   TimeoutError: timed out
+
+The above exception was the direct cause of the following exception:
+.venv\Lib\site-packages\requests\adapters.py:696: in send
+    resp = conn.urlopen(
+.venv\Lib\site-packages\urllib3\connectionpool.py:847: in urlopen
+    retries = retries.increment(
+.venv\Lib\site-packages\urllib3\util\retry.py:510: in increment
+    raise reraise(type(error), error, _stacktrace)
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+.venv\Lib\site-packages\urllib3\util\util.py:39: in reraise
+    raise value
+.venv\Lib\site-packages\urllib3\connectionpool.py:793: in urlopen
+    response = self._make_request(
+.venv\Lib\site-packages\urllib3\connectionpool.py:542: in _make_request
+    self._raise_timeout(err=e, url=url, timeout_value=read_timeout)
+.venv\Lib\site-packages\urllib3\connectionpool.py:373: in _raise_timeout
+    raise ReadTimeoutError(
+E   urllib3.exceptions.ReadTimeoutError: HTTPConnectionPool(host='127.0.0.1', port=56216): Read timed out. (read timeout=30)
+
+During handling of the above exception, another exception occurred:
+tests\test_hardening_integration.py:22: in client
+    r = s.post(f"{API}/auth/register", json={"name": "Hard Teacher", "email": email, "password": "HardPass123!", "role": "teacher"}, timeout=30)
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+.venv\Lib\site-packages\requests\sessions.py:712: in post
+    return self.request("POST", url, data=data, json=json, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+.venv\Lib\site-packages\requests\sessions.py:651: in request
+    resp = self.send(prep, **send_kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+.venv\Lib\site-packages\requests\sessions.py:784: in send
+    r = adapter.send(request, **kwargs)
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+.venv\Lib\site-packages\requests\adapters.py:742: in send
+    raise ReadTimeout(e, request=request)
+E   requests.exceptions.ReadTimeout: HTTPConnectionPool(host='127.0.0.1', port=56216): Read timed out. (read timeout=30)
+_________ ERROR at setup of test_uncalibrated_flag_blocks_gaze_usable _________
+[gw1] win32 -- Python 3.13.7 C:\Users\LENOVO PC\CORTEXIA-contribute\backend\.venv\Scripts\python.exe
+.venv\Lib\site-packages\urllib3\connectionpool.py:540: in _make_request
+    response = conn.getresponse()
+               ^^^^^^^^^^^^^^^^^^
+.venv\Lib\site-packages\urllib3\connection.py:638: in getresponse
+    httplib_response = super().getresponse()
+                       ^^^^^^^^^^^^^^^^^^^^^
+E:\Python3.13\Lib\http\client.py:1430: in getresponse
+    response.begin()
+E:\Python3.13\Lib\http\client.py:331: in begin
+    version, status, reason = self._read_status()
+                              ^^^^^^^^^^^^^^^^^^^
+E:\Python3.13\Lib\http\client.py:292: in _read_status
+    line = str(self.fp.readline(_MAXLINE + 1), "iso-8859-1")
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E:\Python3.13\Lib\socket.py:719: in readinto
+    return self._sock.recv_into(b)
+           ^^^^^^^^^^^^^^^^^^^^^^^
+E   TimeoutError: timed out
+
+The above exception was the direct cause of the following exception:
+.venv\Lib\site-packages\requests\adapters.py:696: in send
+    resp = conn.urlopen(
+.venv\Lib\site-packages\urllib3\connectionpool.py:847: in urlopen
+    retries = retries.increment(
+.venv\Lib\site-packages\urllib3\util\retry.py:510: in increment
+    raise reraise(type(error), error, _stacktrace)
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+.venv\Lib\site-packages\urllib3\util\util.py:39: in reraise
+    raise value
+.venv\Lib\site-packages\urllib3\connectionpool.py:793: in urlopen
+    response = self._make_request(
+.venv\Lib\site-packages\urllib3\connectionpool.py:542: in _make_request
+    self._raise_timeout(err=e, url=url, timeout_value=read_timeout)
+.venv\Lib\site-packages\urllib3\connectionpool.py:373: in _raise_timeout
+    raise ReadTimeoutError(
+E   urllib3.exceptions.ReadTimeoutError: HTTPConnectionPool(host='127.0.0.1', port=56216): Read timed out. (read timeout=30)
+
+During handling of the above exception, another exception occurred:
+tests\test_hardening_integration.py:22: in client
+    r = s.post(f"{API}/auth/register", json={"name": "Hard Teacher", "email": email, "password": "HardPass123!", "role": "teacher"}, timeout=30)
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+.venv\Lib\site-packages\requests\sessions.py:712: in post
+    return self.request("POST", url, data=data, json=json, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+.venv\Lib\site-packages\requests\sessions.py:651: in request
+    resp = self.send(prep, **send_kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+.venv\Lib\site-packages\requests\sessions.py:784: in send
+    r = adapter.send(request, **kwargs)
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+.venv\Lib\site-packages\requests\adapters.py:742: in send
+    raise ReadTimeout(e, request=request)
+E   requests.exceptions.ReadTimeout: HTTPConnectionPool(host='127.0.0.1', port=56216): Read timed out. (read timeout=30)
+________ ERROR at setup of test_session_contract_and_dashboard_fields _________
+[gw1] win32 -- Python 3.13.7 C:\Users\LENOVO PC\CORTEXIA-contribute\backend\.venv\Scripts\python.exe
+.venv\Lib\site-packages\urllib3\connectionpool.py:540: in _make_request
+    response = conn.getresponse()
+               ^^^^^^^^^^^^^^^^^^
+.venv\Lib\site-packages\urllib3\connection.py:638: in getresponse
+    httplib_response = super().getresponse()
+                       ^^^^^^^^^^^^^^^^^^^^^
+E:\Python3.13\Lib\http\client.py:1430: in getresponse
+    response.begin()
+E:\Python3.13\Lib\http\client.py:331: in begin
+    version, status, reason = self._read_status()
+                              ^^^^^^^^^^^^^^^^^^^
+E:\Python3.13\Lib\http\client.py:292: in _read_status
+    line = str(self.fp.readline(_MAXLINE + 1), "iso-8859-1")
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E:\Python3.13\Lib\socket.py:719: in readinto
+    return self._sock.recv_into(b)
+           ^^^^^^^^^^^^^^^^^^^^^^^
+E   TimeoutError: timed out
+
+The above exception was the direct cause of the following exception:
+.venv\Lib\site-packages\requests\adapters.py:696: in send
+    resp = conn.urlopen(
+.venv\Lib\site-packages\urllib3\connectionpool.py:847: in urlopen
+    retries = retries.increment(
+.venv\Lib\site-packages\urllib3\util\retry.py:510: in increment
+    raise reraise(type(error), error, _stacktrace)
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+.venv\Lib\site-packages\urllib3\util\util.py:39: in reraise
+    raise value
+.venv\Lib\site-packages\urllib3\connectionpool.py:793: in urlopen
+    response = self._make_request(
+.venv\Lib\site-packages\urllib3\connectionpool.py:542: in _make_request
+    self._raise_timeout(err=e, url=url, timeout_value=read_timeout)
+.venv\Lib\site-packages\urllib3\connectionpool.py:373: in _raise_timeout
+    raise ReadTimeoutError(
+E   urllib3.exceptions.ReadTimeoutError: HTTPConnectionPool(host='127.0.0.1', port=56216): Read timed out. (read timeout=30)
+
+During handling of the above exception, another exception occurred:
+tests\test_hardening_integration.py:22: in client
+    r = s.post(f"{API}/auth/register", json={"name": "Hard Teacher", "email": email, "password": "HardPass123!", "role": "teacher"}, timeout=30)
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+.venv\Lib\site-packages\requests\sessions.py:712: in post
+    return self.request("POST", url, data=data, json=json, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+.venv\Lib\site-packages\requests\sessions.py:651: in request
+    resp = self.send(prep, **send_kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+.venv\Lib\site-packages\requests\sessions.py:784: in send
+    r = adapter.send(request, **kwargs)
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+.venv\Lib\site-packages\requests\adapters.py:742: in send
+    raise ReadTimeout(e, request=request)
+E   requests.exceptions.ReadTimeout: HTTPConnectionPool(host='127.0.0.1', port=56216): Read timed out. (read timeout=30)
+________ ERROR at setup of test_concurrent_retries_create_one_session _________
+[gw1] win32 -- Python 3.13.7 C:\Users\LENOVO PC\CORTEXIA-contribute\backend\.venv\Scripts\python.exe
+.venv\Lib\site-packages\urllib3\connectionpool.py:540: in _make_request
+    response = conn.getresponse()
+               ^^^^^^^^^^^^^^^^^^
+.venv\Lib\site-packages\urllib3\connection.py:638: in getresponse
+    httplib_response = super().getresponse()
+                       ^^^^^^^^^^^^^^^^^^^^^
+E:\Python3.13\Lib\http\client.py:1430: in getresponse
+    response.begin()
+E:\Python3.13\Lib\http\client.py:331: in begin
+    version, status, reason = self._read_status()
+                              ^^^^^^^^^^^^^^^^^^^
+E:\Python3.13\Lib\http\client.py:292: in _read_status
+    line = str(self.fp.readline(_MAXLINE + 1), "iso-8859-1")
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E:\Python3.13\Lib\socket.py:719: in readinto
+    return self._sock.recv_into(b)
+           ^^^^^^^^^^^^^^^^^^^^^^^
+E   TimeoutError: timed out
+
+The above exception was the direct cause of the following exception:
+.venv\Lib\site-packages\requests\adapters.py:696: in send
+    resp = conn.urlopen(
+.venv\Lib\site-packages\urllib3\connectionpool.py:847: in urlopen
+    retries = retries.increment(
+.venv\Lib\site-packages\urllib3\util\retry.py:510: in increment
+    raise reraise(type(error), error, _stacktrace)
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+.venv\Lib\site-packages\urllib3\util\util.py:39: in reraise
+    raise value
+.venv\Lib\site-packages\urllib3\connectionpool.py:793: in urlopen
+    response = self._make_request(
+.venv\Lib\site-packages\urllib3\connectionpool.py:542: in _make_request
+    self._raise_timeout(err=e, url=url, timeout_value=read_timeout)
+.venv\Lib\site-packages\urllib3\connectionpool.py:373: in _raise_timeout
+    raise ReadTimeoutError(
+E   urllib3.exceptions.ReadTimeoutError: HTTPConnectionPool(host='127.0.0.1', port=56216): Read timed out. (read timeout=30)
+
+During handling of the above exception, another exception occurred:
+tests\test_hardening_integration.py:22: in client
+    r = s.post(f"{API}/auth/register", json={"name": "Hard Teacher", "email": email, "password": "HardPass123!", "role": "teacher"}, timeout=30)
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+.venv\Lib\site-packages\requests\sessions.py:712: in post
+    return self.request("POST", url, data=data, json=json, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+.venv\Lib\site-packages\requests\sessions.py:651: in request
+    resp = self.send(prep, **send_kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+.venv\Lib\site-packages\requests\sessions.py:784: in send
+    r = adapter.send(request, **kwargs)
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+.venv\Lib\site-packages\requests\adapters.py:742: in send
+    raise ReadTimeout(e, request=request)
+E   requests.exceptions.ReadTimeout: HTTPConnectionPool(host='127.0.0.1', port=56216): Read timed out. (read timeout=30)
+____ ERROR at teardown of test_corrupt_audio_is_rejected_without_temp_leak ____
+[gw0] win32 -- Python 3.13.7 C:\Users\LENOVO PC\CORTEXIA-contribute\backend\.venv\Scripts\python.exe
+  + Exception Group Traceback (most recent call last):
+  |   File "C:\Users\LENOVO PC\CORTEXIA-contribute\test_reports\final_capstone_testing\_test_dependencies\_pytest\runner.py", line 361, in from_call
+  |     result: TResult | None = func()
+  |                              ~~~~^^
+  |   File "C:\Users\LENOVO PC\CORTEXIA-contribute\test_reports\final_capstone_testing\_test_dependencies\_pytest\runner.py", line 250, in <lambda>
+  |     lambda: runtest_hook(item=item, **kwds),
+  |             ~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^
+  |   File "C:\Users\LENOVO PC\CORTEXIA-contribute\test_reports\final_capstone_testing\_test_dependencies\pluggy\_caller.py", line 197, in __call__
+  |     return self._hookexec(
+  |            ~~~~~~~~~~~~~~^
+  |         self.name, self._hookimpls.copy(), call_kwargs, firstresult
+  |         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  |     )
+  |     ^
+  |   File "C:\Users\LENOVO PC\CORTEXIA-contribute\test_reports\final_capstone_testing\_test_dependencies\pluggy\_manager.py", line 183, in _hookexec
+  |     return self._inner_hookexec(hook_name, methods, kwargs, firstresult)
+  |            ~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  |   File "C:\Users\LENOVO PC\CORTEXIA-contribute\test_reports\final_capstone_testing\_test_dependencies\_pytest\logging.py", line 886, in pytest_runtest_teardown
+  |     yield
+  |   File "C:\Users\LENOVO PC\CORTEXIA-contribute\test_reports\final_capstone_testing\_test_dependencies\_pytest\capture.py", line 911, in pytest_runtest_teardown
+  |     return (yield)
+  |             ^^^^^
+  |   File "C:\Users\LENOVO PC\CORTEXIA-contribute\test_reports\final_capstone_testing\_test_dependencies\_pytest\runner.py", line 199, in pytest_runtest_teardown
+  |     item.session._setupstate.teardown_exact(nextitem)
+  |     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^
+  |   File "C:\Users\LENOVO PC\CORTEXIA-contribute\test_reports\final_capstone_testing\_test_dependencies\_pytest\runner.py", line 579, in teardown_exact
+  |     raise exceptions[0]
+  | ExceptionGroup: errors while tearing down <Session  exitstatus=<ExitCode.OK: 0> testsfailed=9 testscollected=139> (2 sub-exceptions)
+  +-+---------------- 1 ----------------
+    | Traceback (most recent call last):
+    |   File "C:\Users\LENOVO PC\CORTEXIA-contribute\backend\.venv\Lib\site-packages\urllib3\connectionpool.py", line 540, in _make_request
+    |     response = conn.getresponse()
+    |   File "C:\Users\LENOVO PC\CORTEXIA-contribute\backend\.venv\Lib\site-packages\urllib3\connection.py", line 638, in getresponse
+    |     httplib_response = super().getresponse()
+    |   File "E:\Python3.13\Lib\http\client.py", line 1430, in getresponse
+    |     response.begin()
+    |     ~~~~~~~~~~~~~~^^
+    |   File "E:\Python3.13\Lib\http\client.py", line 331, in begin
+    |     version, status, reason = self._read_status()
+    |                               ~~~~~~~~~~~~~~~~~^^
+    |   File "E:\Python3.13\Lib\http\client.py", line 292, in _read_status
+    |     line = str(self.fp.readline(_MAXLINE + 1), "iso-8859-1")
+    |                ~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^
+    |   File "E:\Python3.13\Lib\socket.py", line 719, in readinto
+    |     return self._sock.recv_into(b)
+    |            ~~~~~~~~~~~~~~~~~~~~^^^
+    | TimeoutError: timed out
+    | 
+    | The above exception was the direct cause of the following exception:
+    | 
+    | Traceback (most recent call last):
+    |   File "C:\Users\LENOVO PC\CORTEXIA-contribute\backend\.venv\Lib\site-packages\requests\adapters.py", line 696, in send
+    |     resp = conn.urlopen(
+    |         method=request.method,
+    |     ...<9 lines>...
+    |         chunked=chunked,
+    |     )
+    |   File "C:\Users\LENOVO PC\CORTEXIA-contribute\backend\.venv\Lib\site-packages\urllib3\connectionpool.py", line 847, in urlopen
+    |     retries = retries.increment(
+    |         method, url, error=new_e, _pool=self, _stacktrace=sys.exc_info()[2]
+    |     )
+    |   File "C:\Users\LENOVO PC\CORTEXIA-contribute\backend\.venv\Lib\site-packages\urllib3\util\retry.py", line 510, in increment
+    |     raise reraise(type(error), error, _stacktrace)
+    |           ~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    |   File "C:\Users\LENOVO PC\CORTEXIA-contribute\backend\.venv\Lib\site-packages\urllib3\util\util.py", line 39, in reraise
+    |     raise value
+    |   File "C:\Users\LENOVO PC\CORTEXIA-contribute\backend\.venv\Lib\site-packages\urllib3\connectionpool.py", line 793, in urlopen
+    |     response = self._make_request(
+    |         conn,
+    |     ...<10 lines>...
+    |         **response_kw,
+    |     )
+    |   File "C:\Users\LENOVO PC\CORTEXIA-contribute\backend\.venv\Lib\site-packages\urllib3\connectionpool.py", line 542, in _make_request
+    |     self._raise_timeout(err=e, url=url, timeout_value=read_timeout)
+    |     ~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    |   File "C:\Users\LENOVO PC\CORTEXIA-contribute\backend\.venv\Lib\site-packages\urllib3\connectionpool.py", line 373, in _raise_timeout
+    |     raise ReadTimeoutError(
+    |         self, url, f"Read timed out. (read timeout={timeout_value})"
+    |     ) from err
+    | urllib3.exceptions.ReadTimeoutError: HTTPConnectionPool(host='127.0.0.1', port=56216): Read timed out. (read timeout=30)
+    | 
+    | During handling of the above exception, another exception occurred:
+    | 
+    | Traceback (most recent call last):
+    |   File "C:\Users\LENOVO PC\CORTEXIA-contribute\backend\tests\test_api_integration.py", line 77, in test_accounts
+    |     api_client.post(
+    |     ~~~~~~~~~~~~~~~^
+    |         f"{API_BASE}/auth/logout",
+    |         ^^^^^^^^^^^^^^^^^^^^^^^^^^
+    |         headers={"Authorization": f"Bearer {account['token']}"},
+    |         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    |         timeout=30,
+    |         ^^^^^^^^^^^
+    |     )
+    |     ^
+    |   File "C:\Users\LENOVO PC\CORTEXIA-contribute\backend\.venv\Lib\site-packages\requests\sessions.py", line 712, in post
+    |     return self.request("POST", url, data=data, json=json, **kwargs)
+    |            ~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    |   File "C:\Users\LENOVO PC\CORTEXIA-contribute\backend\.venv\Lib\site-packages\requests\sessions.py", line 651, in request
+    |     resp = self.send(prep, **send_kwargs)
+    |   File "C:\Users\LENOVO PC\CORTEXIA-contribute\backend\.venv\Lib\site-packages\requests\sessions.py", line 784, in send
+    |     r = adapter.send(request, **kwargs)
+    |   File "C:\Users\LENOVO PC\CORTEXIA-contribute\backend\.venv\Lib\site-packages\requests\adapters.py", line 742, in send
+    |     raise ReadTimeout(e, request=request)
+    | requests.exceptions.ReadTimeout: HTTPConnectionPool(host='127.0.0.1', port=56216): Read timed out. (read timeout=30)
+    +---------------- 2 ----------------
+    | Traceback (most recent call last):
+    |   File "C:\Users\LENOVO PC\CORTEXIA-contribute\backend\.venv\Lib\site-packages\urllib3\connectionpool.py", line 540, in _make_request
+    |     response = conn.getresponse()
+    |   File "C:\Users\LENOVO PC\CORTEXIA-contribute\backend\.venv\Lib\site-packages\urllib3\connection.py", line 638, in getresponse
+    |     httplib_response = super().getresponse()
+    |   File "E:\Python3.13\Lib\http\client.py", line 1430, in getresponse
+    |     response.begin()
+    |     ~~~~~~~~~~~~~~^^
+    |   File "E:\Python3.13\Lib\http\client.py", line 331, in begin
+    |     version, status, reason = self._read_status()
+    |                               ~~~~~~~~~~~~~~~~~^^
+    |   File "E:\Python3.13\Lib\http\client.py", line 292, in _read_status
+    |     line = str(self.fp.readline(_MAXLINE + 1), "iso-8859-1")
+    |                ~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^
+    |   File "E:\Python3.13\Lib\socket.py", line 719, in readinto
+    |     return self._sock.recv_into(b)
+    |            ~~~~~~~~~~~~~~~~~~~~^^^
+    | TimeoutError: timed out
+    | 
+    | The above exception was the direct cause of the following exception:
+    | 
+    | Traceback (most recent call last):
+    |   File "C:\Users\LENOVO PC\CORTEXIA-contribute\backend\.venv\Lib\site-packages\requests\adapters.py", line 696, in send
+    |     resp = conn.urlopen(
+    |         method=request.method,
+    |     ...<9 lines>...
+    |         chunked=chunked,
+    |     )
+    |   File "C:\Users\LENOVO PC\CORTEXIA-contribute\backend\.venv\Lib\site-packages\urllib3\connectionpool.py", line 847, in urlopen
+    |     retries = retries.increment(
+    |         method, url, error=new_e, _pool=self, _stacktrace=sys.exc_info()[2]
+    |     )
+    |   File "C:\Users\LENOVO PC\CORTEXIA-contribute\backend\.venv\Lib\site-packages\urllib3\util\retry.py", line 510, in increment
+    |     raise reraise(type(error), error, _stacktrace)
+    |           ~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    |   File "C:\Users\LENOVO PC\CORTEXIA-contribute\backend\.venv\Lib\site-packages\urllib3\util\util.py", line 39, in reraise
+    |     raise value
+    |   File "C:\Users\LENOVO PC\CORTEXIA-contribute\backend\.venv\Lib\site-packages\urllib3\connectionpool.py", line 793, in urlopen
+    |     response = self._make_request(
+    |         conn,
+    |     ...<10 lines>...
+    |         **response_kw,
+    |     )
+    |   File "C:\Users\LENOVO PC\CORTEXIA-contribute\backend\.venv\Lib\site-packages\urllib3\connectionpool.py", line 542, in _make_request
+    |     self._raise_timeout(err=e, url=url, timeout_value=read_timeout)
+    |     ~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    |   File "C:\Users\LENOVO PC\CORTEXIA-contribute\backend\.venv\Lib\site-packages\urllib3\connectionpool.py", line 373, in _raise_timeout
+    |     raise ReadTimeoutError(
+    |         self, url, f"Read timed out. (read timeout={timeout_value})"
+    |     ) from err
+    | urllib3.exceptions.ReadTimeoutError: HTTPConnectionPool(host='127.0.0.1', port=56216): Read timed out. (read timeout=30)
+    | 
+    | During handling of the above exception, another exception occurred:
+    | 
+    | Traceback (most recent call last):
+    |   File "C:\Users\LENOVO PC\CORTEXIA-contribute\backend\tests\test_api_integration.py", line 158, in teacher1_entities
+    |     api_client.delete(
+    |     ~~~~~~~~~~~~~~~~~^
+    |         f"{API_BASE}/texts/{entities['text']['id']}", headers=auth_headers(token), timeout=30
+    |         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    |     )
+    |     ^
+    |   File "C:\Users\LENOVO PC\CORTEXIA-contribute\backend\.venv\Lib\site-packages\requests\sessions.py", line 750, in delete
+    |     return self.request("DELETE", url, **kwargs)
+    |            ~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^
+    |   File "C:\Users\LENOVO PC\CORTEXIA-contribute\backend\.venv\Lib\site-packages\requests\sessions.py", line 651, in request
+    |     resp = self.send(prep, **send_kwargs)
+    |   File "C:\Users\LENOVO PC\CORTEXIA-contribute\backend\.venv\Lib\site-packages\requests\sessions.py", line 784, in send
+    |     r = adapter.send(request, **kwargs)
+    |   File "C:\Users\LENOVO PC\CORTEXIA-contribute\backend\.venv\Lib\site-packages\requests\adapters.py", line 742, in send
+    |     raise ReadTimeout(e, request=request)
+    | requests.exceptions.ReadTimeout: HTTPConnectionPool(host='127.0.0.1', port=56216): Read timed out. (read timeout=30)
+    +------------------------------------
+------------------------------ Captured log call ------------------------------
+ERROR    root:sessions.py:121 Local transcription failed (1300 bytes, None)
+Traceback (most recent call last):
+  File "C:\Users\LENOVO PC\CORTEXIA-contribute\backend\sessions.py", line 118, in audio_result
+    return await run_in_threadpool(reading_audio, name, reference)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\LENOVO PC\CORTEXIA-contribute\backend\.venv\Lib\site-packages\starlette\concurrency.py", line 42, in run_in_threadpool
+    return await anyio.to_thread.run_sync(func, *args)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\LENOVO PC\CORTEXIA-contribute\backend\.venv\Lib\site-packages\anyio\to_thread.py", line 65, in run_sync
+    return await get_async_backend().run_sync_in_worker_thread(
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+        func, args, abandon_on_cancel=abandon_on_cancel, limiter=limiter
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "C:\Users\LENOVO PC\CORTEXIA-contribute\backend\.venv\Lib\site-packages\anyio\_backends\_asyncio.py", line 2779, in run_sync_in_worker_thread
+    return await future
+           ^^^^^^^^^^^^
+  File "C:\Users\LENOVO PC\CORTEXIA-contribute\backend\.venv\Lib\site-packages\anyio\_backends\_asyncio.py", line 1124, in run
+    result = context.run(func, *args)
+  File "C:\Users\LENOVO PC\CORTEXIA-contribute\backend\sessions.py", line 65, in reading_audio
+    pcm = pr.decode_pcm(path)
+  File "C:\Users\LENOVO PC\CORTEXIA-contribute\backend\pronunciation.py", line 48, in decode_pcm
+    with av.open(path) as container:
+         ~~~~~~~^^^^^^
+  File "av/container/core.py", line 578, in av.container.core.open
+    return InputContainer(
+    ^^^
+  File "av/container/core.py", line 344, in av.container.core.Container.__cinit__
+    self.err_check(res)
+    
+  File "av/container/core.py", line 369, in av.container.core.Container.err_check
+    return err_check(value, filename=self.name)
+    ^^^
+  File "av/error.py", line 354, in av.error.err_check
+    raise cls(code, message, filename, log)
+    ^^^
+av.error.InvalidDataError: [Errno 1094995529] Invalid data found when processing input: 'C:\\Users\\LENOVO PC\\CORTEXIA-contribute\\test_reports\\final_capstone_testing\\_tmp\\tmp7g5wbwwv.audio'
+================================== FAILURES ===================================
+______________________ test_speech_synthesis_returns_wav ______________________
+[gw0] win32 -- Python 3.13.7 C:\Users\LENOVO PC\CORTEXIA-contribute\backend\.venv\Scripts\python.exe
+tests\test_api_integration.py:196: in test_speech_synthesis_returns_wav
+    assert response.status_code == 200
+E   assert 503 == 200
+E    +  where 503 = <Response [503]>.status_code
+_____________ test_create_session_with_generated_audio_and_review _____________
+[gw0] win32 -- Python 3.13.7 C:\Users\LENOVO PC\CORTEXIA-contribute\backend\.venv\Scripts\python.exe
+tests\test_api_integration.py:253: in test_create_session_with_generated_audio_and_review
+    assert wav.status_code == 200
+E   assert 503 == 200
+E    +  where 503 = <Response [503]>.status_code
+______________________ test_health_reports_local_models _______________________
+[gw0] win32 -- Python 3.13.7 C:\Users\LENOVO PC\CORTEXIA-contribute\backend\.venv\Scripts\python.exe
+tests\test_revisions.py:46: in test_health_reports_local_models
+    assert h["tts"].startswith("piper")
+E   AssertionError: assert False
+E    +  where False = <built-in method startswith of str object at 0x000001C31259F730>('piper')
+E    +    where <built-in method startswith of str object at 0x000001C31259F730> = 'browser-fallback'.startswith
+_____________________________ test_tts_uses_piper _____________________________
+[gw0] win32 -- Python 3.13.7 C:\Users\LENOVO PC\CORTEXIA-contribute\backend\.venv\Scripts\python.exe
+tests\test_revisions.py:51: in test_tts_uses_piper
+    assert r.status_code == 200
+E   assert 503 == 200
+E    +  where 503 = <Response [503]>.status_code
+________ test_pronunciation_correct_word_scores_higher_than_wrong_word ________
+[gw0] win32 -- Python 3.13.7 C:\Users\LENOVO PC\CORTEXIA-contribute\backend\.venv\Scripts\python.exe
+tests\test_revisions.py:58: in test_pronunciation_correct_word_scores_higher_than_wrong_word
+    good = client.post(f"{API}/pronunciation", data={"word": "apel", "consent": "true"}, files={"audio": ("a.wav", tts(client, "apel"))}, timeout=120).json()
+                                                                                                                   ^^^^^^^^^^^^^^^^^^^
+tests\test_revisions.py:31: in tts
+    assert r.status_code == 200 and r.content[:4] == b"RIFF", r.text[:200]
+E   AssertionError: {"detail":"Contoh suara lokal belum tersedia."}
+E   assert (503 == 200)
+E    +  where 503 = <Response [503]>.status_code
+____________ test_pronunciation_reduplicated_word_uses_competitors ____________
+[gw0] win32 -- Python 3.13.7 C:\Users\LENOVO PC\CORTEXIA-contribute\backend\.venv\Scripts\python.exe
+tests\test_revisions.py:69: in test_pronunciation_reduplicated_word_uses_competitors
+    r = client.post(f"{API}/pronunciation", data={"word": "kupu-kupu", "consent": "true"}, files={"audio": ("k.wav", tts(client, "kupu-kupu"))}, timeout=120).json()
+                                                                                                                     ^^^^^^^^^^^^^^^^^^^^^^^^
+tests\test_revisions.py:31: in tts
+    assert r.status_code == 200 and r.content[:4] == b"RIFF", r.text[:200]
+E   AssertionError: {"detail":"Contoh suara lokal belum tersedia."}
+E   assert (503 == 200)
+E    +  where 503 = <Response [503]>.status_code
+____________ test_reading_session_audio_gets_pronunciation_clarity ____________
+[gw0] win32 -- Python 3.13.7 C:\Users\LENOVO PC\CORTEXIA-contribute\backend\.venv\Scripts\python.exe
+tests\test_revisions.py:152: in test_reading_session_audio_gets_pronunciation_clarity
+    audio = tts(client, " ".join(text["content"].split(" ")[:12]))
+            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+tests\test_revisions.py:31: in tts
+    assert r.status_code == 200 and r.content[:4] == b"RIFF", r.text[:200]
+E   AssertionError: {"detail":"Contoh suara lokal belum tersedia."}
+E   assert (503 == 200)
+E    +  where 503 = <Response [503]>.status_code
+____________ test_gaze_game_levels_finish_and_dashboard_practices _____________
+[gw0] win32 -- Python 3.13.7 C:\Users\LENOVO PC\CORTEXIA-contribute\backend\.venv\Scripts\python.exe
+.venv\Lib\site-packages\urllib3\connectionpool.py:540: in _make_request
+    response = conn.getresponse()
+               ^^^^^^^^^^^^^^^^^^
+.venv\Lib\site-packages\urllib3\connection.py:638: in getresponse
+    httplib_response = super().getresponse()
+                       ^^^^^^^^^^^^^^^^^^^^^
+E:\Python3.13\Lib\http\client.py:1430: in getresponse
+    response.begin()
+E:\Python3.13\Lib\http\client.py:331: in begin
+    version, status, reason = self._read_status()
+                              ^^^^^^^^^^^^^^^^^^^
+E:\Python3.13\Lib\http\client.py:292: in _read_status
+    line = str(self.fp.readline(_MAXLINE + 1), "iso-8859-1")
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E:\Python3.13\Lib\socket.py:719: in readinto
+    return self._sock.recv_into(b)
+           ^^^^^^^^^^^^^^^^^^^^^^^
+E   TimeoutError: timed out
+
+The above exception was the direct cause of the following exception:
+.venv\Lib\site-packages\requests\adapters.py:696: in send
+    resp = conn.urlopen(
+.venv\Lib\site-packages\urllib3\connectionpool.py:847: in urlopen
+    retries = retries.increment(
+.venv\Lib\site-packages\urllib3\util\retry.py:510: in increment
+    raise reraise(type(error), error, _stacktrace)
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+.venv\Lib\site-packages\urllib3\util\util.py:39: in reraise
+    raise value
+.venv\Lib\site-packages\urllib3\connectionpool.py:793: in urlopen
+    response = self._make_request(
+.venv\Lib\site-packages\urllib3\connectionpool.py:542: in _make_request
+    self._raise_timeout(err=e, url=url, timeout_value=read_timeout)
+.venv\Lib\site-packages\urllib3\connectionpool.py:373: in _raise_timeout
+    raise ReadTimeoutError(
+E   urllib3.exceptions.ReadTimeoutError: HTTPConnectionPool(host='127.0.0.1', port=56216): Read timed out. (read timeout=30)
+
+During handling of the above exception, another exception occurred:
+tests\test_revisions.py:170: in test_gaze_game_levels_finish_and_dashboard_practices
+    d = client.get(f"{API}/dashboard", timeout=30).json()
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+.venv\Lib\site-packages\requests\sessions.py:671: in get
+    return self.request("GET", url, params=params, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+.venv\Lib\site-packages\requests\sessions.py:651: in request
+    resp = self.send(prep, **send_kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+.venv\Lib\site-packages\requests\sessions.py:784: in send
+    r = adapter.send(request, **kwargs)
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+.venv\Lib\site-packages\requests\adapters.py:742: in send
+    raise ReadTimeout(e, request=request)
+E   requests.exceptions.ReadTimeout: HTTPConnectionPool(host='127.0.0.1', port=56216): Read timed out. (read timeout=30)
+____________________________ test_cleanup_student _____________________________
+[gw0] win32 -- Python 3.13.7 C:\Users\LENOVO PC\CORTEXIA-contribute\backend\.venv\Scripts\python.exe
+.venv\Lib\site-packages\urllib3\connectionpool.py:540: in _make_request
+    response = conn.getresponse()
+               ^^^^^^^^^^^^^^^^^^
+.venv\Lib\site-packages\urllib3\connection.py:638: in getresponse
+    httplib_response = super().getresponse()
+                       ^^^^^^^^^^^^^^^^^^^^^
+E:\Python3.13\Lib\http\client.py:1430: in getresponse
+    response.begin()
+E:\Python3.13\Lib\http\client.py:331: in begin
+    version, status, reason = self._read_status()
+                              ^^^^^^^^^^^^^^^^^^^
+E:\Python3.13\Lib\http\client.py:292: in _read_status
+    line = str(self.fp.readline(_MAXLINE + 1), "iso-8859-1")
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E:\Python3.13\Lib\socket.py:719: in readinto
+    return self._sock.recv_into(b)
+           ^^^^^^^^^^^^^^^^^^^^^^^
+E   TimeoutError: timed out
+
+The above exception was the direct cause of the following exception:
+.venv\Lib\site-packages\requests\adapters.py:696: in send
+    resp = conn.urlopen(
+.venv\Lib\site-packages\urllib3\connectionpool.py:847: in urlopen
+    retries = retries.increment(
+.venv\Lib\site-packages\urllib3\util\retry.py:510: in increment
+    raise reraise(type(error), error, _stacktrace)
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+.venv\Lib\site-packages\urllib3\util\util.py:39: in reraise
+    raise value
+.venv\Lib\site-packages\urllib3\connectionpool.py:793: in urlopen
+    response = self._make_request(
+.venv\Lib\site-packages\urllib3\connectionpool.py:542: in _make_request
+    self._raise_timeout(err=e, url=url, timeout_value=read_timeout)
+.venv\Lib\site-packages\urllib3\connectionpool.py:373: in _raise_timeout
+    raise ReadTimeoutError(
+E   urllib3.exceptions.ReadTimeoutError: HTTPConnectionPool(host='127.0.0.1', port=56216): Read timed out. (read timeout=30)
+
+During handling of the above exception, another exception occurred:
+tests\test_revisions.py:180: in test_cleanup_student
+    assert client.delete(f"{API}/students/{student['id']}", timeout=30).status_code == 200
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+.venv\Lib\site-packages\requests\sessions.py:750: in delete
+    return self.request("DELETE", url, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+.venv\Lib\site-packages\requests\sessions.py:651: in request
+    resp = self.send(prep, **send_kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+.venv\Lib\site-packages\requests\sessions.py:784: in send
+    r = adapter.send(request, **kwargs)
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+.venv\Lib\site-packages\requests\adapters.py:742: in send
+    raise ReadTimeout(e, request=request)
+E   requests.exceptions.ReadTimeout: HTTPConnectionPool(host='127.0.0.1', port=56216): Read timed out. (read timeout=30)
+_______________________ test_fluency_session_roundtrip ________________________
+[gw1] win32 -- Python 3.13.7 C:\Users\LENOVO PC\CORTEXIA-contribute\backend\.venv\Scripts\python.exe
+tests\test_fluency_api.py:21: in test_fluency_session_roundtrip
+    user = request("POST", "auth/register", json=dict(name="QA Reader", role="teacher",
+tests\test_fluency_api.py:18: in request
+    response.raise_for_status()
+.venv\Lib\site-packages\requests\models.py:1167: in raise_for_status
+    raise HTTPError(http_error_msg, response=self)
+E   requests.exceptions.HTTPError: 500 Server Error: Internal Server Error for url: http://127.0.0.1:56216/api/auth/register
+============================== warnings summary ===============================
+.venv\Lib\site-packages\starlette\formparsers.py:12
+.venv\Lib\site-packages\starlette\formparsers.py:12
+  C:\Users\LENOVO PC\CORTEXIA-contribute\backend\.venv\Lib\site-packages\starlette\formparsers.py:12: PendingDeprecationWarning: Please use `import python_multipart` instead.
+    import multipart
+
+-- Docs: https://docs.pytest.org/en/stable/how-to/capture-warnings.html
+- generated xml file: C:\Users\LENOVO PC\CORTEXIA-contribute\test_reports\final_capstone_testing\09_integration\pytest_results.xml -
+=============================== tests coverage ================================
+_______________ coverage: platform win32, python 3.13.7-final-0 _______________
+
+Name               Stmts   Miss Branch BrPart  Cover   Missing
+--------------------------------------------------------------
+analytics.py         434     35    170     15    90%   17, 24-27, 32-47, 53, 148, 263->272, 269-271, 275->257, 278, 329, 331, 347->345, 442->448, 453, 524-525, 527-528, 530-531, 543->545
+core.py               37     11     12      2    57%   15->exit, 16->exit, 29-36, 39-40, 43
+fluency.py            77      4     30      3    93%   61-62, 85, 87
+pronunciation.py     219      4     96      4    97%   34, 55, 160, 169
+sessions.py          232    128     72      6    38%   15-23, 69, 80-82, 87, 88->101, 90-100, 103-105, 111->exit, 129-131, 135-169, 173, 176-182, 185->exit, 189-192, 196-205, 209, 213-233, 237-259
+--------------------------------------------------------------
+TOTAL                999    182    380     30    79%
+Coverage JSON written to file C:\Users\LENOVO PC\CORTEXIA-contribute\test_reports\final_capstone_testing\01_whitebox\coverage.json
+=========================== short test summary info ===========================
+SKIPPED [1] tests\test_api_integration.py:301: No session id created
+SKIPPED [3] tests\test_api_integration.py: Existing research retained; training/import/stat participant access excluded from final verification.
+SKIPPED [1] tests\test_hardening_integration.py: Existing research retained; training/import/stat participant access excluded from final verification.
+SKIPPED [1] tests\test_real_audio_unit.py:17: Model Whisper belum tersedia
+ERROR tests/test_hardening_integration.py::test_retry_with_same_request_id_returns_same_session
+ERROR tests/test_hardening_integration.py::test_without_request_id_behaviour_unchanged
+ERROR tests/test_hardening_integration.py::test_invalid_request_id_rejected
+ERROR tests/test_hardening_integration.py::test_dirty_gaze_is_cleaned_and_reported
+ERROR tests/test_hardening_integration.py::test_uncalibrated_flag_blocks_gaze_usable
+ERROR tests/test_hardening_integration.py::test_session_contract_and_dashboard_fields
+ERROR tests/test_hardening_integration.py::test_concurrent_retries_create_one_session
+ERROR ::test_corrupt_audio_is_rejected_without_temp_leak - ExceptionGroup: er...
+FAILED tests/test_api_integration.py::test_speech_synthesis_returns_wav - ass...
+FAILED tests/test_api_integration.py::test_create_session_with_generated_audio_and_review
+FAILED tests/test_revisions.py::test_health_reports_local_models - AssertionE...
+FAILED tests/test_revisions.py::test_tts_uses_piper - assert 503 == 200
+FAILED tests/test_revisions.py::test_pronunciation_correct_word_scores_higher_than_wrong_word
+FAILED tests/test_revisions.py::test_pronunciation_reduplicated_word_uses_competitors
+FAILED tests/test_revisions.py::test_reading_session_audio_gets_pronunciation_clarity
+FAILED tests/test_revisions.py::test_gaze_game_levels_finish_and_dashboard_practices
+FAILED tests/test_revisions.py::test_cleanup_student - requests.exceptions.Re...
+FAILED tests/test_fluency_api.py::test_fluency_session_roundtrip - requests.e...
+= 10 failed, 116 passed, 6 skipped, 2 warnings, 8 errors in 138.62s (0:02:18) =

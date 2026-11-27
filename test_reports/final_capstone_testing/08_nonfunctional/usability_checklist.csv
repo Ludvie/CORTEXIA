@@ -1,0 +1,91 @@
+﻿check,status,basis
+no page overflow 1920,PASSED,Technical browser test with synthetic API responses
+body readable 1920,PASSED,Technical browser test with synthetic API responses
+three shared words 1920,PASSED,Technical browser test with synthetic API responses
+word practice URL 1920,PASSED,Technical browser test with synthetic API responses
+visible overview text contrast 1920,PASSED,Technical browser test with synthetic API responses
+speech no overflow 1920,PASSED,Technical browser test with synthetic API responses
+speech finite labels 1920,PASSED,Technical browser test with synthetic API responses
+speech visible text contrast 1920,PASSED,Technical browser test with synthetic API responses
+gaze no overflow 1920,PASSED,Technical browser test with synthetic API responses
+gaze finite labels 1920,PASSED,Technical browser test with synthetic API responses
+gaze visible text contrast 1920,PASSED,Technical browser test with synthetic API responses
+details no overflow 1920,PASSED,Technical browser test with synthetic API responses
+details finite labels 1920,PASSED,Technical browser test with synthetic API responses
+details visible text contrast 1920,PASSED,Technical browser test with synthetic API responses
+overview no overflow 1920,PASSED,Technical browser test with synthetic API responses
+overview finite labels 1920,PASSED,Technical browser test with synthetic API responses
+overview visible text contrast 1920,PASSED,Technical browser test with synthetic API responses
+keyboard tabs 1920,PASSED,Technical browser test with synthetic API responses
+no page overflow 1366,PASSED,Technical browser test with synthetic API responses
+body readable 1366,PASSED,Technical browser test with synthetic API responses
+three shared words 1366,PASSED,Technical browser test with synthetic API responses
+word practice URL 1366,PASSED,Technical browser test with synthetic API responses
+visible overview text contrast 1366,PASSED,Technical browser test with synthetic API responses
+speech no overflow 1366,PASSED,Technical browser test with synthetic API responses
+speech finite labels 1366,PASSED,Technical browser test with synthetic API responses
+speech visible text contrast 1366,PASSED,Technical browser test with synthetic API responses
+gaze no overflow 1366,PASSED,Technical browser test with synthetic API responses
+gaze finite labels 1366,PASSED,Technical browser test with synthetic API responses
+gaze visible text contrast 1366,PASSED,Technical browser test with synthetic API responses
+details no overflow 1366,PASSED,Technical browser test with synthetic API responses
+details finite labels 1366,PASSED,Technical browser test with synthetic API responses
+details visible text contrast 1366,PASSED,Technical browser test with synthetic API responses
+overview no overflow 1366,PASSED,Technical browser test with synthetic API responses
+overview finite labels 1366,PASSED,Technical browser test with synthetic API responses
+overview visible text contrast 1366,PASSED,Technical browser test with synthetic API responses
+keyboard tabs 1366,PASSED,Technical browser test with synthetic API responses
+no page overflow 768,PASSED,Technical browser test with synthetic API responses
+body readable 768,PASSED,Technical browser test with synthetic API responses
+three shared words 768,PASSED,Technical browser test with synthetic API responses
+word practice URL 768,PASSED,Technical browser test with synthetic API responses
+visible overview text contrast 768,PASSED,Technical browser test with synthetic API responses
+speech no overflow 768,PASSED,Technical browser test with synthetic API responses
+speech finite labels 768,PASSED,Technical browser test with synthetic API responses
+speech visible text contrast 768,PASSED,Technical browser test with synthetic API responses
+gaze no overflow 768,PASSED,Technical browser test with synthetic API responses
+gaze finite labels 768,PASSED,Technical browser test with synthetic API responses
+gaze visible text contrast 768,PASSED,Technical browser test with synthetic API responses
+details no overflow 768,PASSED,Technical browser test with synthetic API responses
+details finite labels 768,PASSED,Technical browser test with synthetic API responses
+details visible text contrast 768,PASSED,Technical browser test with synthetic API responses
+overview no overflow 768,PASSED,Technical browser test with synthetic API responses
+overview finite labels 768,PASSED,Technical browser test with synthetic API responses
+overview visible text contrast 768,PASSED,Technical browser test with synthetic API responses
+keyboard tabs 768,PASSED,Technical browser test with synthetic API responses
+no page overflow 390,PASSED,Technical browser test with synthetic API responses
+body readable 390,PASSED,Technical browser test with synthetic API responses
+three shared words 390,PASSED,Technical browser test with synthetic API responses
+word practice URL 390,PASSED,Technical browser test with synthetic API responses
+visible overview text contrast 390,PASSED,Technical browser test with synthetic API responses
+speech no overflow 390,PASSED,Technical browser test with synthetic API responses
+speech finite labels 390,PASSED,Technical browser test with synthetic API responses
+speech visible text contrast 390,PASSED,Technical browser test with synthetic API responses
+gaze no overflow 390,PASSED,Technical browser test with synthetic API responses
+gaze finite labels 390,PASSED,Technical browser test with synthetic API responses
+gaze visible text contrast 390,PASSED,Technical browser test with synthetic API responses
+details no overflow 390,PASSED,Technical browser test with synthetic API responses
+details finite labels 390,PASSED,Technical browser test with synthetic API responses
+details visible text contrast 390,PASSED,Technical browser test with synthetic API responses
+overview no overflow 390,PASSED,Technical browser test with synthetic API responses
+overview finite labels 390,PASSED,Technical browser test with synthetic API responses
+overview visible text contrast 390,PASSED,Technical browser test with synthetic API responses
+keyboard tabs 390,PASSED,Technical browser test with synthetic API responses
+review endpoint preserved,PASSED,Technical browser test with synthetic API responses
+original fluency after review,PASSED,Technical browser test with synthetic API responses
+PDF endpoint called,PASSED,Technical browser test with synthetic API responses
+audio: no false fusion,PASSED,Technical browser test with synthetic API responses
+audio: no overflow,PASSED,Technical browser test with synthetic API responses
+gaze: no false fusion,PASSED,Technical browser test with synthetic API responses
+gaze: no overflow,PASSED,Technical browser test with synthetic API responses
+empty-data: no false fusion,PASSED,Technical browser test with synthetic API responses
+empty-data: no overflow,PASSED,Technical browser test with synthetic API responses
+legacy: no false fusion,PASSED,Technical browser test with synthetic API responses
+legacy: no overflow,PASSED,Technical browser test with synthetic API responses
+student cannot edit,PASSED,Technical browser test with synthetic API responses
+student: no overflow,PASSED,Technical browser test with synthetic API responses
+empty: no overflow,PASSED,Technical browser test with synthetic API responses
+error: no overflow,PASSED,Technical browser test with synthetic API responses
+loading: no overflow,PASSED,Technical browser test with synthetic API responses
+no uncaught browser exceptions,PASSED,Technical browser test with synthetic API responses
+SUS / kepuasan pengguna / anak dan pendamping nyata,MANUAL REQUIRED,Tidak ada studi pengguna baru

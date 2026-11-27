@@ -1,0 +1,7 @@
+{
+  "frontend\\src\\pages\\Results.jsx": true,
+  "frontend\\src\\pages\\Results.css": true,
+  "frontend\\src\\components\\results\\AssessmentOverview.jsx": true,
+  "frontend\\src\\components\\results\\resultPresentation.js": true,
+  "frontend\\src\\components\\results\\ResultsDetails.jsx": true
+}

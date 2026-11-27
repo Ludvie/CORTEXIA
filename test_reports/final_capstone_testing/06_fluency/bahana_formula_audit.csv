@@ -1,0 +1,6 @@
+﻿metric,checked,mismatches,max_absolute_error,tolerance,status
+wpm,139,0,4.943820357539153e-07,2e-06,PASSED
+articulation_rate_syllables_per_sec,122,0,5.00000000069889e-07,2e-06,PASSED
+mlr_syllables_per_run,122,0,3.33333333379926e-07,2e-06,PASSED
+pause_frequency_per_min,140,0,4.489795912832051e-07,2e-06,PASSED
+mean_pause_duration_sec,43,0,1.1102230246251565e-16,2e-06,PASSED

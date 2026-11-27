@@ -1,0 +1,28 @@
+{
+  "exit_code": 1,
+  "elapsed_sec": 30.20231180000701,
+  "server_ready": true,
+  "database": "cortexia_finaltest_20261127",
+  "command": [
+    "C:\\Users\\LENOVO PC\\CORTEXIA-contribute\\backend\\.venv\\Scripts\\python.exe",
+    "-m",
+    "pytest",
+    "tests",
+    "C:\\Users\\LENOVO PC\\CORTEXIA-contribute\\test_reports\\final_capstone_testing\\test_security_internal.py",
+    "-p",
+    "audit_pytest_plugin",
+    "--cov=analytics",
+    "--cov=fluency",
+    "--cov=pronunciation",
+    "--cov=sessions",
+    "--cov=core",
+    "--cov=auth",
+    "--cov=content",
+    "--cov-branch",
+    "--cov-report=json:C:\\Users\\LENOVO PC\\CORTEXIA-contribute\\test_reports\\final_capstone_testing\\01_whitebox\\coverage.json",
+    "--cov-report=term-missing",
+    "--junitxml=C:\\Users\\LENOVO PC\\CORTEXIA-contribute\\test_reports\\final_capstone_testing\\09_integration\\pytest_results.xml",
+    "-ra",
+    "--tb=short"
+  ]
+}

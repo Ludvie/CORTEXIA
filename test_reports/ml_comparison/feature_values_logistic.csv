@@ -1,0 +1,17 @@
+feature,value
+n_fix_trial,0.18924044500254772
+sum_fix_dur_trial,0.19570272999357408
+dwell_time_trial,0.19882149650816958
+mean_fix_dur_trial,0.39086202027950423
+n_sacc_trial,0.18924044500254772
+mean_sacc_dur_trial,0.36264912397472
+mean_sacc_ampl_trial,0.3313588371583038
+n_between_line_regress_trial,0.0
+n_within_line_regress_trial,0.3276477522282842
+n_regress_trial,0.3276477522282842
+n_progress_trial,-0.2735998090696863
+avg_dwell_time_aoi,0.3091380293854571
+avg_n_fix_aoi,0.37820917591077113
+avg_mean_fix_dur_aoi,0.18410632882028818
+avg_skipped_aoi,0.07905748552838734
+avg_n_revisits_aoi,0.33659853172629983

@@ -1,0 +1,15 @@
+{
+  "png_verified": 24,
+  "pytest_unique_cases": 142,
+  "pytest_status_counts": {
+    "PASSED": 128,
+    "FAILED": 8,
+    "SKIPPED": 6
+  },
+  "algorithm_cases": 203,
+  "algorithm_failed": 1,
+  "frontend_passed": 16,
+  "browser_checks": 89,
+  "source_integrity": true,
+  "basis_formula_verified": true
+}

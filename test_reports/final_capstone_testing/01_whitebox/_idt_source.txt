@@ -1,0 +1,15 @@
+160: def _idt(pts):
+161:     """I-DT pada titik (x_px, y_px, t, x_norm, y_norm). Window awal harus >= MIN_FIX_S, dispersi <= DISPERSION_PX,
+162:     dan tidak ada celah antar-sampel > MAX_GAP_S."""
+163:     out=[];i=0;n=len(pts)
+164:     while i<n:
+165:         j=i
+166:         while j+1<n and pts[j][2]-pts[i][2]<MIN_FIX_S and pts[j+1][2]-pts[j][2]<=MAX_GAP_S:j+=1
+167:         window=pts[i:j+1]
+168:         if len(window)<2 or window[-1][2]-window[0][2]<MIN_FIX_S-_EPS or _spread(window)>DISPERSION_PX:
+169:             i+=1;continue
+170:         while j+1<n and pts[j+1][2]-pts[j][2]<=MAX_GAP_S and _spread(pts[i:j+2])<=DISPERSION_PX:j+=1
+171:         window=pts[i:j+1]
+172:         out.append({'x':sum(p[3] for p in window)/len(window),'y':sum(p[4] for p in window)/len(window),'start':window[0][2],'end':window[-1][2],'d':round((window[-1][2]-window[0][2])*1000,1),'n':len(window)})
+173:         i=j+1
+174:     return out

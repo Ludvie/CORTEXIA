@@ -1,0 +1,10 @@
+﻿node,label,line
+1,ENTRY,0
+2,EXIT,0
+3,return quality,14
+4,if len(passed) == 2:,7
+5,quality = 'layak',8
+6,if passed:,10
+7,quality = 'parsial',11
+8,quality = 'tidak_cukup',13
+9,"passed = [name for name, ok in (('suara', reliable), ('tatapan', gaze_usable)) if ok]",6

@@ -1,0 +1,15 @@
+{
+  "exit_code": 1,
+  "elapsed_sec": 5.933256299991626,
+  "server_ready": true,
+  "database": "cortexia_finaltest_20261127",
+  "command": [
+    "C:\\Users\\LENOVO PC\\CORTEXIA-contribute\\backend\\.venv\\Scripts\\python.exe",
+    "-m",
+    "pytest",
+    "C:\\Users\\LENOVO PC\\CORTEXIA-contribute\\test_reports\\final_capstone_testing\\test_isolated_roundtrip.py",
+    "--junitxml=C:\\Users\\LENOVO PC\\CORTEXIA-contribute\\test_reports\\final_capstone_testing\\09_integration\\supplemental\\pytest_results.xml",
+    "-ra",
+    "--tb=short"
+  ]
+}

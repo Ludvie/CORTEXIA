@@ -1,0 +1,26 @@
+﻿section,case_id,input,expected,actual,unit,status,elapsed_ms
+05_pronunciation,cost_pb,"[""p"", ""b""]",0.3,0.3,,PASSED,0.26440000510774553
+05_pronunciation,cost_ie,"[""i"", ""e""]",0.4,0.4,,PASSED,0.07339999137911946
+05_pronunciation,cost_iu,"[""i"", ""u""]",0.7,0.7,,PASSED,0.05370000144466758
+05_pronunciation,cost_mn,"[""m"", ""n""]",0.5,0.5,,PASSED,0.07770000956952572
+05_pronunciation,cost_ts,"[""t"", ""s""]",0.6,0.6,,PASSED,0.05280000914353877
+05_pronunciation,cost_lr,"[""l"", ""r""]",0.4,0.6,,FAILED,0.10590000601951033
+05_pronunciation,cost_ap,"[""a"", ""p""]",1,1.0,,PASSED,0.062000006437301636
+05_pronunciation,cost_pp,"[""p"", ""p""]",0,0.0,,PASSED,0.05490001058205962
+05_pronunciation,cost_!?,"[""!"", ""?""]",1,1.0,,PASSED,0.057600002037361264
+05_pronunciation,distance_bakupaku,"[""baku"", ""paku""]",0.3,0.3,,PASSED,0.155999994603917
+05_pronunciation,distance_banbang,"[""ban"", ""bang""]",0.5,0.5,,PASSED,0.09590000263415277
+05_pronunciation,distance_akilaqil,"[""akil"", ""aqil""]",0,0.0,,PASSED,0.0965999934123829
+05_pronunciation,distance_sapisapi,"[""sapi"", ""sapi""]",0,0.0,,PASSED,0.0822000001790002
+05_pronunciation,verdict_None,null,null,null,,PASSED,0.013500000932253897
+05_pronunciation,verdict_0,0,"""latihan""","""latihan""",,PASSED,0.009700001101009548
+05_pronunciation,verdict_59.99,59.99,"""latihan""","""latihan""",,PASSED,0.008199989679269493
+05_pronunciation,verdict_60,60,"""hampir""","""hampir""",,PASSED,0.007299997378140688
+05_pronunciation,verdict_84.99,84.99,"""hampir""","""hampir""",,PASSED,0.006799993570894003
+05_pronunciation,verdict_85,85,"""tepat""","""tepat""",,PASSED,0.006400005077011883
+05_pronunciation,verdict_100,100,"""tepat""","""tepat""",,PASSED,0.006400005077011883
+05_pronunciation,score_target,"{""free"": ""apel"", ""forced"": ""apel"", ""confidence"": 0.8}",87.0,87.0,,PASSED,0.6395000091288239
+05_pronunciation,score_competitor,"{""free"": ""apes"", ""forced"": ""apes"", ""confidence"": 0.8}",26.2,26.2,,PASSED,0.49029999354388565
+05_pronunciation,score_oov,"{""free"": ""apel"", ""forced"": ""apel"", ""confidence"": 0.8}",100.0,100.0,,PASSED,0.4344000044511631
+05_pronunciation,score_no_competitor,"{""free"": ""apel"", ""forced"": ""apel"", ""confidence"": 0.8}",100.0,100.0,,PASSED,0.5295000009937212
+05_pronunciation,score_no_speech,"{""free"": """", ""forced"": """", ""confidence"": 0.8}",null,null,,PASSED,0.22909999825060368

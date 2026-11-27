@@ -1,0 +1,39 @@
+﻿section,case_id,input,expected,actual,unit,status,elapsed_ms
+07_multimodal_fusion,Q_00,"{""speech"": false, ""gaze"": false}","""tidak_cukup""","""tidak_cukup""",,PASSED,0.0940000027185306
+07_multimodal_fusion,Q_00_production,"{""speech"": false, ""gaze"": false}","""tidak_cukup""","""tidak_cukup""",,PASSED,0.03749999450519681
+07_multimodal_fusion,Q_01,"{""speech"": false, ""gaze"": true}","""parsial""","""parsial""",,PASSED,0.06710000161547214
+07_multimodal_fusion,Q_01_production,"{""speech"": false, ""gaze"": true}","""parsial""","""parsial""",,PASSED,0.03399999695830047
+07_multimodal_fusion,Q_10,"{""speech"": true, ""gaze"": false}","""parsial""","""parsial""",,PASSED,0.05099999543745071
+07_multimodal_fusion,Q_10_production,"{""speech"": true, ""gaze"": false}","""parsial""","""parsial""",,PASSED,0.03999999898951501
+07_multimodal_fusion,Q_11,"{""speech"": true, ""gaze"": true}","""layak""","""layak""",,PASSED,0.06029999349266291
+07_multimodal_fusion,Q_11_production,"{""speech"": true, ""gaze"": true}","""layak""","""layak""",,PASSED,0.036600002204068005
+03_eye_tracking,cal_124,"{""median_error"": 0.159, ""passed"": false, ""validation_samples"": 14}",false,false,,PASSED,0.8614999969722703
+03_eye_tracking,cal_125,"{""median_error"": 0.159, ""passed"": false, ""validation_samples"": 15}",false,false,,PASSED,0.1520000078016892
+03_eye_tracking,cal_126,"{""median_error"": 0.159, ""passed"": true, ""validation_samples"": 14}",false,false,,PASSED,0.055199998314492404
+03_eye_tracking,cal_127,"{""median_error"": 0.159, ""passed"": true, ""validation_samples"": 15}",true,true,,PASSED,0.04579999949783087
+03_eye_tracking,cal_128,"{""median_error"": 0.16, ""passed"": false, ""validation_samples"": 14}",false,false,,PASSED,0.04359999729786068
+03_eye_tracking,cal_129,"{""median_error"": 0.16, ""passed"": false, ""validation_samples"": 15}",false,false,,PASSED,0.04889999399892986
+03_eye_tracking,cal_130,"{""median_error"": 0.16, ""passed"": true, ""validation_samples"": 14}",false,false,,PASSED,0.06399999256245792
+03_eye_tracking,cal_131,"{""median_error"": 0.16, ""passed"": true, ""validation_samples"": 15}",true,true,,PASSED,0.048999994760379195
+03_eye_tracking,cal_132,"{""median_error"": 0.161, ""passed"": false, ""validation_samples"": 14}",false,false,,PASSED,0.04120000812690705
+03_eye_tracking,cal_133,"{""median_error"": 0.161, ""passed"": false, ""validation_samples"": 15}",false,false,,PASSED,0.04129999433644116
+03_eye_tracking,cal_134,"{""median_error"": 0.161, ""passed"": true, ""validation_samples"": 14}",false,false,,PASSED,0.042799991206265986
+03_eye_tracking,cal_135,"{""median_error"": 0.161, ""passed"": true, ""validation_samples"": 15}",false,false,,PASSED,0.04339999577496201
+03_eye_tracking,cal_136,"{""median_error"": null, ""passed"": false, ""validation_samples"": 14}",false,false,,PASSED,0.039699996705166996
+03_eye_tracking,cal_137,"{""median_error"": null, ""passed"": false, ""validation_samples"": 15}",false,false,,PASSED,0.03960001049563289
+03_eye_tracking,cal_138,"{""median_error"": null, ""passed"": true, ""validation_samples"": 14}",false,false,,PASSED,0.04029998672194779
+03_eye_tracking,cal_139,"{""median_error"": null, ""passed"": true, ""validation_samples"": 15}",false,false,,PASSED,0.03989999822806567
+03_eye_tracking,cal_140,"{""median_error"": NaN, ""passed"": false, ""validation_samples"": 14}",false,false,,PASSED,0.03999999898951501
+03_eye_tracking,cal_141,"{""median_error"": NaN, ""passed"": false, ""validation_samples"": 15}",false,false,,PASSED,0.0509000092279166
+03_eye_tracking,cal_142,"{""median_error"": NaN, ""passed"": true, ""validation_samples"": 14}",false,false,,PASSED,0.04119999357499182
+03_eye_tracking,cal_143,"{""median_error"": NaN, ""passed"": true, ""validation_samples"": 15}",false,false,,PASSED,0.04389999958220869
+03_eye_tracking,coverage_10_23,"{""duration"": 10, ""samples"": 23}",false,false,,PASSED,1.0642999986885116
+03_eye_tracking,coverage_10_24,"{""duration"": 10, ""samples"": 24}",true,true,,PASSED,1.0094000026583672
+03_eye_tracking,coverage_2_19,"{""duration"": 2, ""samples"": 19}",false,false,,PASSED,0.5188000068301335
+03_eye_tracking,coverage_2_20,"{""duration"": 2, ""samples"": 20}",true,true,,PASSED,0.6646000110777095
+03_eye_tracking,coverage_0_24,"{""duration"": 0, ""samples"": 24}",false,false,,PASSED,0.9447000047657639
+07_multimodal_fusion,speech_gate_4.99_0.9_False,"{""duration"": 4.99, ""probability"": 0.9, ""reviewed"": false}",false,false,,PASSED,0.291000003926456
+07_multimodal_fusion,speech_gate_5_0.6_False,"{""duration"": 5, ""probability"": 0.6, ""reviewed"": false}",true,true,,PASSED,0.16719999257475138
+07_multimodal_fusion,speech_gate_5_0.599_False,"{""duration"": 5, ""probability"": 0.599, ""reviewed"": false}",false,false,,PASSED,0.159399991389364
+07_multimodal_fusion,speech_gate_5_None_False,"{""duration"": 5, ""probability"": null, ""reviewed"": false}",false,false,,PASSED,0.13000000035390258
+07_multimodal_fusion,speech_gate_5_None_True,"{""duration"": 5, ""probability"": null, ""reviewed"": true}",true,true,,PASSED,0.1252999936696142

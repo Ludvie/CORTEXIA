@@ -1,0 +1,9 @@
+{
+  "platform": "Windows-11-10.0.26300-SP0",
+  "python": "3.13.7",
+  "processor": "AMD64 Family 23 Model 160 Stepping 0, AuthenticAMD",
+  "logical_cpu": 8,
+  "physical_cpu": 4,
+  "total_ram_gib": 5.825679779052734,
+  "scope": "one local process, no load concurrency; CPU time not utilization percent; RSS sampled every 20ms"
+}

@@ -1,0 +1,4 @@
+﻿source,duration_sec,active_sec,segments,pauses,precision,recall,f1,boundary_error_ms,status,interpretation
+silence,2.0,0,0,0,,,,,PASSED,Descriptive; no independent speech boundary annotations
+noise,2.0,0.08,1,0,,,,,NOT APPLICABLE,Descriptive; no independent speech boundary annotations
+public_speech_fixture,3.7135,2.76,2,0,,,,,NOT APPLICABLE,Descriptive; no independent speech boundary annotations

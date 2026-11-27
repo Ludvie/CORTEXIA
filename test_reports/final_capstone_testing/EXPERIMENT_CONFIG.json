@@ -1,0 +1,61 @@
+{
+  "date_local": "2026-11-27T17:30:08.226544+07:00",
+  "git_head": "1074c7d8ed80db550c495483c5e2cbdc065f164d",
+  "uncommitted_changes_included": true,
+  "python": "3.13.7",
+  "libraries": {
+    "numpy": "2.4.6",
+    "scipy": "1.17.1",
+    "scikit-learn": "1.9.1",
+    "pandas": "3.0.6",
+    "matplotlib": "3.11.2",
+    "vosk": "0.3.45",
+    "faster-whisper": "1.2.1",
+    "webrtcvad-wheels": "2.0.14.post1",
+    "av": "18.1.0",
+    "pytest": "9.2.0",
+    "pytest-xdist": "3.8.0",
+    "pytest-cov": "7.1.0",
+    "coverage": "7.17.5",
+    "psutil": "7.2.2",
+    "fastapi": "0.110.1",
+    "motor": "3.3.1"
+  },
+  "source_hashes": {
+    "backend\\analytics.py": "3c6661a1b0c10e985cc8dff77df80c33776a1efee67a714eb98b9d7fced7ea0d",
+    "backend\\fluency.py": "78412b740990d6eb23f1597a0d49b28bb1000178f256795e43ea6916104928ff",
+    "backend\\pronunciation.py": "b699f3da0066324f453cee91aeff8f6b8058eea4285ef8a831bd7d6fdb2db791",
+    "backend\\sessions.py": "de4021f12c37ad624cb52f5318a431d97c5e4409063965688e0cc762db47bb4b",
+    "backend\\ml_pipeline.py": "9524bb1d09128151a04799653fe240912ba94df03285feac932c15f2761f67a3",
+    "frontend\\src\\pages\\Results.jsx": "df9b829026fb40ad8620e29a23019ff900d5be6c36ad702e95b76b761e03ecc6"
+  },
+  "vad": {
+    "mode": 2,
+    "rate": 16000,
+    "channels": 1,
+    "bits": 16,
+    "frame_ms": 20,
+    "gap_fill_ms": 100,
+    "min_speech_ms": 60,
+    "pause_ms": 250,
+    "long_pause_ms": 500
+  },
+  "idt": {
+    "dispersion_px": 80,
+    "min_fixation_ms": 120,
+    "max_gap_ms": 500
+  },
+  "test_database": "cortexia_finaltest_20261127",
+  "test_server": "temporary loopback; dynamic ports; isolated mongod",
+  "blas_threads": 1,
+  "model_training_repeated": false,
+  "protected_files_unchanged": true,
+  "dataset_relevance": {
+    "pipeline_unchanged": true,
+    "source_files_unchanged": true,
+    "source_file_count": 211,
+    "dataset_sha256": "e89e36041d2fd2f332207ee1c6639aa15714d21bf793f11afa1b7e6afd71bbb0",
+    "dataset_hash_matches": true,
+    "training_repeated": false
+  }
+}

@@ -1,0 +1,21 @@
+﻿node,label,line
+1,ENTRY,0
+2,EXIT,0
+3,return out,174
+4,while i < n:,164
+5,i = j + 1,173
+6,"out.append({'x': sum((p[3] for p in window)) / len(window), 'y': sum((p[4] for p in window)) / len(w",172
+7,window = pts[i:j + 1],171
+8,while j + 1 < n and pts[j + 1][2] - pts[j][2] <= MAX_GAP_S and (_spread(pts[i:j + 2]) <= DISPERSION_,170
+9,j += 1,170
+10,if len(window) < 2 or window[-1][2] - window[0][2] < MIN_FIX_S - _EPS or _spread(window) > DISPERSIO,168
+11,continue,169
+12,i += 1,169
+13,window = pts[i:j + 1],167
+14,while j + 1 < n and pts[j][2] - pts[i][2] < MIN_FIX_S and (pts[j + 1][2] - pts[j][2] <= MAX_GAP_S):,166
+15,j += 1,166
+16,j = i,165
+17,n = len(pts),163
+18,i = 0,163
+19,out = [],163
+20,"'I-DT pada titik (x_px, y_px, t, x_norm, y_norm). Window awal harus >= MIN_FIX_S, dispersi <= DISPER",161

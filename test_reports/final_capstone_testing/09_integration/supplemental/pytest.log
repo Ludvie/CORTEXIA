@@ -1,0 +1,11 @@
+============================= test session starts =============================
+platform win32 -- Python 3.13.7, pytest-9.2.0, pluggy-1.7.0
+rootdir: C:\Users\LENOVO PC\CORTEXIA-contribute\backend
+configfile: pytest.ini
+plugins: cov-7.1.0, xdist-3.8.0, anyio-4.16.0
+created: 2/2 workers
+2 workers [3 items]
+
+...                                                                      [100%]
+- generated xml file: C:\Users\LENOVO PC\CORTEXIA-contribute\test_reports\final_capstone_testing\09_integration\supplemental\pytest_results.xml -
+============================= 3 passed in 14.20s ==============================

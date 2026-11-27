@@ -1,0 +1,16 @@
+{
+  "source": "test_reports/ml_comparison",
+  "copied_sha256": {
+    "comparison_metrics.csv": "75324ae595ac477234ea1e478b242d23d4e3a8e35840d8d75cd82c3fe6f4d0a0",
+    "participant_metrics.csv": "f4d79f0f79fa3dde2da9b854ee9a96589a24c024fe6e704000d2a5aecba80490",
+    "fold_metrics.csv": "c158764000bf4f196d3af9bd1a865fe4c0a80fa41169a9555974e4770af02430",
+    "baseline_comparison.csv": "7fd80dffeb75ac5a4e50689d13e29c22482eb8e5875a4161461bb0811b00699b",
+    "leakage_audit.csv": "f0e95a8cba361285bdf104b8ebfaa12704d155c6c609fd6e61efd1a4c4247acc",
+    "ML_COMPARISON_REPORT.md": "3471d6984e6a4f7c2a83cd4ae19126e0e6fe4e81ce2cd80d2d3c38b9e8bcb262",
+    "verification.json": "3167e7e42ddaf75dc12f9f0d57ec0b3568998f58d107986cc8a36adf491c8702"
+  },
+  "experiment_source_hashes": {
+    "dataset_hash_definition": "ml_pipeline._sha256 over sorted source paths; filename bytes then file bytes"
+  },
+  "training_repeated": false
+}

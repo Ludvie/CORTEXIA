@@ -1,0 +1,4 @@
+﻿function,nodes,edges,predicate_nodes,P,cyclomatic_complexity,predicate_plus_one,observed_independent_paths,basis_complete
+_idt,20,23,4,1,5,5,5,True
+quality_gate_classification,9,10,2,1,3,3,3,True
+fuse,66,80,15,1,16,16,16,True

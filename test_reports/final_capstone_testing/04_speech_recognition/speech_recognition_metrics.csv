@@ -1,0 +1,6 @@
+﻿model,source,status,reference_type,wer_percent,cer_percent,substitutions,deletions,insertions,duration_sec,cold_processing_sec,timestamps_valid,words,reason
+Vosk-ID,public_fixture,PASSED,documented utterance in fixture README; not independent multi-rater annotation,0.0,0.0,0,0,0,3.7135,2.2410972000070615,True,5,
+Whisper,public_fixture,BLOCKED,,,,,,,,,,,Local model weights unavailable; no download
+fallback_no_whisper,public_fixture,PASSED,,,,,,,,,,,Actual Vosk; mocked Whisper readiness/failure only
+fallback_failed_whisper,public_fixture,PASSED,,,,,,,,,,,Actual Vosk; mocked Whisper readiness/failure only
+corrupt_audio,synthetic,PASSED,,,,,,,,,,,Expected HTTPException 422

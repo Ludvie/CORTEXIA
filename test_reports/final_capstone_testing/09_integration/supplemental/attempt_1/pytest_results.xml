@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?><testsuites name="pytest tests"><testsuite name="pytest" errors="3" failures="0" skipped="0" tests="3" time="1.586" timestamp="2026-11-27T17:09:52.069043+07:00" hostname="LUDVIE-SPACE"><testcase classname="test_reports.final_capstone_testing.test_isolated_roundtrip" name="test_cross_owner_session_and_report_isolation" time="0.019"><error message="failed on setup with &quot;requests.exceptions.HTTPError: 422 Client Error: Unprocessable Content for url: http://127.0.0.1:57599/api/auth/register&quot;">..\test_reports\final_capstone_testing\test_isolated_roundtrip.py:14: in context
+    response.raise_for_status();c.headers['Authorization']='Bearer '+response.json()['token'];clients.append(c)
+    ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+.venv\Lib\site-packages\requests\models.py:1167: in raise_for_status
+    raise HTTPError(http_error_msg, response=self)
+E   requests.exceptions.HTTPError: 422 Client Error: Unprocessable Content for url: http://127.0.0.1:57599/api/auth/register</error></testcase><testcase classname="test_reports.final_capstone_testing.test_isolated_roundtrip" name="test_full_audio_gaze_fluency_persistence_review_pdf" time="0.001"><error message="failed on setup with &quot;requests.exceptions.HTTPError: 422 Client Error: Unprocessable Content for url: http://127.0.0.1:57599/api/auth/register&quot;">..\test_reports\final_capstone_testing\test_isolated_roundtrip.py:14: in context
+    response.raise_for_status();c.headers['Authorization']='Bearer '+response.json()['token'];clients.append(c)
+    ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+.venv\Lib\site-packages\requests\models.py:1167: in raise_for_status
+    raise HTTPError(http_error_msg, response=self)
+E   requests.exceptions.HTTPError: 422 Client Error: Unprocessable Content for url: http://127.0.0.1:57599/api/auth/register</error></testcase><testcase classname="test_reports.final_capstone_testing.test_isolated_roundtrip" name="test_end_to_end_http_database_performance" time="0.001"><error message="failed on setup with &quot;requests.exceptions.HTTPError: 422 Client Error: Unprocessable Content for url: http://127.0.0.1:57599/api/auth/register&quot;">..\test_reports\final_capstone_testing\test_isolated_roundtrip.py:14: in context
+    response.raise_for_status();c.headers['Authorization']='Bearer '+response.json()['token'];clients.append(c)
+    ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+.venv\Lib\site-packages\requests\models.py:1167: in raise_for_status
+    raise HTTPError(http_error_msg, response=self)
+E   requests.exceptions.HTTPError: 422 Client Error: Unprocessable Content for url: http://127.0.0.1:57599/api/auth/register</error></testcase></testsuite></testsuites>

@@ -1,0 +1,241 @@
+INFO:     Started server process [16400]
+INFO:     Waiting for application startup.
+INFO:     Application startup complete.
+INFO:     Uvicorn running on http://127.0.0.1:62928 (Press CTRL+C to quit)
+INFO:     127.0.0.1:60214 - "GET /api/health HTTP/1.1" 200 OK
+INFO:     127.0.0.1:54914 - "GET /api/health HTTP/1.1" 200 OK
+INFO:     127.0.0.1:54914 - "GET /api/students HTTP/1.1" 401 Unauthorized
+INFO:     127.0.0.1:54914 - "POST /api/auth/register HTTP/1.1" 200 OK
+INFO:     127.0.0.1:54914 - "POST /api/auth/register HTTP/1.1" 200 OK
+INFO:     127.0.0.1:54914 - "POST /api/auth/register HTTP/1.1" 200 OK
+INFO:     127.0.0.1:54914 - "POST /api/auth/register HTTP/1.1" 409 Conflict
+INFO:     127.0.0.1:54914 - "POST /api/auth/login HTTP/1.1" 401 Unauthorized
+INFO:     127.0.0.1:54914 - "POST /api/texts HTTP/1.1" 403 Forbidden
+INFO:     127.0.0.1:54914 - "GET /api/audit HTTP/1.1" 403 Forbidden
+INFO:     127.0.0.1:54914 - "GET /api/research HTTP/1.1" 403 Forbidden
+INFO:     127.0.0.1:54914 - "POST /api/students HTTP/1.1" 200 OK
+INFO:     127.0.0.1:54914 - "POST /api/texts HTTP/1.1" 200 OK
+INFO:     127.0.0.1:54914 - "GET /api/students HTTP/1.1" 200 OK
+INFO:     127.0.0.1:54914 - "DELETE /api/students/f6a5cec8-b2e3-4c90-943a-726d92e5dc37 HTTP/1.1" 404 Not Found
+INFO:     127.0.0.1:54914 - "DELETE /api/texts/75bbdce0-bfd9-40f7-8a4d-bb71bf116e69 HTTP/1.1" 404 Not Found
+ERROR:root:Local TTS failed
+Traceback (most recent call last):
+  File "C:\Users\LENOVO PC\CORTEXIA-contribute\backend\sessions.py", line 19, in synthesize
+    audio=await run_in_threadpool(tts.synthesize,text.strip())
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\LENOVO PC\CORTEXIA-contribute\backend\.venv\Lib\site-packages\starlette\concurrency.py", line 42, in run_in_threadpool
+    return await anyio.to_thread.run_sync(func, *args)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\LENOVO PC\CORTEXIA-contribute\backend\.venv\Lib\site-packages\anyio\to_thread.py", line 65, in run_sync
+    return await get_async_backend().run_sync_in_worker_thread(
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+        func, args, abandon_on_cancel=abandon_on_cancel, limiter=limiter
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "C:\Users\LENOVO PC\CORTEXIA-contribute\backend\.venv\Lib\site-packages\anyio\_backends\_asyncio.py", line 2779, in run_sync_in_worker_thread
+    return await future
+           ^^^^^^^^^^^^
+  File "C:\Users\LENOVO PC\CORTEXIA-contribute\backend\.venv\Lib\site-packages\anyio\_backends\_asyncio.py", line 1124, in run
+    result = context.run(func, *args)
+  File "C:\Users\LENOVO PC\CORTEXIA-contribute\backend\tts.py", line 119, in synthesize
+    return _synthesize(normalize(text))
+  File "C:\Users\LENOVO PC\CORTEXIA-contribute\backend\tts.py", line 115, in _synthesize
+    raise RuntimeError('Mesin suara lokal belum tersedia.')
+RuntimeError: Mesin suara lokal belum tersedia.
+INFO:     127.0.0.1:54914 - "GET /api/speech/synthesize?text=selamat+pagi HTTP/1.1" 503 Service Unavailable
+INFO:     127.0.0.1:54914 - "POST /api/sessions HTTP/1.1" 400 Bad Request
+INFO:     127.0.0.1:54914 - "POST /api/sessions HTTP/1.1" 200 OK
+ERROR:root:Local TTS failed
+Traceback (most recent call last):
+  File "C:\Users\LENOVO PC\CORTEXIA-contribute\backend\sessions.py", line 19, in synthesize
+    audio=await run_in_threadpool(tts.synthesize,text.strip())
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\LENOVO PC\CORTEXIA-contribute\backend\.venv\Lib\site-packages\starlette\concurrency.py", line 42, in run_in_threadpool
+    return await anyio.to_thread.run_sync(func, *args)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\LENOVO PC\CORTEXIA-contribute\backend\.venv\Lib\site-packages\anyio\to_thread.py", line 65, in run_sync
+    return await get_async_backend().run_sync_in_worker_thread(
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+        func, args, abandon_on_cancel=abandon_on_cancel, limiter=limiter
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "C:\Users\LENOVO PC\CORTEXIA-contribute\backend\.venv\Lib\site-packages\anyio\_backends\_asyncio.py", line 2779, in run_sync_in_worker_thread
+    return await future
+           ^^^^^^^^^^^^
+  File "C:\Users\LENOVO PC\CORTEXIA-contribute\backend\.venv\Lib\site-packages\anyio\_backends\_asyncio.py", line 1124, in run
+    result = context.run(func, *args)
+  File "C:\Users\LENOVO PC\CORTEXIA-contribute\backend\tts.py", line 119, in synthesize
+    return _synthesize(normalize(text))
+  File "C:\Users\LENOVO PC\CORTEXIA-contribute\backend\tts.py", line 115, in _synthesize
+    raise RuntimeError('Mesin suara lokal belum tersedia.')
+RuntimeError: Mesin suara lokal belum tersedia.
+INFO:     127.0.0.1:54914 - "GET /api/speech/synthesize?text=rani+pergi+ke+taman HTTP/1.1" 503 Service Unavailable
+INFO:     127.0.0.1:54914 - "POST /api/pronunciation HTTP/1.1" 400 Bad Request
+INFO:     127.0.0.1:54914 - "POST /api/games/start HTTP/1.1" 200 OK
+INFO:     127.0.0.1:54914 - "POST /api/games/f1cec569-a587-4473-90b9-9660c99d6fdb/answer HTTP/1.1" 200 OK
+INFO:     127.0.0.1:54914 - "POST /api/games/f1cec569-a587-4473-90b9-9660c99d6fdb/answer HTTP/1.1" 200 OK
+INFO:     127.0.0.1:54914 - "POST /api/games/f1cec569-a587-4473-90b9-9660c99d6fdb/answer HTTP/1.1" 200 OK
+INFO:     127.0.0.1:54914 - "POST /api/games/f1cec569-a587-4473-90b9-9660c99d6fdb/answer HTTP/1.1" 200 OK
+INFO:     127.0.0.1:54914 - "POST /api/games/f1cec569-a587-4473-90b9-9660c99d6fdb/answer HTTP/1.1" 200 OK
+INFO:     127.0.0.1:54914 - "POST /api/games/f1cec569-a587-4473-90b9-9660c99d6fdb/answer HTTP/1.1" 409 Conflict
+INFO:     127.0.0.1:54918 - "POST /api/auth/register HTTP/1.1" 200 OK
+INFO:     127.0.0.1:54918 - "GET /api/health HTTP/1.1" 200 OK
+ERROR:root:Local TTS failed
+Traceback (most recent call last):
+  File "C:\Users\LENOVO PC\CORTEXIA-contribute\backend\sessions.py", line 19, in synthesize
+    audio=await run_in_threadpool(tts.synthesize,text.strip())
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\LENOVO PC\CORTEXIA-contribute\backend\.venv\Lib\site-packages\starlette\concurrency.py", line 42, in run_in_threadpool
+    return await anyio.to_thread.run_sync(func, *args)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\LENOVO PC\CORTEXIA-contribute\backend\.venv\Lib\site-packages\anyio\to_thread.py", line 65, in run_sync
+    return await get_async_backend().run_sync_in_worker_thread(
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+        func, args, abandon_on_cancel=abandon_on_cancel, limiter=limiter
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "C:\Users\LENOVO PC\CORTEXIA-contribute\backend\.venv\Lib\site-packages\anyio\_backends\_asyncio.py", line 2779, in run_sync_in_worker_thread
+    return await future
+           ^^^^^^^^^^^^
+  File "C:\Users\LENOVO PC\CORTEXIA-contribute\backend\.venv\Lib\site-packages\anyio\_backends\_asyncio.py", line 1124, in run
+    result = context.run(func, *args)
+  File "C:\Users\LENOVO PC\CORTEXIA-contribute\backend\tts.py", line 119, in synthesize
+    return _synthesize(normalize(text))
+  File "C:\Users\LENOVO PC\CORTEXIA-contribute\backend\tts.py", line 115, in _synthesize
+    raise RuntimeError('Mesin suara lokal belum tersedia.')
+RuntimeError: Mesin suara lokal belum tersedia.
+INFO:     127.0.0.1:54918 - "GET /api/speech/synthesize?text=kupu-kupu HTTP/1.1" 503 Service Unavailable
+INFO:     127.0.0.1:54931 - "POST /api/auth/register HTTP/1.1" 200 OK
+INFO:     127.0.0.1:54931 - "POST /api/students HTTP/1.1" 200 OK
+INFO:     127.0.0.1:54931 - "GET /api/texts HTTP/1.1" 200 OK
+ERROR:root:Local TTS failed
+Traceback (most recent call last):
+  File "C:\Users\LENOVO PC\CORTEXIA-contribute\backend\sessions.py", line 19, in synthesize
+    audio=await run_in_threadpool(tts.synthesize,text.strip())
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\LENOVO PC\CORTEXIA-contribute\backend\.venv\Lib\site-packages\starlette\concurrency.py", line 42, in run_in_threadpool
+    return await anyio.to_thread.run_sync(func, *args)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\LENOVO PC\CORTEXIA-contribute\backend\.venv\Lib\site-packages\anyio\to_thread.py", line 65, in run_sync
+    return await get_async_backend().run_sync_in_worker_thread(
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+        func, args, abandon_on_cancel=abandon_on_cancel, limiter=limiter
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "C:\Users\LENOVO PC\CORTEXIA-contribute\backend\.venv\Lib\site-packages\anyio\_backends\_asyncio.py", line 2779, in run_sync_in_worker_thread
+    return await future
+           ^^^^^^^^^^^^
+  File "C:\Users\LENOVO PC\CORTEXIA-contribute\backend\.venv\Lib\site-packages\anyio\_backends\_asyncio.py", line 1124, in run
+    result = context.run(func, *args)
+  File "C:\Users\LENOVO PC\CORTEXIA-contribute\backend\tts.py", line 119, in synthesize
+    return _synthesize(normalize(text))
+  File "C:\Users\LENOVO PC\CORTEXIA-contribute\backend\tts.py", line 115, in _synthesize
+    raise RuntimeError('Mesin suara lokal belum tersedia.')
+RuntimeError: Mesin suara lokal belum tersedia.
+INFO:     127.0.0.1:54918 - "GET /api/speech/synthesize?text=apel HTTP/1.1" 503 Service Unavailable
+INFO:     127.0.0.1:54931 - "POST /api/sessions HTTP/1.1" 200 OK
+INFO:     127.0.0.1:54931 - "POST /api/sessions HTTP/1.1" 200 OK
+INFO:     127.0.0.1:54931 - "GET /api/sessions HTTP/1.1" 200 OK
+ERROR:root:Local TTS failed
+Traceback (most recent call last):
+  File "C:\Users\LENOVO PC\CORTEXIA-contribute\backend\sessions.py", line 19, in synthesize
+    audio=await run_in_threadpool(tts.synthesize,text.strip())
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\LENOVO PC\CORTEXIA-contribute\backend\.venv\Lib\site-packages\starlette\concurrency.py", line 42, in run_in_threadpool
+    return await anyio.to_thread.run_sync(func, *args)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\LENOVO PC\CORTEXIA-contribute\backend\.venv\Lib\site-packages\anyio\to_thread.py", line 65, in run_sync
+    return await get_async_backend().run_sync_in_worker_thread(
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+        func, args, abandon_on_cancel=abandon_on_cancel, limiter=limiter
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "C:\Users\LENOVO PC\CORTEXIA-contribute\backend\.venv\Lib\site-packages\anyio\_backends\_asyncio.py", line 2779, in run_sync_in_worker_thread
+    return await future
+           ^^^^^^^^^^^^
+  File "C:\Users\LENOVO PC\CORTEXIA-contribute\backend\.venv\Lib\site-packages\anyio\_backends\_asyncio.py", line 1124, in run
+    result = context.run(func, *args)
+  File "C:\Users\LENOVO PC\CORTEXIA-contribute\backend\tts.py", line 119, in synthesize
+    return _synthesize(normalize(text))
+  File "C:\Users\LENOVO PC\CORTEXIA-contribute\backend\tts.py", line 115, in _synthesize
+    raise RuntimeError('Mesin suara lokal belum tersedia.')
+RuntimeError: Mesin suara lokal belum tersedia.
+INFO:     127.0.0.1:54918 - "GET /api/speech/synthesize?text=kupu-kupu HTTP/1.1" 503 Service Unavailable
+INFO:     127.0.0.1:54931 - "POST /api/sessions HTTP/1.1" 200 OK
+INFO:     127.0.0.1:54931 - "POST /api/sessions HTTP/1.1" 200 OK
+INFO:     127.0.0.1:54931 - "POST /api/sessions HTTP/1.1" 422 Unprocessable Content
+INFO:     127.0.0.1:54918 - "POST /api/students HTTP/1.1" 200 OK
+INFO:     127.0.0.1:54918 - "GET /api/texts HTTP/1.1" 200 OK
+INFO:     127.0.0.1:54931 - "POST /api/sessions HTTP/1.1" 200 OK
+INFO:     127.0.0.1:54918 - "POST /api/sessions HTTP/1.1" 200 OK
+INFO:     127.0.0.1:54931 - "POST /api/sessions HTTP/1.1" 200 OK
+INFO:     127.0.0.1:54918 - "PATCH /api/sessions/c6796a3d-abc1-41de-b189-6b1cfe8b8313/review HTTP/1.1" 200 OK
+INFO:     127.0.0.1:54931 - "POST /api/sessions HTTP/1.1" 200 OK
+INFO:     127.0.0.1:54918 - "GET /api/sessions/c6796a3d-abc1-41de-b189-6b1cfe8b8313/report HTTP/1.1" 200 OK
+INFO:     127.0.0.1:54931 - "GET /api/dashboard HTTP/1.1" 200 OK
+INFO:     127.0.0.1:49674 - "POST /api/sessions HTTP/1.1" 200 OK
+INFO:     127.0.0.1:49675 - "POST /api/sessions HTTP/1.1" 200 OK
+INFO:     127.0.0.1:49676 - "POST /api/sessions HTTP/1.1" 200 OK
+INFO:     127.0.0.1:49677 - "POST /api/sessions HTTP/1.1" 200 OK
+INFO:     127.0.0.1:49679 - "POST /api/sessions HTTP/1.1" 200 OK
+INFO:     127.0.0.1:49678 - "POST /api/sessions HTTP/1.1" 200 OK
+INFO:     127.0.0.1:54931 - "GET /api/sessions HTTP/1.1" 200 OK
+INFO:     127.0.0.1:54918 - "GET /api/dashboard HTTP/1.1" 200 OK
+INFO:     127.0.0.1:54918 - "DELETE /api/sessions/c6796a3d-abc1-41de-b189-6b1cfe8b8313 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:54931 - "DELETE /api/students/7c6dde47-83b6-4555-8b1d-10cfb84a6a7d HTTP/1.1" 200 OK
+INFO:     127.0.0.1:54918 - "POST /api/sessions HTTP/1.1" 200 OK
+INFO:     127.0.0.1:54918 - "DELETE /api/sessions/9568246f-40ee-4771-b599-f579b142a1c1 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:54918 - "POST /api/sessions HTTP/1.1" 422 Unprocessable Content
+ERROR:root:Local TTS failed
+Traceback (most recent call last):
+  File "C:\Users\LENOVO PC\CORTEXIA-contribute\backend\sessions.py", line 19, in synthesize
+    audio=await run_in_threadpool(tts.synthesize,text.strip())
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\LENOVO PC\CORTEXIA-contribute\backend\.venv\Lib\site-packages\starlette\concurrency.py", line 42, in run_in_threadpool
+    return await anyio.to_thread.run_sync(func, *args)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\LENOVO PC\CORTEXIA-contribute\backend\.venv\Lib\site-packages\anyio\to_thread.py", line 65, in run_sync
+    return await get_async_backend().run_sync_in_worker_thread(
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+        func, args, abandon_on_cancel=abandon_on_cancel, limiter=limiter
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "C:\Users\LENOVO PC\CORTEXIA-contribute\backend\.venv\Lib\site-packages\anyio\_backends\_asyncio.py", line 2779, in run_sync_in_worker_thread
+    return await future
+           ^^^^^^^^^^^^
+  File "C:\Users\LENOVO PC\CORTEXIA-contribute\backend\.venv\Lib\site-packages\anyio\_backends\_asyncio.py", line 1124, in run
+    result = context.run(func, *args)
+  File "C:\Users\LENOVO PC\CORTEXIA-contribute\backend\tts.py", line 119, in synthesize
+    return _synthesize(normalize(text))
+  File "C:\Users\LENOVO PC\CORTEXIA-contribute\backend\tts.py", line 115, in _synthesize
+    raise RuntimeError('Mesin suara lokal belum tersedia.')
+RuntimeError: Mesin suara lokal belum tersedia.
+INFO:     127.0.0.1:54918 - "GET /api/speech/synthesize?text=Pagi+ini%2C+Rani+pergi+ke+taman+bunga+bersama+Ibu.+Di+sana%2C+Rani HTTP/1.1" 503 Service Unavailable
+INFO:     127.0.0.1:54918 - "GET /api/games/gaze/levels HTTP/1.1" 200 OK
+INFO:     127.0.0.1:54918 - "POST /api/games/gaze/finish HTTP/1.1" 200 OK
+INFO:     127.0.0.1:54918 - "GET /api/dashboard HTTP/1.1" 200 OK
+INFO:     127.0.0.1:54918 - "DELETE /api/students/911d2aa3-9e2a-4e5b-a767-b7478e0039c8 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:54914 - "DELETE /api/texts/75bbdce0-bfd9-40f7-8a4d-bb71bf116e69 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:54914 - "DELETE /api/students/f6a5cec8-b2e3-4c90-943a-726d92e5dc37 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:54914 - "POST /api/auth/logout HTTP/1.1" 200 OK
+INFO:     127.0.0.1:54914 - "POST /api/auth/logout HTTP/1.1" 200 OK
+INFO:     127.0.0.1:54914 - "POST /api/auth/logout HTTP/1.1" 200 OK
+INFO:     127.0.0.1:49688 - "POST /api/auth/register HTTP/1.1" 200 OK
+INFO:     127.0.0.1:49688 - "POST /api/students HTTP/1.1" 200 OK
+INFO:     127.0.0.1:49688 - "GET /api/texts HTTP/1.1" 200 OK
+INFO:     127.0.0.1:49688 - "POST /api/sessions HTTP/1.1" 200 OK
+INFO:     127.0.0.1:49688 - "GET /api/sessions/693e4d97-02c2-4341-ad7c-995be4e4ea72 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:49688 - "PATCH /api/sessions/693e4d97-02c2-4341-ad7c-995be4e4ea72/review HTTP/1.1" 200 OK
+INFO:     127.0.0.1:49688 - "POST /api/sessions HTTP/1.1" 200 OK
+INFO:     127.0.0.1:49688 - "GET /api/sessions/890fdf0d-c487-45ff-bc9f-6fd924222ced HTTP/1.1" 200 OK
+INFO:     127.0.0.1:49688 - "PATCH /api/sessions/890fdf0d-c487-45ff-bc9f-6fd924222ced/review HTTP/1.1" 200 OK
+INFO:     127.0.0.1:49688 - "POST /api/sessions HTTP/1.1" 200 OK
+INFO:     127.0.0.1:49688 - "GET /api/sessions/f30ab807-6caf-4996-a280-af1a5b3790b5 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:49688 - "POST /api/sessions HTTP/1.1" 200 OK
+INFO:     127.0.0.1:49688 - "GET /api/sessions/1be97dec-ab60-422d-9182-765051f43bea HTTP/1.1" 200 OK

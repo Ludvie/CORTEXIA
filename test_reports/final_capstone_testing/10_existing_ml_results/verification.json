@@ -1,0 +1,19 @@
+{
+  "passed": true,
+  "checks": [
+    "logistic/recording: metrics independently recomputed from CSV",
+    "forest/recording: metrics independently recomputed from CSV",
+    "baseline/recording: metrics independently recomputed from CSV",
+    "logistic/participant: metrics independently recomputed from CSV",
+    "forest/participant: metrics independently recomputed from CSV",
+    "baseline/participant: metrics independently recomputed from CSV",
+    "coefficients_lr.png: PNG verified",
+    "comparison_participant.png: PNG verified",
+    "comparison_recording.png: PNG verified",
+    "confusion_matrices_participant.png: PNG verified",
+    "confusion_matrices_recording.png: PNG verified",
+    "feature_importance_rf.png: PNG verified",
+    "roc_curve_participant.png: PNG verified",
+    "roc_curve_recording.png: PNG verified"
+  ]
+}

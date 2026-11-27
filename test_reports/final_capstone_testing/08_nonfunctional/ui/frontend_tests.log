@@ -1,0 +1,24 @@
+PASS src/pages/Results.test.jsx (5.613 s)
+  √ uses backend findings, keeps three shared words and separate WPM definitions (333 ms)
+  √ no fusion for audio=true, gaze=false, even with stale fusion data (84 ms)
+  √ no fusion for audio=false, gaze=true, even with stale fusion data (69 ms)
+  √ no fusion for audio=false, gaze=false, even with stale fusion data (56 ms)
+  √ legacy data without multimodal_complete cannot claim fusion (40 ms)
+  √ null mean pause is unavailable, while a measured zero stays zero (50 ms)
+  √ missing legacy fields render every tab without undefined or NaN (86 ms)
+  √ loading, API error, and retry are usable (48 ms)
+  √ empty successful response shows an empty state (7 ms)
+  √ tab keyboard navigation moves focus and selected state (95 ms)
+  √ teacher review posts correction and renders returned metrics without replacing original fluency (104 ms)
+  √ student cannot see the transcript correction control (61 ms)
+  √ PDF keeps the existing endpoint and blob download contract (65 ms)
+  √ gaze tab retains the replay component and word observation table (53 ms)
+  √ additional backend recommendation opens the transcript tab (59 ms)
+  √ null profile and non-finite measurements remain safe (39 ms)
+
+Test Suites: 1 passed, 1 total
+Tests:       16 passed, 16 total
+Snapshots:   0 total
+Time:        24.93 s
+Ran all test suites.
+Test results written to: ..\test_reports\final_capstone_testing\08_nonfunctional\ui\frontend_tests.json

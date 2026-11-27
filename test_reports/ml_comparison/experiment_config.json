@@ -1,0 +1,969 @@
+{
+  "started_utc": "2026-11-27T04:46:04.599177+00:00",
+  "finished_utc": "2026-11-27T04:46:34.228364+00:00",
+  "library_versions": {
+    "scikit-learn": "1.9.1",
+    "numpy": "2.4.6",
+    "pandas": "3.0.6",
+    "scipy": "1.17.1",
+    "joblib": "1.6.0",
+    "matplotlib": "3.11.2"
+  },
+  "python": "3.13.7",
+  "platform": "Windows-11-10.0.26300-SP0",
+  "git_head": "1074c7d8ed80db550c495483c5e2cbdc065f164d",
+  "features": [
+    "n_fix_trial",
+    "sum_fix_dur_trial",
+    "dwell_time_trial",
+    "mean_fix_dur_trial",
+    "n_sacc_trial",
+    "mean_sacc_dur_trial",
+    "mean_sacc_ampl_trial",
+    "n_between_line_regress_trial",
+    "n_within_line_regress_trial",
+    "n_regress_trial",
+    "n_progress_trial",
+    "avg_dwell_time_aoi",
+    "avg_n_fix_aoi",
+    "avg_mean_fix_dur_aoi",
+    "avg_skipped_aoi",
+    "avg_n_revisits_aoi"
+  ],
+  "feature_version": "etdd70-trial+roi-v1",
+  "missing_values": {
+    "n_fix_trial": 0,
+    "sum_fix_dur_trial": 0,
+    "dwell_time_trial": 0,
+    "mean_fix_dur_trial": 0,
+    "n_sacc_trial": 0,
+    "mean_sacc_dur_trial": 0,
+    "mean_sacc_ampl_trial": 0,
+    "n_between_line_regress_trial": 0,
+    "n_within_line_regress_trial": 0,
+    "n_regress_trial": 0,
+    "n_progress_trial": 0,
+    "avg_dwell_time_aoi": 0,
+    "avg_n_fix_aoi": 0,
+    "avg_mean_fix_dur_aoi": 0,
+    "avg_skipped_aoi": 0,
+    "avg_n_revisits_aoi": 0
+  },
+  "estimator_parameters": {
+    "logistic": {
+      "C": 0.1,
+      "class_weight": "balanced",
+      "dual": false,
+      "fit_intercept": true,
+      "intercept_scaling": 1,
+      "l1_ratio": 0.0,
+      "max_iter": 3000,
+      "n_jobs": null,
+      "penalty": "deprecated",
+      "random_state": 42,
+      "solver": "lbfgs",
+      "tol": 0.0001,
+      "verbose": 0,
+      "warm_start": false
+    },
+    "forest": {
+      "bootstrap": true,
+      "ccp_alpha": 0.0,
+      "class_weight": "balanced",
+      "criterion": "gini",
+      "max_depth": 5,
+      "max_features": "sqrt",
+      "max_leaf_nodes": null,
+      "max_samples": null,
+      "min_impurity_decrease": 0.0,
+      "min_samples_leaf": 3,
+      "min_samples_split": 2,
+      "min_weight_fraction_leaf": 0.0,
+      "monotonic_cst": null,
+      "n_estimators": 160,
+      "n_jobs": 2,
+      "oob_score": false,
+      "random_state": 42,
+      "verbose": 0,
+      "warm_start": false
+    }
+  },
+  "cv": {
+    "type": "StratifiedGroupKFold",
+    "n_splits": 5,
+    "shuffle": true,
+    "random_state": 42,
+    "group": "subject_id"
+  },
+  "preprocessing": [
+    "SimpleImputer(strategy=median)",
+    "StandardScaler"
+  ],
+  "dataset_sha256": "e89e36041d2fd2f332207ee1c6639aa15714d21bf793f11afa1b7e6afd71bbb0",
+  "dataset_hash_definition": "ml_pipeline._sha256 over sorted source paths; filename bytes then file bytes",
+  "pipeline_sha256": "9524bb1d09128151a04799653fe240912ba94df03285feac932c15f2761f67a3",
+  "evaluator_sha256": "05f7286234697f294d944ef5de869c2f3867028e689a33c6127e74d528a8c472",
+  "source_files": [
+    {
+      "file": "dyslexia_class_label.csv",
+      "sha256": "12c06bc6dcbac81f48abc7206156c10bee98a1c9a4c32567060bf95bdb62fb6b"
+    },
+    {
+      "file": "data\\data\\Subject_1003_T1_Syllables_metrics.csv",
+      "sha256": "2467c63d28b52e23f667b3e3d3d6c6c04f2b05ef0d5e028d904642fad5f6c0b2"
+    },
+    {
+      "file": "data\\data\\Subject_1003_T4_Meaningful_Text_metrics.csv",
+      "sha256": "12241b56e5d51324aad87ca60f6a097cde6f21990b14f8dfea777424a1d1f3d9"
+    },
+    {
+      "file": "data\\data\\Subject_1003_T5_Pseudo_Text_metrics.csv",
+      "sha256": "c4d3940e2cd2b9025c1fd4b7f347e240e6c8005b620afcbc035e38cd59de4f86"
+    },
+    {
+      "file": "data\\data\\Subject_1009_T1_Syllables_metrics.csv",
+      "sha256": "66089a0453084b4784227b75c1a8937f0b08b32b672145fd37ef240694d615bd"
+    },
+    {
+      "file": "data\\data\\Subject_1009_T4_Meaningful_Text_metrics.csv",
+      "sha256": "883cc6d3ca3c8c5553030c9b82e8e9c83a7e389a1bfe5c7de944f8e7ff16fbe5"
+    },
+    {
+      "file": "data\\data\\Subject_1009_T5_Pseudo_Text_metrics.csv",
+      "sha256": "1ee6797c00a33f2351cfeed2da7144fddd6e69a57df4efad60dacd5085acef29"
+    },
+    {
+      "file": "data\\data\\Subject_1016_T1_Syllables_metrics.csv",
+      "sha256": "cf3b2361e43182753260d61c0eada6c41bfd7dc51d1e067737951fd34633dee2"
+    },
+    {
+      "file": "data\\data\\Subject_1016_T4_Meaningful_Text_metrics.csv",
+      "sha256": "19e1c00357c1550f1ce82cf4f20e9c8af4d89e55da51a4f86229e32f6200b634"
+    },
+    {
+      "file": "data\\data\\Subject_1016_T5_Pseudo_Text_metrics.csv",
+      "sha256": "3f78ffed597f98b6a963e3c8367f21ab89a81a5c323ec2de09180ad011be5a10"
+    },
+    {
+      "file": "data\\data\\Subject_1019_T1_Syllables_metrics.csv",
+      "sha256": "3e3f6da33a5d8531a1ddc8b76e3f0dd8bdd4197ce4191abce78ab8810a311919"
+    },
+    {
+      "file": "data\\data\\Subject_1019_T4_Meaningful_Text_metrics.csv",
+      "sha256": "e23bbebcefffdfa0eda649c8d42990695105c0d31d6ae28f880398b726b3bde7"
+    },
+    {
+      "file": "data\\data\\Subject_1019_T5_Pseudo_Text_metrics.csv",
+      "sha256": "337c9c7e182fae066cf825d5777e8e14e5937b0a6873377b18be947274ef5924"
+    },
+    {
+      "file": "data\\data\\Subject_1021_T1_Syllables_metrics.csv",
+      "sha256": "d7378f0f8640acc10c70ceec48424223a163df3d0df19af13d5a22de5b7f55ad"
+    },
+    {
+      "file": "data\\data\\Subject_1021_T4_Meaningful_Text_metrics.csv",
+      "sha256": "ed34cca976b5f10c05be39137b5cd6e7f8350cf09429e79c4f9d8d1cb8fd1af8"
+    },
+    {
+      "file": "data\\data\\Subject_1021_T5_Pseudo_Text_metrics.csv",
+      "sha256": "27db3fbb6321e177e51253d45f21717e728d9b87d7dfc8c6eab818ede45d434a"
+    },
+    {
+      "file": "data\\data\\Subject_1033_T1_Syllables_metrics.csv",
+      "sha256": "36da97e9d49b9eeffe374b0508e7f3c7c1dc2b9fd5f41f330a2b937c46ebd3ba"
+    },
+    {
+      "file": "data\\data\\Subject_1033_T4_Meaningful_Text_metrics.csv",
+      "sha256": "be477cc436e30163b122ceac8d12e0b8b915180623ade0d984eed567391209c7"
+    },
+    {
+      "file": "data\\data\\Subject_1033_T5_Pseudo_Text_metrics.csv",
+      "sha256": "0c06b14e46b07a193f6d8abb713e89aaf4af5b27576ea1bd5feba683eab3d630"
+    },
+    {
+      "file": "data\\data\\Subject_1038_T1_Syllables_metrics.csv",
+      "sha256": "27e473669e8e216ea21589adbddc13fb0ee1c50bcf8e88d70cf81a1f9faeaf77"
+    },
+    {
+      "file": "data\\data\\Subject_1038_T4_Meaningful_Text_metrics.csv",
+      "sha256": "1ad1f777f66cbef3c10b248e4d7ccba09c8701722454eb2b49e16dab66bc5042"
+    },
+    {
+      "file": "data\\data\\Subject_1038_T5_Pseudo_Text_metrics.csv",
+      "sha256": "2bb77ab9a693150aec7eedaf8a84144ae6028e10485520943dc8fb517ad8b03f"
+    },
+    {
+      "file": "data\\data\\Subject_1040_T1_Syllables_metrics.csv",
+      "sha256": "881ac0914e56e020cb701b8315969eeaf76a66d377c309d844defe76589fe70f"
+    },
+    {
+      "file": "data\\data\\Subject_1040_T4_Meaningful_Text_metrics.csv",
+      "sha256": "ad3bda2e4c12a43df5a7a0e83a8a3772027618fed4f1d0586ce2a412ef6794be"
+    },
+    {
+      "file": "data\\data\\Subject_1040_T5_Pseudo_Text_metrics.csv",
+      "sha256": "71e790f44dd6629fb8e0c423353438cbdbd320e59e8d432ef1b3c0de997a6dec"
+    },
+    {
+      "file": "data\\data\\Subject_1058_T1_Syllables_metrics.csv",
+      "sha256": "217eefc6d148dcb265e1d671299b59211de1059e8d814d6f05c8c789faa3770d"
+    },
+    {
+      "file": "data\\data\\Subject_1058_T4_Meaningful_Text_metrics.csv",
+      "sha256": "4cbbf30c8a7f60fbb74dd3ddc487f2d7a9038ffa4c4f3e1057e1f76619e44684"
+    },
+    {
+      "file": "data\\data\\Subject_1058_T5_Pseudo_Text_metrics.csv",
+      "sha256": "76c7cd953ecfb2848ca8f1f234a83684bcad68f83b6c9b10fbd5b37126db6d2a"
+    },
+    {
+      "file": "data\\data\\Subject_1065_T1_Syllables_metrics.csv",
+      "sha256": "cb05514e600a72eaa30f04f7b09bdc8281c2c56f13c6776de95f9a7b318c016e"
+    },
+    {
+      "file": "data\\data\\Subject_1065_T4_Meaningful_Text_metrics.csv",
+      "sha256": "46146f93e78df8bf4c01c3ba5a3036969090d7788af57cb39ecbc89acff1cbe1"
+    },
+    {
+      "file": "data\\data\\Subject_1065_T5_Pseudo_Text_metrics.csv",
+      "sha256": "175c7133c3cd53bf7291be1e69aa082c65fdb8d3cb1bf47f293807751adf4723"
+    },
+    {
+      "file": "data\\data\\Subject_1073_T1_Syllables_metrics.csv",
+      "sha256": "eb6cef04e864741a891cef882324730bd1b4367c717ec8168ce684305e020fe9"
+    },
+    {
+      "file": "data\\data\\Subject_1073_T4_Meaningful_Text_metrics.csv",
+      "sha256": "e2b4e96b7fabf8d62922cd8340dab3ccacc65b5bca1d397fbced5375fe334019"
+    },
+    {
+      "file": "data\\data\\Subject_1073_T5_Pseudo_Text_metrics.csv",
+      "sha256": "33c7e4eca76e825ca336a37dc755cba5f9bc5780cd24cce06796af5507888763"
+    },
+    {
+      "file": "data\\data\\Subject_1075_T1_Syllables_metrics.csv",
+      "sha256": "6dbb0f733061b702c4590dc75018ca62a9051bc695c2e6d279f974c50fc69633"
+    },
+    {
+      "file": "data\\data\\Subject_1075_T4_Meaningful_Text_metrics.csv",
+      "sha256": "9170faa68848b33acd881e9f9e9953d18426d1da6cd3eb49c33d759d9ae39f5c"
+    },
+    {
+      "file": "data\\data\\Subject_1075_T5_Pseudo_Text_metrics.csv",
+      "sha256": "8410e2661350f4dbfc9c63ee29a5c05969ce8726bc8b1ee939c3ba9131250608"
+    },
+    {
+      "file": "data\\data\\Subject_1082_T1_Syllables_metrics.csv",
+      "sha256": "366999a17bef9fad6bd8637e5ee187df7eac879147edf770b05ade8079b8ecee"
+    },
+    {
+      "file": "data\\data\\Subject_1082_T4_Meaningful_Text_metrics.csv",
+      "sha256": "050e663a699b2ccfd3db1216a8d8a45f0433c893b818d8a84d0ed78f659f7b03"
+    },
+    {
+      "file": "data\\data\\Subject_1082_T5_Pseudo_Text_metrics.csv",
+      "sha256": "72e82465ad5ce7df80f33575a888d4d9d912a70edacdef5931abfe0afe11514e"
+    },
+    {
+      "file": "data\\data\\Subject_1090_T1_Syllables_metrics.csv",
+      "sha256": "cce55001a9535df955d7fc9c4d8400869fe07f2b7da3fe6bafd3de2077ecd2e0"
+    },
+    {
+      "file": "data\\data\\Subject_1090_T4_Meaningful_Text_metrics.csv",
+      "sha256": "8465daf0aa7cc5ad1caf7e8b4055903d62f6125c5faf48f2d3e0f4fe1e4dd435"
+    },
+    {
+      "file": "data\\data\\Subject_1090_T5_Pseudo_Text_metrics.csv",
+      "sha256": "3f8643e65725fa379c4408901adce44bc4ca1fad5aae63b942c3190e49ab6666"
+    },
+    {
+      "file": "data\\data\\Subject_1095_T1_Syllables_metrics.csv",
+      "sha256": "d773dde5d79930247824a4a84ad662b3f82d8fd8e3ade4d05c2a85c3fbce5ddc"
+    },
+    {
+      "file": "data\\data\\Subject_1095_T4_Meaningful_Text_metrics.csv",
+      "sha256": "d6d86fdf5bf09e58e58149bde29acf696b0fe58eca15959f0534d04fc5efded4"
+    },
+    {
+      "file": "data\\data\\Subject_1095_T5_Pseudo_Text_metrics.csv",
+      "sha256": "57258fb3293a33e3ffbb8e1d1a7dd323363a79557696e48b5536639c8431bd63"
+    },
+    {
+      "file": "data\\data\\Subject_1109_T1_Syllables_metrics.csv",
+      "sha256": "28ae0a445ab158f816496b661e5a2c55fe926fb4b83711973d9abb5fa49b4b32"
+    },
+    {
+      "file": "data\\data\\Subject_1109_T4_Meaningful_Text_metrics.csv",
+      "sha256": "3ad95dc774a75f284aef1efa1bc72d078bbeb3453f80192351b00059559a1678"
+    },
+    {
+      "file": "data\\data\\Subject_1109_T5_Pseudo_Text_metrics.csv",
+      "sha256": "859bdaf847156c16c646450562e9844584adab1ceb52936fbc99d24077d17c29"
+    },
+    {
+      "file": "data\\data\\Subject_1113_T1_Syllables_metrics.csv",
+      "sha256": "fb675ae8df24deef9483cea57bb1e662ccec5fb768d18553f93505671007463e"
+    },
+    {
+      "file": "data\\data\\Subject_1113_T4_Meaningful_Text_metrics.csv",
+      "sha256": "605589389d8035f5a437d03c9711330016e53ee7af31b53565cc2c1db82fa67e"
+    },
+    {
+      "file": "data\\data\\Subject_1113_T5_Pseudo_Text_metrics.csv",
+      "sha256": "6f1b9175c5f42fc29390674a32fc9e41f163a197e08b90ca6b9239cea42db295"
+    },
+    {
+      "file": "data\\data\\Subject_1115_T1_Syllables_metrics.csv",
+      "sha256": "81ac28cacf66233322c0351b2d90641eae142ae146535c2ce2ca3d82eb197389"
+    },
+    {
+      "file": "data\\data\\Subject_1115_T4_Meaningful_Text_metrics.csv",
+      "sha256": "b4be103d86ef24cb5716387f0675209be90dc841355b42ed84a0321df2a331fc"
+    },
+    {
+      "file": "data\\data\\Subject_1115_T5_Pseudo_Text_metrics.csv",
+      "sha256": "9187732028d4f4865a192228b0f73a3aeb3a9b8ead80bd61bfeda1b167e9cf71"
+    },
+    {
+      "file": "data\\data\\Subject_1134_T1_Syllables_metrics.csv",
+      "sha256": "0efcce2552ae6259343feb494eed1016981076dcca64d0bb32939d760db05e1a"
+    },
+    {
+      "file": "data\\data\\Subject_1134_T4_Meaningful_Text_metrics.csv",
+      "sha256": "348f99abf60299afe202d6052a8f2d2cf5871322cd276465f5f7f0b3e4d36b59"
+    },
+    {
+      "file": "data\\data\\Subject_1134_T5_Pseudo_Text_metrics.csv",
+      "sha256": "d13a12610340e1fb3af83425b3973dfe86372477c5b6fb4e5638b1b8ff210939"
+    },
+    {
+      "file": "data\\data\\Subject_1145_T1_Syllables_metrics.csv",
+      "sha256": "8437229544c7507d8070f9edbaa48bc5997b3d8b0b553ae67fbcb87ab6384453"
+    },
+    {
+      "file": "data\\data\\Subject_1145_T4_Meaningful_Text_metrics.csv",
+      "sha256": "1b3be1126f250747a58627034f0f1c6bf663a1b3a52e4feb2095555b996025e5"
+    },
+    {
+      "file": "data\\data\\Subject_1145_T5_Pseudo_Text_metrics.csv",
+      "sha256": "d35f4a34f28091df8bcfddb057d9c14ae230a60cc013041e1d9e0fe2f88d03d2"
+    },
+    {
+      "file": "data\\data\\Subject_1160_T1_Syllables_metrics.csv",
+      "sha256": "6c87c3cdb786306e4b2582029e370640474ae3cb8bf1467433cf30bd689b57c8"
+    },
+    {
+      "file": "data\\data\\Subject_1160_T4_Meaningful_Text_metrics.csv",
+      "sha256": "502c7075b24e0c710271cc7d283f6bce2e40be6e60cbae4b8053ab7acd80760a"
+    },
+    {
+      "file": "data\\data\\Subject_1160_T5_Pseudo_Text_metrics.csv",
+      "sha256": "186c7a55f6782910015f6dc6a7a8d458f9161d009d84855025640c0cb475541e"
+    },
+    {
+      "file": "data\\data\\Subject_1166_T1_Syllables_metrics.csv",
+      "sha256": "f1920f99a0e9d1f324121fc9cd3dc18ecdb5764c833cb99517e844cc54210df6"
+    },
+    {
+      "file": "data\\data\\Subject_1166_T4_Meaningful_Text_metrics.csv",
+      "sha256": "05d3df01686a975f9e9eb379f4a2346b311f4234e18d1a2cc8c05c227840889d"
+    },
+    {
+      "file": "data\\data\\Subject_1166_T5_Pseudo_Text_metrics.csv",
+      "sha256": "b6332d88be161e5331cd5771fe0efdf1fd29a1878e60e5b045444881c2f7e8ed"
+    },
+    {
+      "file": "data\\data\\Subject_1169_T1_Syllables_metrics.csv",
+      "sha256": "276ccaf9697857f79af9835ecd99f19b20d2da5750bdfb62adb198a78f424ab9"
+    },
+    {
+      "file": "data\\data\\Subject_1169_T4_Meaningful_Text_metrics.csv",
+      "sha256": "c8979e0061d035528cea6b624cf2ab12b6ec32121f4be4cc981c2353ace3e8e3"
+    },
+    {
+      "file": "data\\data\\Subject_1169_T5_Pseudo_Text_metrics.csv",
+      "sha256": "d72e5082554585fd194dec5d78d2eeabb0f10863b8964d779ba9f7cce5129acf"
+    },
+    {
+      "file": "data\\data\\Subject_1174_T1_Syllables_metrics.csv",
+      "sha256": "a1bb161aca9ce5708f4fe0aa77d6bceeb8e61f2b7907511d548885e11439f9b1"
+    },
+    {
+      "file": "data\\data\\Subject_1174_T4_Meaningful_Text_metrics.csv",
+      "sha256": "466651c76bd4794761acd866278e64daee7447293d455851a6c9caebe2a93a7a"
+    },
+    {
+      "file": "data\\data\\Subject_1174_T5_Pseudo_Text_metrics.csv",
+      "sha256": "ad08d23dce0605f0f9fb1553cad4c9619a9afe7311a2443c9efe04441a3e208d"
+    },
+    {
+      "file": "data\\data\\Subject_1186_T1_Syllables_metrics.csv",
+      "sha256": "90dc0a27e72e97b879cf68fdcf98710afb0054cb71bf2e615150ed95d1834c0c"
+    },
+    {
+      "file": "data\\data\\Subject_1186_T4_Meaningful_Text_metrics.csv",
+      "sha256": "0af125a485af24f5f0a0cff4ed27af0c44358341b472ceea2e9b13a562f505df"
+    },
+    {
+      "file": "data\\data\\Subject_1186_T5_Pseudo_Text_metrics.csv",
+      "sha256": "abe77b75bb26bbf809ac149fc4829aa12433f0bdbbd94d773b6f1914dbb2a7ee"
+    },
+    {
+      "file": "data\\data\\Subject_1187_T1_Syllables_metrics.csv",
+      "sha256": "60140ead93ae37c82aceebd958def21326acbf908c634273b6a0fe15a34e2628"
+    },
+    {
+      "file": "data\\data\\Subject_1187_T4_Meaningful_Text_metrics.csv",
+      "sha256": "3c28ec9f71b432292f4956358714ceeb289668fc89ea8f88cb56580822a458f3"
+    },
+    {
+      "file": "data\\data\\Subject_1187_T5_Pseudo_Text_metrics.csv",
+      "sha256": "cc12af2eee397ad07bc87b2befb8280e9cbad764704754af50ead9ddc3532c00"
+    },
+    {
+      "file": "data\\data\\Subject_1189_T1_Syllables_metrics.csv",
+      "sha256": "c445ceb68a42eeaeda55da73364cc7d6d419f570289184ef8aa4f96cc94ba497"
+    },
+    {
+      "file": "data\\data\\Subject_1189_T4_Meaningful_Text_metrics.csv",
+      "sha256": "e41e40fc313b107e48a43aaf342d45a454b231861aabbe07422192f803eab855"
+    },
+    {
+      "file": "data\\data\\Subject_1189_T5_Pseudo_Text_metrics.csv",
+      "sha256": "9858ad2baa1b7b35fa010b53f0ad302c81d21d269ee02cd961bf95946415dc57"
+    },
+    {
+      "file": "data\\data\\Subject_1209_T1_Syllables_metrics.csv",
+      "sha256": "78b1b0f58c4128818251f15f183a9079edc1b0de3f86062a909ab712a82d9cba"
+    },
+    {
+      "file": "data\\data\\Subject_1209_T4_Meaningful_Text_metrics.csv",
+      "sha256": "f998aae95b5f392184edf4a0139d7a82cdd84992161caf1fd8d762618a256a95"
+    },
+    {
+      "file": "data\\data\\Subject_1209_T5_Pseudo_Text_metrics.csv",
+      "sha256": "a5f4b7176b86ce07d8d1db9d84d0a03be67fbc37bae7c666994fd79a8be35e1e"
+    },
+    {
+      "file": "data\\data\\Subject_1235_T1_Syllables_metrics.csv",
+      "sha256": "3be268a0c7be9abbe2fe3df359e548d0563554febdd1bb738155437abe9b2d51"
+    },
+    {
+      "file": "data\\data\\Subject_1235_T4_Meaningful_Text_metrics.csv",
+      "sha256": "9a2ef21f48d2de601b77dc508eeb0974107c7cac50f8d5221b7af42b701f2747"
+    },
+    {
+      "file": "data\\data\\Subject_1235_T5_Pseudo_Text_metrics.csv",
+      "sha256": "8e940023a2215f2691aa066a061858e82f1b6a98cd74a9e83ae44aa47acd5f3d"
+    },
+    {
+      "file": "data\\data\\Subject_1254_T1_Syllables_metrics.csv",
+      "sha256": "6864e028b5a2ba0a317e70cc707631ca9b6a7633842a34c1ece4ed628659e517"
+    },
+    {
+      "file": "data\\data\\Subject_1254_T4_Meaningful_Text_metrics.csv",
+      "sha256": "ae56f7c76272817fe88d6a259b8fa07db9909bd25faaf4f6b9c8d069e65cda91"
+    },
+    {
+      "file": "data\\data\\Subject_1254_T5_Pseudo_Text_metrics.csv",
+      "sha256": "ae81183940d34dac7c0a51c96d15ce39809cb08d7a4a4ced711f958262b79759"
+    },
+    {
+      "file": "data\\data\\Subject_1255_T1_Syllables_metrics.csv",
+      "sha256": "c6ca78ccbcaa6bbe03382d78ebf85c21bfcaf52221baa9b359578cf6f09b5b40"
+    },
+    {
+      "file": "data\\data\\Subject_1255_T4_Meaningful_Text_metrics.csv",
+      "sha256": "d7317a260fcc4031772a0776caa9cac4b47c9d459c79c65736625dcab6490f77"
+    },
+    {
+      "file": "data\\data\\Subject_1255_T5_Pseudo_Text_metrics.csv",
+      "sha256": "ad224cdcd13bad88f9209b7c15069566854b09931820984d238cb6ebe4094c69"
+    },
+    {
+      "file": "data\\data\\Subject_1257_T1_Syllables_metrics.csv",
+      "sha256": "4cea5475e12c2e06863672a0b75a4950c871b68f630d523e5334758a3777a700"
+    },
+    {
+      "file": "data\\data\\Subject_1257_T4_Meaningful_Text_metrics.csv",
+      "sha256": "aa6d3ca717365e0559262bc6b952bffb2152b23699d3c806f4702e600d6b5a48"
+    },
+    {
+      "file": "data\\data\\Subject_1257_T5_Pseudo_Text_metrics.csv",
+      "sha256": "e75b8fca7ebe82c61b823e97472f83cae5293d233794af61d7ea3b0e9ebdfc4f"
+    },
+    {
+      "file": "data\\data\\Subject_1258_T1_Syllables_metrics.csv",
+      "sha256": "b0a50d69667f9566cda8e86c973703c739f950ed77b41850cc73766a0b999ade"
+    },
+    {
+      "file": "data\\data\\Subject_1258_T4_Meaningful_Text_metrics.csv",
+      "sha256": "9d8c9fc22230dc1e5fcbcc3270cd6a8fa32104c8d751c95b9b92520ebfae1edb"
+    },
+    {
+      "file": "data\\data\\Subject_1258_T5_Pseudo_Text_metrics.csv",
+      "sha256": "e401ff2141a3130023596b69e44cf95043c31ff190765d30cf1a04557c21b6f9"
+    },
+    {
+      "file": "data\\data\\Subject_1263_T1_Syllables_metrics.csv",
+      "sha256": "7b44e81bd101c55a9c0a12eeb6c47f7cc2b9e9320ec976b51d358a7912dfa424"
+    },
+    {
+      "file": "data\\data\\Subject_1263_T4_Meaningful_Text_metrics.csv",
+      "sha256": "942b150ac2a81857a4bb5795eb93f6dcbee4631b432e9e358a7f7103ba72eadb"
+    },
+    {
+      "file": "data\\data\\Subject_1263_T5_Pseudo_Text_metrics.csv",
+      "sha256": "381da980c5b0f209ba05d47be7337b5c8e0d46d2f12c6ad6ebc9a5835df6dc11"
+    },
+    {
+      "file": "data\\data\\Subject_1271_T1_Syllables_metrics.csv",
+      "sha256": "72d9f78f4991d9eebe4ffdf323fa74fe67adc9915f35940974adb2c33c601ce7"
+    },
+    {
+      "file": "data\\data\\Subject_1271_T4_Meaningful_Text_metrics.csv",
+      "sha256": "3096ea704a1341518445612b116a3055d9369fb4e3a5e57d49605738c89c462f"
+    },
+    {
+      "file": "data\\data\\Subject_1271_T5_Pseudo_Text_metrics.csv",
+      "sha256": "6b09e16c2674b4d661f9d53c64146ee47e8f5a0cd63ce4a635ba2ab46c6af80d"
+    },
+    {
+      "file": "data\\data\\Subject_1274_T1_Syllables_metrics.csv",
+      "sha256": "097e56003c56711b2e6278c24f6f5c1358882456634f8d9e8ca34a57fa028c45"
+    },
+    {
+      "file": "data\\data\\Subject_1274_T4_Meaningful_Text_metrics.csv",
+      "sha256": "6df9d381d360eda006a89a9fe015e9987b628629483d93f7677e17ed5246b9f1"
+    },
+    {
+      "file": "data\\data\\Subject_1274_T5_Pseudo_Text_metrics.csv",
+      "sha256": "dd8873f426aaf6b83fb1e6c7b24a2aa999063dfac9be1948a6c05ac759d24c98"
+    },
+    {
+      "file": "data\\data\\Subject_1284_T1_Syllables_metrics.csv",
+      "sha256": "0944efc92d6daa1438b1b84ae56e681aec9024b38733a0b011cf8b09cbe34669"
+    },
+    {
+      "file": "data\\data\\Subject_1284_T4_Meaningful_Text_metrics.csv",
+      "sha256": "11bd7cf8a4286c68f2f5e1cd289f16a73543a638a0d391e1d9ae65102220e8ab"
+    },
+    {
+      "file": "data\\data\\Subject_1284_T5_Pseudo_Text_metrics.csv",
+      "sha256": "92ffb35dc9b943a9957aa78d9ad153b16f490f43c2ba7221955df977ae4f0fa6"
+    },
+    {
+      "file": "data\\data\\Subject_1300_T1_Syllables_metrics.csv",
+      "sha256": "98bc7ed011af5189a4e3f8945a4911621d7066d55032b73b90c659f46eecd049"
+    },
+    {
+      "file": "data\\data\\Subject_1300_T4_Meaningful_Text_metrics.csv",
+      "sha256": "567430fcdfe078faaa9ca2fca3c3b750cf6b5e9b11fd23495785a89711e79c8b"
+    },
+    {
+      "file": "data\\data\\Subject_1300_T5_Pseudo_Text_metrics.csv",
+      "sha256": "130b753fceb2ec780943df650e633006d4840aeef05ec7c4b143c108d3eaab3e"
+    },
+    {
+      "file": "data\\data\\Subject_1312_T1_Syllables_metrics.csv",
+      "sha256": "450f61de758f97f4440c943d17655be602deb8143103f42a74e9fff6b55169fd"
+    },
+    {
+      "file": "data\\data\\Subject_1312_T4_Meaningful_Text_metrics.csv",
+      "sha256": "26c7db82e10a96db20654624a8365725d488fd7af61d2ea50bd41cae77ab19db"
+    },
+    {
+      "file": "data\\data\\Subject_1312_T5_Pseudo_Text_metrics.csv",
+      "sha256": "774e5e04ff7e64ec81886cedca1dc67cf53f64958d1518e293823e036cfa05a6"
+    },
+    {
+      "file": "data\\data\\Subject_1314_T1_Syllables_metrics.csv",
+      "sha256": "d970bc82ae2c3a0d752afecd327213b7067760f73843a68a8facee1fed670c66"
+    },
+    {
+      "file": "data\\data\\Subject_1314_T4_Meaningful_Text_metrics.csv",
+      "sha256": "b1ec71d72f46ecb269cbef34471c0275225c3b07f82946c46214f40a4ae764e8"
+    },
+    {
+      "file": "data\\data\\Subject_1314_T5_Pseudo_Text_metrics.csv",
+      "sha256": "01e286b3dabe8b1c445640f68d40d7065d08994402fa50cac57b43755b57673e"
+    },
+    {
+      "file": "data\\data\\Subject_1318_T1_Syllables_metrics.csv",
+      "sha256": "89fed2c2135e585cb7a2e5814472506c361d254f3ded59080250a0324ea2f356"
+    },
+    {
+      "file": "data\\data\\Subject_1318_T4_Meaningful_Text_metrics.csv",
+      "sha256": "14b9f8e62c12ba270cfefdc79c939bde988e74a79c945720909fef3a52234a13"
+    },
+    {
+      "file": "data\\data\\Subject_1318_T5_Pseudo_Text_metrics.csv",
+      "sha256": "c54140f46a26e57ad94e6c682034b2c11d9d76cad9db0f1b1fe06f5944caaf24"
+    },
+    {
+      "file": "data\\data\\Subject_1322_T1_Syllables_metrics.csv",
+      "sha256": "97e5f2494d414fe23ac3fd009365cfe447ea4a038d58c185d22dfceb2f703e3c"
+    },
+    {
+      "file": "data\\data\\Subject_1322_T4_Meaningful_Text_metrics.csv",
+      "sha256": "a33d7c08488ce715add9859df2edb083e5b419bc5b459f040c70dd4a0a2e3da5"
+    },
+    {
+      "file": "data\\data\\Subject_1322_T5_Pseudo_Text_metrics.csv",
+      "sha256": "d708554b7fb2afacfa1df5fbdc31f96e9394bb2cb932fbc9302261fb88d0eeae"
+    },
+    {
+      "file": "data\\data\\Subject_1345_T1_Syllables_metrics.csv",
+      "sha256": "29a3a304c60bd57c257e91cfc27e28e31a5360ef5153cb216468a4e8707f85b9"
+    },
+    {
+      "file": "data\\data\\Subject_1345_T4_Meaningful_Text_metrics.csv",
+      "sha256": "1805c2ff6edc3effcae52ae59d51aea4cdccab42d4eb63ec0595a9b8954766c3"
+    },
+    {
+      "file": "data\\data\\Subject_1345_T5_Pseudo_Text_metrics.csv",
+      "sha256": "d79274909b02c715070fa99b21ccb6725bd75ac6c2e68ec0da1af320905e05eb"
+    },
+    {
+      "file": "data\\data\\Subject_1349_T1_Syllables_metrics.csv",
+      "sha256": "e329eb1e53ec13b038d9da5c5a656d6fe7c0ceb228c1ece8210cc8b877b2f611"
+    },
+    {
+      "file": "data\\data\\Subject_1349_T4_Meaningful_Text_metrics.csv",
+      "sha256": "7e87e21867c392389ad699e0a2da13d41bfed945cda1a4898332ffd135019152"
+    },
+    {
+      "file": "data\\data\\Subject_1349_T5_Pseudo_Text_metrics.csv",
+      "sha256": "00956c0162dfc04d171df276d70b7d737ec4765fe1f3d068b43f82a8d517cb13"
+    },
+    {
+      "file": "data\\data\\Subject_1350_T1_Syllables_metrics.csv",
+      "sha256": "446a0b1e6baabeae268987f84973f9217dd069baa0aaf070b11b7281130d61b7"
+    },
+    {
+      "file": "data\\data\\Subject_1350_T4_Meaningful_Text_metrics.csv",
+      "sha256": "9e3116f84d40559e04a9e2539d1c0a1ea28b0f924f8102d680505f3c9e2b7ba6"
+    },
+    {
+      "file": "data\\data\\Subject_1350_T5_Pseudo_Text_metrics.csv",
+      "sha256": "6ce5ee9a528a6ac717da12ee158e8b887c0fd6c3db7ea12426b5c94c9a851077"
+    },
+    {
+      "file": "data\\data\\Subject_1377_T1_Syllables_metrics.csv",
+      "sha256": "1bd8d1d430c3ef85fdc35187318260082af186fcf701600d58afe60d4d5ab708"
+    },
+    {
+      "file": "data\\data\\Subject_1377_T4_Meaningful_Text_metrics.csv",
+      "sha256": "28d288627b72a0b808ed410c3129e92e1d97346c5ac9a8bbf981f2d90760041d"
+    },
+    {
+      "file": "data\\data\\Subject_1377_T5_Pseudo_Text_metrics.csv",
+      "sha256": "8ce5f7a4cd5d8971b39db8a7409fc016fcc2b26e8dc6232c14076c93dcbf5d48"
+    },
+    {
+      "file": "data\\data\\Subject_1380_T1_Syllables_metrics.csv",
+      "sha256": "234d9423271c164cfbde5d410e636b963905cbaf99cd2982f3954466341f2488"
+    },
+    {
+      "file": "data\\data\\Subject_1380_T4_Meaningful_Text_metrics.csv",
+      "sha256": "d743f583f3a057a8c7c53cec768592b667497945635aff9fe1d569e9ddc3d7ba"
+    },
+    {
+      "file": "data\\data\\Subject_1380_T5_Pseudo_Text_metrics.csv",
+      "sha256": "6afa0dc01b263fb250852b27e2554f90b124f5c2acd4ea39247cab7ff015d064"
+    },
+    {
+      "file": "data\\data\\Subject_1398_T1_Syllables_metrics.csv",
+      "sha256": "cb678beddc41d9e86712b9b47f5dbf6196b17727bbc72aa9ae8f31270c191931"
+    },
+    {
+      "file": "data\\data\\Subject_1398_T4_Meaningful_Text_metrics.csv",
+      "sha256": "d3285609df674fd20bbc01380af50cf557077fe8d0803dd1da19ac17464c0480"
+    },
+    {
+      "file": "data\\data\\Subject_1398_T5_Pseudo_Text_metrics.csv",
+      "sha256": "9e8cbc6d9bed9b5265d4796e03e9d4693f21c0163dc31d6fdc1cb288e31732bf"
+    },
+    {
+      "file": "data\\data\\Subject_1405_T1_Syllables_metrics.csv",
+      "sha256": "7c000d0f5b375546f13db6c9319c4d4a0e0018dfd9b87abd0931db9af2e445a3"
+    },
+    {
+      "file": "data\\data\\Subject_1405_T4_Meaningful_Text_metrics.csv",
+      "sha256": "c49d7b3c936bfcf3bae082086f6e97a8abc2a164272e9147b521ad6f58e6dd58"
+    },
+    {
+      "file": "data\\data\\Subject_1405_T5_Pseudo_Text_metrics.csv",
+      "sha256": "956d7a2a0138cc402bd7e271939e9989bf896a5ce14db21ee400e36bd064c9ae"
+    },
+    {
+      "file": "data\\data\\Subject_1417_T1_Syllables_metrics.csv",
+      "sha256": "203268d6f7ae38612291c511befcfbcdab81870d132de27995694efc067a2d9d"
+    },
+    {
+      "file": "data\\data\\Subject_1417_T4_Meaningful_Text_metrics.csv",
+      "sha256": "397ee50454a0cccc9be69ce2889e6d2dcb2c87721b9a8633854ae98c334796db"
+    },
+    {
+      "file": "data\\data\\Subject_1417_T5_Pseudo_Text_metrics.csv",
+      "sha256": "e88e74c29f80737ca90272fa9bb551dc14271f63626078b97c07a87d62950a1e"
+    },
+    {
+      "file": "data\\data\\Subject_1421_T1_Syllables_metrics.csv",
+      "sha256": "1a8fa639a3d1c7274c3a9344c21e708b929232eacb01680a8fd07884829d6a3e"
+    },
+    {
+      "file": "data\\data\\Subject_1421_T4_Meaningful_Text_metrics.csv",
+      "sha256": "cc8e004ad4c93a188316b55f2ac9592e65cefa679cc24b0697f66621fe286db2"
+    },
+    {
+      "file": "data\\data\\Subject_1421_T5_Pseudo_Text_metrics.csv",
+      "sha256": "b1a8251182846d09fcce1cb5d8e1000bd6491cdba823dc64998aeedc9a5ed2df"
+    },
+    {
+      "file": "data\\data\\Subject_1459_T1_Syllables_metrics.csv",
+      "sha256": "094c56ffc7dedacfb5d052788b95655ecc17cffb27fd14bb0706518535db279e"
+    },
+    {
+      "file": "data\\data\\Subject_1459_T4_Meaningful_Text_metrics.csv",
+      "sha256": "b756cc3ad0b15ff9c51016897b83cf5ae4cfce2a48b3c8b56fb2934abb53744c"
+    },
+    {
+      "file": "data\\data\\Subject_1459_T5_Pseudo_Text_metrics.csv",
+      "sha256": "14cfb3deec33042a570bc909f3e6ce06e713c56fbe219aff125b4f6cfa18648d"
+    },
+    {
+      "file": "data\\data\\Subject_1476_T1_Syllables_metrics.csv",
+      "sha256": "1afc0ca7c04ca5406b004f5e66ce4ac79a9b40f83a798387ec840e40e190bff6"
+    },
+    {
+      "file": "data\\data\\Subject_1476_T4_Meaningful_Text_metrics.csv",
+      "sha256": "7ea0aa5cde9ffe39e5f4b266c9d0ba36c6ef562bdfddcc6bf99b097be02862be"
+    },
+    {
+      "file": "data\\data\\Subject_1476_T5_Pseudo_Text_metrics.csv",
+      "sha256": "7df4f43e4543d142beb0a77241c317e608e32fe605efe9ee31043809f275fca3"
+    },
+    {
+      "file": "data\\data\\Subject_1571_T1_Syllables_metrics.csv",
+      "sha256": "d9bd69ad2604dca621d8ca3a15612b0936309d1bbebffcf6d4c363ee80e3b91c"
+    },
+    {
+      "file": "data\\data\\Subject_1571_T4_Meaningful_Text_metrics.csv",
+      "sha256": "3e1015ba8162f845596f47d50c7febceafc1e65c637f0fba855d307945ae068a"
+    },
+    {
+      "file": "data\\data\\Subject_1571_T5_Pseudo_Text_metrics.csv",
+      "sha256": "d974aa24753f4d43ee02bb290d8697c2d4ff1d2257722b255871f85d650ada31"
+    },
+    {
+      "file": "data\\data\\Subject_1582_T1_Syllables_metrics.csv",
+      "sha256": "979ed5ce450d2cbc6ca7ef69092c4150b2c1a49b6518ed26a5149a5450543cdc"
+    },
+    {
+      "file": "data\\data\\Subject_1582_T4_Meaningful_Text_metrics.csv",
+      "sha256": "562b83968a4dc4ef5776f9f880b4dfd669bf3d3cc5709a51fe1c9c60a14c490f"
+    },
+    {
+      "file": "data\\data\\Subject_1582_T5_Pseudo_Text_metrics.csv",
+      "sha256": "e9afeea2232f6093302f285ebb92f91dfcb812a834cd30f893b35af0df940021"
+    },
+    {
+      "file": "data\\data\\Subject_1591_T1_Syllables_metrics.csv",
+      "sha256": "80c6c209c0e0b365f4afb3686229b8a906f47811aedd2f298ff98d23f9bbd446"
+    },
+    {
+      "file": "data\\data\\Subject_1591_T4_Meaningful_Text_metrics.csv",
+      "sha256": "2f257f0754cd932f40b73346315c6869fac891394fa3e17c524e348169647de3"
+    },
+    {
+      "file": "data\\data\\Subject_1591_T5_Pseudo_Text_metrics.csv",
+      "sha256": "1a68ec5cf6e6f5a2e195d17d962da243e36fea2544e0f134e0e6a4079ba5c910"
+    },
+    {
+      "file": "data\\data\\Subject_1626_T1_Syllables_metrics.csv",
+      "sha256": "d23cb7ca9db2e7bb1362bac91052ddd842190c1d336380b43cf6157ba7c4a0ba"
+    },
+    {
+      "file": "data\\data\\Subject_1626_T4_Meaningful_Text_metrics.csv",
+      "sha256": "5a66a76e5f8a5cc93e420753f5104ec5ce8423e1e307eb7028cd8bf58dad82be"
+    },
+    {
+      "file": "data\\data\\Subject_1626_T5_Pseudo_Text_metrics.csv",
+      "sha256": "40e970677e4516a516c685dc78d3e3dc10d0bc5773b50251a84e668926941a33"
+    },
+    {
+      "file": "data\\data\\Subject_1693_T1_Syllables_metrics.csv",
+      "sha256": "f3ae753eb62efe06a796c05b1384610eeddfe8bed2fe852d9c5776dd27d1beab"
+    },
+    {
+      "file": "data\\data\\Subject_1693_T4_Meaningful_Text_metrics.csv",
+      "sha256": "d179c8b036472bba366971d2e8476e6387da5894b7d08abd42eb35d4f2433f29"
+    },
+    {
+      "file": "data\\data\\Subject_1693_T5_Pseudo_Text_metrics.csv",
+      "sha256": "55310cf6fd4d31ad875674a5883dc09d293033be99709d2c65b30802721b787f"
+    },
+    {
+      "file": "data\\data\\Subject_1729_T1_Syllables_metrics.csv",
+      "sha256": "3ce5b8bd7a57b295ebec612e7428456c00b8c675a4738b42187c19748331cb9f"
+    },
+    {
+      "file": "data\\data\\Subject_1729_T4_Meaningful_Text_metrics.csv",
+      "sha256": "36d23759a6e540947a5f1f166779c27ae334cbe8577d9cab2be4627332acdd67"
+    },
+    {
+      "file": "data\\data\\Subject_1729_T5_Pseudo_Text_metrics.csv",
+      "sha256": "38d1e98e73807899ea3869b502de9b4b35cc5054b65e037d6b91ae7a9e0c0da7"
+    },
+    {
+      "file": "data\\data\\Subject_1744_T1_Syllables_metrics.csv",
+      "sha256": "5c1b14220560d612b02a4c26ab125318a4540ed496e46cf55b7b839d5b3b5f56"
+    },
+    {
+      "file": "data\\data\\Subject_1744_T4_Meaningful_Text_metrics.csv",
+      "sha256": "755d575dfe327e6f1b6fd3c1844df8919d079ba1643d3aa864a6668578252a4f"
+    },
+    {
+      "file": "data\\data\\Subject_1744_T5_Pseudo_Text_metrics.csv",
+      "sha256": "cf6ec1568f198060863d04f00fb78802ba6e412fc55446e99882c57582f19cb2"
+    },
+    {
+      "file": "data\\data\\Subject_1760_T1_Syllables_metrics.csv",
+      "sha256": "5d1746a6061dd13ab90a6c266b14fe233b2a212300bf1f6bc31c0f5933f9a19d"
+    },
+    {
+      "file": "data\\data\\Subject_1760_T4_Meaningful_Text_metrics.csv",
+      "sha256": "027294177966440a25de077517850012c5072f7ce0362f27703c0103dc50ebed"
+    },
+    {
+      "file": "data\\data\\Subject_1760_T5_Pseudo_Text_metrics.csv",
+      "sha256": "d2dbc4c38c5ffa4c8bb4b5f0c1a7e75e179e00b639669d98932d81c03d94a5ba"
+    },
+    {
+      "file": "data\\data\\Subject_1858_T1_Syllables_metrics.csv",
+      "sha256": "0e25aeb2fc3b0f469f636ca7f0415b6c74fdd5d5db6a3937e4b6b4ba8b6a475c"
+    },
+    {
+      "file": "data\\data\\Subject_1858_T4_Meaningful_Text_metrics.csv",
+      "sha256": "08a2090829e5ddabb1c3a57aebc8961420af92dd60e60c79005ced72a7f809f2"
+    },
+    {
+      "file": "data\\data\\Subject_1858_T5_Pseudo_Text_metrics.csv",
+      "sha256": "dc0577a58277fe4383a19dae21ec3c0a171908bda42361f4a576fef2536583d1"
+    },
+    {
+      "file": "data\\data\\Subject_1859_T1_Syllables_metrics.csv",
+      "sha256": "ce5e90ece85a980b1af91d74f263387c34bc1ddc709b6dea77a21f3d2749108e"
+    },
+    {
+      "file": "data\\data\\Subject_1859_T4_Meaningful_Text_metrics.csv",
+      "sha256": "e429abb4e278f105ded7a78f21c8730b7586a51b3dccd28396a7f42f21e5a407"
+    },
+    {
+      "file": "data\\data\\Subject_1859_T5_Pseudo_Text_metrics.csv",
+      "sha256": "c2da3eecb0e726ec8214fac6291a4713be4cf73d107be0fc21faa4e85c801905"
+    },
+    {
+      "file": "data\\data\\Subject_1869_T1_Syllables_metrics.csv",
+      "sha256": "ee9fa8da2c67ab3a51c9ec4340ede339bbfd2ee724a1a3d553f67121a38523de"
+    },
+    {
+      "file": "data\\data\\Subject_1869_T4_Meaningful_Text_metrics.csv",
+      "sha256": "b0bbe9bbf236d8270813e6be41d4e625d8e19e8330290cc326c782c284b8d929"
+    },
+    {
+      "file": "data\\data\\Subject_1869_T5_Pseudo_Text_metrics.csv",
+      "sha256": "bd5adaa06ffbb15e718470bfe86ae31105a90698f2d15ece89bb9f314e8f03b4"
+    },
+    {
+      "file": "data\\data\\Subject_1879_T1_Syllables_metrics.csv",
+      "sha256": "2231b04c80f77b00bc8885152419b157d1af8f00a5fe573deabe573938e09731"
+    },
+    {
+      "file": "data\\data\\Subject_1879_T4_Meaningful_Text_metrics.csv",
+      "sha256": "bbba5dd73ab9b93906b22844c2abdee4da330155b74b2d680324688dd4da5979"
+    },
+    {
+      "file": "data\\data\\Subject_1879_T5_Pseudo_Text_metrics.csv",
+      "sha256": "f2c80a55839dbb10f1a2e585caa352ba74a75d52ab8962c1aa61a8e1bd131754"
+    },
+    {
+      "file": "data\\data\\Subject_1903_T1_Syllables_metrics.csv",
+      "sha256": "f8d4238d2f104248dec01b0eb6d487b23d2c53df9012585396a47cc8dd5a046c"
+    },
+    {
+      "file": "data\\data\\Subject_1903_T4_Meaningful_Text_metrics.csv",
+      "sha256": "77ab18aa125d3b2c1086237cd91b9f3e143943bdd645cfa62e08503bed8acecf"
+    },
+    {
+      "file": "data\\data\\Subject_1903_T5_Pseudo_Text_metrics.csv",
+      "sha256": "276b66eeda43fe33d104e9631eedc7c371d315d9fcc163636d73f5e7abaf4b78"
+    },
+    {
+      "file": "data\\data\\Subject_1913_T1_Syllables_metrics.csv",
+      "sha256": "535f9f3c47ac14e98f081543c20ef93237084fb78e1275b012a91342a927fb6d"
+    },
+    {
+      "file": "data\\data\\Subject_1913_T4_Meaningful_Text_metrics.csv",
+      "sha256": "02e72626cf1b3a1f24076f91df8d2bc816f3926ad1515cedd2199e9abc81b7aa"
+    },
+    {
+      "file": "data\\data\\Subject_1913_T5_Pseudo_Text_metrics.csv",
+      "sha256": "97b76a0a8b7fd5c2e66adee912d7ab3320ca13b6c4df6caf301edc62cc3d6e34"
+    },
+    {
+      "file": "data\\data\\Subject_1929_T1_Syllables_metrics.csv",
+      "sha256": "60890fc1f82f6fdc7153d1c9d5874ebc055a247959602f199f386e93a5d04abf"
+    },
+    {
+      "file": "data\\data\\Subject_1929_T4_Meaningful_Text_metrics.csv",
+      "sha256": "5239f0654abeba50fc7b2c08b07276dd7525078f3fb6c7b8fe0aa1bf9c2b7019"
+    },
+    {
+      "file": "data\\data\\Subject_1929_T5_Pseudo_Text_metrics.csv",
+      "sha256": "b02c6685dabc6b12d42d04dedcbad2951b5cb7a5c528bc859419672393e229b7"
+    },
+    {
+      "file": "data\\data\\Subject_1993_T1_Syllables_metrics.csv",
+      "sha256": "801bf3ce33465f7752fc73423690c155429aa717bfc12217273c08666e9a93d6"
+    },
+    {
+      "file": "data\\data\\Subject_1993_T4_Meaningful_Text_metrics.csv",
+      "sha256": "9e2bfa30c08392cf31c584ded7e5a0b52188bb320789067da8663eab47a610f7"
+    },
+    {
+      "file": "data\\data\\Subject_1993_T5_Pseudo_Text_metrics.csv",
+      "sha256": "88594a123bf01666d8b77d3c2d196ea5ad3148e7ed40f14f592715916980953a"
+    },
+    {
+      "file": "data\\data\\Subject_1996_T1_Syllables_metrics.csv",
+      "sha256": "2854e092b540f6a5789c2f73b408c7b713ead850001ba779b39c536768620617"
+    },
+    {
+      "file": "data\\data\\Subject_1996_T4_Meaningful_Text_metrics.csv",
+      "sha256": "90b47dc49a7142783cff2e96c3dc71316a835377f041b9661de8cea44936e5f3"
+    },
+    {
+      "file": "data\\data\\Subject_1996_T5_Pseudo_Text_metrics.csv",
+      "sha256": "14bad39929c9667e2e8e7f462597b2ab2e721967eacbdbfd1d03a9861a069eef"
+    }
+  ],
+  "participant_aggregation": "Mean OOF probability per participant; threshold >=0.5",
+  "positive_class": 1,
+  "precision_recall_average": "macro",
+  "timings_seconds": {
+    "logistic": 4.8183969000092475,
+    "forest": 11.016961199988145
+  },
+  "total_seconds": 30.47426189998805,
+  "checks": {
+    "identical_folds": true,
+    "participant_overlap_zero": true,
+    "all_rows_tested_once": true,
+    "preprocessing_inside_cv": true,
+    "raw_dataset_unchanged": true,
+    "application_pipeline_unchanged": true,
+    "previous_model_artifacts_unchanged": true
+  }
+}

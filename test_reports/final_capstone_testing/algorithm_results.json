@@ -1,0 +1,2032 @@
+[
+  {
+    "section": "03_eye_tracking",
+    "case_id": "IDT_empty",
+    "input": "[]",
+    "expected": "[]",
+    "actual": "[]",
+    "unit": "ms",
+    "status": "PASSED",
+    "elapsed_ms": 0.6414999952539802
+  },
+  {
+    "section": "03_eye_tracking",
+    "case_id": "IDT_single",
+    "input": "[[400, 200, 0]]",
+    "expected": "[]",
+    "actual": "[]",
+    "unit": "ms",
+    "status": "PASSED",
+    "elapsed_ms": 0.12459998833946884
+  },
+  {
+    "section": "03_eye_tracking",
+    "case_id": "IDT_short",
+    "input": "[[400, 200, 0], [400, 200, 0.119]]",
+    "expected": "[]",
+    "actual": "[]",
+    "unit": "ms",
+    "status": "PASSED",
+    "elapsed_ms": 0.07789999654050916
+  },
+  {
+    "section": "03_eye_tracking",
+    "case_id": "IDT_exact120",
+    "input": "[[400, 200, 0], [400, 200, 0.12]]",
+    "expected": "[120.0]",
+    "actual": "[120.0]",
+    "unit": "ms",
+    "status": "PASSED",
+    "elapsed_ms": 0.12440000136848539
+  },
+  {
+    "section": "03_eye_tracking",
+    "case_id": "IDT_extended",
+    "input": "[[400, 200, 0], [400, 200, 0.12], [400, 200, 0.3]]",
+    "expected": "[300.0]",
+    "actual": "[300.0]",
+    "unit": "ms",
+    "status": "PASSED",
+    "elapsed_ms": 0.11150000500492752
+  },
+  {
+    "section": "03_eye_tracking",
+    "case_id": "IDT_disp80",
+    "input": "[[400, 200, 0], [480, 200, 0.06], [400, 200, 0.12]]",
+    "expected": "[120.0]",
+    "actual": "[120.0]",
+    "unit": "ms",
+    "status": "PASSED",
+    "elapsed_ms": 0.08820000221021473
+  },
+  {
+    "section": "03_eye_tracking",
+    "case_id": "IDT_disp81",
+    "input": "[[400, 200, 0], [481, 200, 0.06], [400, 200, 0.12]]",
+    "expected": "[]",
+    "actual": "[]",
+    "unit": "ms",
+    "status": "PASSED",
+    "elapsed_ms": 0.08739999611862004
+  },
+  {
+    "section": "03_eye_tracking",
+    "case_id": "IDT_gap500",
+    "input": "[[400, 200, 0], [400, 200, 0.5]]",
+    "expected": "[500.0]",
+    "actual": "[500.0]",
+    "unit": "ms",
+    "status": "PASSED",
+    "elapsed_ms": 0.07409999670926481
+  },
+  {
+    "section": "03_eye_tracking",
+    "case_id": "IDT_gap501",
+    "input": "[[400, 200, 0], [400, 200, 0.501]]",
+    "expected": "[]",
+    "actual": "[]",
+    "unit": "ms",
+    "status": "PASSED",
+    "elapsed_ms": 0.05509999755304307
+  },
+  {
+    "section": "03_eye_tracking",
+    "case_id": "IDT_twofix",
+    "input": "[[100, 200, 0], [100, 200, 0.12], [700, 200, 0.2], [700, 200, 0.32]]",
+    "expected": "[120.0, 120.0]",
+    "actual": "[120.0, 120.0]",
+    "unit": "ms",
+    "status": "PASSED",
+    "elapsed_ms": 0.1277999981539324
+  },
+  {
+    "section": "03_eye_tracking",
+    "case_id": "IDT_discard_then_fix",
+    "input": "[[100, 200, 0], [700, 200, 0.05], [700, 200, 0.17]]",
+    "expected": "[120.0]",
+    "actual": "[120.0]",
+    "unit": "ms",
+    "status": "PASSED",
+    "elapsed_ms": 0.11240001185797155
+  },
+  {
+    "section": "07_multimodal_fusion",
+    "case_id": "Q_00",
+    "input": "{\"speech\": false, \"gaze\": false}",
+    "expected": "\"tidak_cukup\"",
+    "actual": "\"tidak_cukup\"",
+    "unit": "",
+    "status": "PASSED",
+    "elapsed_ms": 0.0940000027185306
+  },
+  {
+    "section": "07_multimodal_fusion",
+    "case_id": "Q_00_production",
+    "input": "{\"speech\": false, \"gaze\": false}",
+    "expected": "\"tidak_cukup\"",
+    "actual": "\"tidak_cukup\"",
+    "unit": "",
+    "status": "PASSED",
+    "elapsed_ms": 0.03749999450519681
+  },
+  {
+    "section": "07_multimodal_fusion",
+    "case_id": "Q_01",
+    "input": "{\"speech\": false, \"gaze\": true}",
+    "expected": "\"parsial\"",
+    "actual": "\"parsial\"",
+    "unit": "",
+    "status": "PASSED",
+    "elapsed_ms": 0.06710000161547214
+  },
+  {
+    "section": "07_multimodal_fusion",
+    "case_id": "Q_01_production",
+    "input": "{\"speech\": false, \"gaze\": true}",
+    "expected": "\"parsial\"",
+    "actual": "\"parsial\"",
+    "unit": "",
+    "status": "PASSED",
+    "elapsed_ms": 0.03399999695830047
+  },
+  {
+    "section": "07_multimodal_fusion",
+    "case_id": "Q_10",
+    "input": "{\"speech\": true, \"gaze\": false}",
+    "expected": "\"parsial\"",
+    "actual": "\"parsial\"",
+    "unit": "",
+    "status": "PASSED",
+    "elapsed_ms": 0.05099999543745071
+  },
+  {
+    "section": "07_multimodal_fusion",
+    "case_id": "Q_10_production",
+    "input": "{\"speech\": true, \"gaze\": false}",
+    "expected": "\"parsial\"",
+    "actual": "\"parsial\"",
+    "unit": "",
+    "status": "PASSED",
+    "elapsed_ms": 0.03999999898951501
+  },
+  {
+    "section": "07_multimodal_fusion",
+    "case_id": "Q_11",
+    "input": "{\"speech\": true, \"gaze\": true}",
+    "expected": "\"layak\"",
+    "actual": "\"layak\"",
+    "unit": "",
+    "status": "PASSED",
+    "elapsed_ms": 0.06029999349266291
+  },
+  {
+    "section": "07_multimodal_fusion",
+    "case_id": "Q_11_production",
+    "input": "{\"speech\": true, \"gaze\": true}",
+    "expected": "\"layak\"",
+    "actual": "\"layak\"",
+    "unit": "",
+    "status": "PASSED",
+    "elapsed_ms": 0.036600002204068005
+  },
+  {
+    "section": "07_multimodal_fusion",
+    "case_id": "F_000",
+    "input": "{\"speech\": false, \"gaze\": false, \"wer\": 20, \"wpm\": 59.99, \"regression\": 40, \"shared\": 0}",
+    "expected": "{\"basis\": \"tidak ada\", \"concordance\": null, \"pattern\": null}",
+    "actual": "{\"basis\": \"tidak ada\", \"concordance\": null, \"pattern\": null}",
+    "unit": "",
+    "status": "PASSED",
+    "elapsed_ms": 0.48240000614896417
+  },
+  {
+    "section": "07_multimodal_fusion",
+    "case_id": "F_001",
+    "input": "{\"speech\": false, \"gaze\": false, \"wer\": 20, \"wpm\": 59.99, \"regression\": 40, \"shared\": 2}",
+    "expected": "{\"basis\": \"tidak ada\", \"concordance\": null, \"pattern\": null}",
+    "actual": "{\"basis\": \"tidak ada\", \"concordance\": null, \"pattern\": null}",
+    "unit": "",
+    "status": "PASSED",
+    "elapsed_ms": 0.32560000545345247
+  },
+  {
+    "section": "07_multimodal_fusion",
+    "case_id": "F_002",
+    "input": "{\"speech\": false, \"gaze\": false, \"wer\": 20, \"wpm\": 59.99, \"regression\": 40, \"shared\": 3}",
+    "expected": "{\"basis\": \"tidak ada\", \"concordance\": null, \"pattern\": null}",
+    "actual": "{\"basis\": \"tidak ada\", \"concordance\": null, \"pattern\": null}",
+    "unit": "",
+    "status": "PASSED",
+    "elapsed_ms": 0.2812000020639971
+  },
+  {
+    "section": "07_multimodal_fusion",
+    "case_id": "F_003",
+    "input": "{\"speech\": false, \"gaze\": false, \"wer\": 20, \"wpm\": 59.99, \"regression\": 40.01, \"shared\": 0}",
+    "expected": "{\"basis\": \"tidak ada\", \"concordance\": null, \"pattern\": null}",
+    "actual": "{\"basis\": \"tidak ada\", \"concordance\": null, \"pattern\": null}",
+    "unit": "",
+    "status": "PASSED",
+    "elapsed_ms": 0.8597999985795468
+  },
+  {
+    "section": "07_multimodal_fusion",
+    "case_id": "F_004",
+    "input": "{\"speech\": false, \"gaze\": false, \"wer\": 20, \"wpm\": 59.99, \"regression\": 40.01, \"shared\": 2}",
+    "expected": "{\"basis\": \"tidak ada\", \"concordance\": null, \"pattern\": null}",
+    "actual": "{\"basis\": \"tidak ada\", \"concordance\": null, \"pattern\": null}",
+    "unit": "",
+    "status": "PASSED",
+    "elapsed_ms": 0.3189999988535419
+  },
+  {
+    "section": "07_multimodal_fusion",
+    "case_id": "F_005",
+    "input": "{\"speech\": false, \"gaze\": false, \"wer\": 20, \"wpm\": 59.99, \"regression\": 40.01, \"shared\": 3}",
+    "expected": "{\"basis\": \"tidak ada\", \"concordance\": null, \"pattern\": null}",
+    "actual": "{\"basis\": \"tidak ada\", \"concordance\": null, \"pattern\": null}",
+    "unit": "",
+    "status": "PASSED",
+    "elapsed_ms": 0.7303000020328909
+  },
+  {
+    "section": "07_multimodal_fusion",
+    "case_id": "F_006",
+    "input": "{\"speech\": false, \"gaze\": false, \"wer\": 20, \"wpm\": 60, \"regression\": 40, \"shared\": 0}",
+    "expected": "{\"basis\": \"tidak ada\", \"concordance\": null, \"pattern\": null}",
+    "actual": "{\"basis\": \"tidak ada\", \"concordance\": null, \"pattern\": null}",
+    "unit": "",
+    "status": "PASSED",
+    "elapsed_ms": 0.32369999098591506
+  },
+  {
+    "section": "07_multimodal_fusion",
+    "case_id": "F_007",
+    "input": "{\"speech\": false, \"gaze\": false, \"wer\": 20, \"wpm\": 60, \"regression\": 40, \"shared\": 2}",
+    "expected": "{\"basis\": \"tidak ada\", \"concordance\": null, \"pattern\": null}",
+    "actual": "{\"basis\": \"tidak ada\", \"concordance\": null, \"pattern\": null}",
+    "unit": "",
+    "status": "PASSED",
+    "elapsed_ms": 0.18429999181535095
+  },
+  {
+    "section": "07_multimodal_fusion",
+    "case_id": "F_008",
+    "input": "{\"speech\": false, \"gaze\": false, \"wer\": 20, \"wpm\": 60, \"regression\": 40, \"shared\": 3}",
+    "expected": "{\"basis\": \"tidak ada\", \"concordance\": null, \"pattern\": null}",
+    "actual": "{\"basis\": \"tidak ada\", \"concordance\": null, \"pattern\": null}",
+    "unit": "",
+    "status": "PASSED",
+    "elapsed_ms": 0.4079999926034361
+  },
+  {
+    "section": "07_multimodal_fusion",
+    "case_id": "F_009",
+    "input": "{\"speech\": false, \"gaze\": false, \"wer\": 20, \"wpm\": 60, \"regression\": 40.01, \"shared\": 0}",
+    "expected": "{\"basis\": \"tidak ada\", \"concordance\": null, \"pattern\": null}",
+    "actual": "{\"basis\": \"tidak ada\", \"concordance\": null, \"pattern\": null}",
+    "unit": "",
+    "status": "PASSED",
+    "elapsed_ms": 0.31689999741502106
+  },
+  {
+    "section": "07_multimodal_fusion",
+    "case_id": "F_010",
+    "input": "{\"speech\": false, \"gaze\": false, \"wer\": 20, \"wpm\": 60, \"regression\": 40.01, \"shared\": 2}",
+    "expected": "{\"basis\": \"tidak ada\", \"concordance\": null, \"pattern\": null}",
+    "actual": "{\"basis\": \"tidak ada\", \"concordance\": null, \"pattern\": null}",
+    "unit": "",
+    "status": "PASSED",
+    "elapsed_ms": 0.28739999106619507
+  },
+  {
+    "section": "07_multimodal_fusion",
+    "case_id": "F_011",
+    "input": "{\"speech\": false, \"gaze\": false, \"wer\": 20, \"wpm\": 60, \"regression\": 40.01, \"shared\": 3}",
+    "expected": "{\"basis\": \"tidak ada\", \"concordance\": null, \"pattern\": null}",
+    "actual": "{\"basis\": \"tidak ada\", \"concordance\": null, \"pattern\": null}",
+    "unit": "",
+    "status": "PASSED",
+    "elapsed_ms": 0.23639999562874436
+  },
+  {
+    "section": "07_multimodal_fusion",
+    "case_id": "F_012",
+    "input": "{\"speech\": false, \"gaze\": false, \"wer\": 20.01, \"wpm\": 59.99, \"regression\": 40, \"shared\": 0}",
+    "expected": "{\"basis\": \"tidak ada\", \"concordance\": null, \"pattern\": null}",
+    "actual": "{\"basis\": \"tidak ada\", \"concordance\": null, \"pattern\": null}",
+    "unit": "",
+    "status": "PASSED",
+    "elapsed_ms": 0.4653999931178987
+  },
+  {
+    "section": "07_multimodal_fusion",
+    "case_id": "F_013",
+    "input": "{\"speech\": false, \"gaze\": false, \"wer\": 20.01, \"wpm\": 59.99, \"regression\": 40, \"shared\": 2}",
+    "expected": "{\"basis\": \"tidak ada\", \"concordance\": null, \"pattern\": null}",
+    "actual": "{\"basis\": \"tidak ada\", \"concordance\": null, \"pattern\": null}",
+    "unit": "",
+    "status": "PASSED",
+    "elapsed_ms": 0.34729999606497586
+  },
+  {
+    "section": "07_multimodal_fusion",
+    "case_id": "F_014",
+    "input": "{\"speech\": false, \"gaze\": false, \"wer\": 20.01, \"wpm\": 59.99, \"regression\": 40, \"shared\": 3}",
+    "expected": "{\"basis\": \"tidak ada\", \"concordance\": null, \"pattern\": null}",
+    "actual": "{\"basis\": \"tidak ada\", \"concordance\": null, \"pattern\": null}",
+    "unit": "",
+    "status": "PASSED",
+    "elapsed_ms": 0.22999999055173248
+  },
+  {
+    "section": "07_multimodal_fusion",
+    "case_id": "F_015",
+    "input": "{\"speech\": false, \"gaze\": false, \"wer\": 20.01, \"wpm\": 59.99, \"regression\": 40.01, \"shared\": 0}",
+    "expected": "{\"basis\": \"tidak ada\", \"concordance\": null, \"pattern\": null}",
+    "actual": "{\"basis\": \"tidak ada\", \"concordance\": null, \"pattern\": null}",
+    "unit": "",
+    "status": "PASSED",
+    "elapsed_ms": 0.2297000028192997
+  },
+  {
+    "section": "07_multimodal_fusion",
+    "case_id": "F_016",
+    "input": "{\"speech\": false, \"gaze\": false, \"wer\": 20.01, \"wpm\": 59.99, \"regression\": 40.01, \"shared\": 2}",
+    "expected": "{\"basis\": \"tidak ada\", \"concordance\": null, \"pattern\": null}",
+    "actual": "{\"basis\": \"tidak ada\", \"concordance\": null, \"pattern\": null}",
+    "unit": "",
+    "status": "PASSED",
+    "elapsed_ms": 0.21309999283403158
+  },
+  {
+    "section": "07_multimodal_fusion",
+    "case_id": "F_017",
+    "input": "{\"speech\": false, \"gaze\": false, \"wer\": 20.01, \"wpm\": 59.99, \"regression\": 40.01, \"shared\": 3}",
+    "expected": "{\"basis\": \"tidak ada\", \"concordance\": null, \"pattern\": null}",
+    "actual": "{\"basis\": \"tidak ada\", \"concordance\": null, \"pattern\": null}",
+    "unit": "",
+    "status": "PASSED",
+    "elapsed_ms": 0.22060000628698617
+  },
+  {
+    "section": "07_multimodal_fusion",
+    "case_id": "F_018",
+    "input": "{\"speech\": false, \"gaze\": false, \"wer\": 20.01, \"wpm\": 60, \"regression\": 40, \"shared\": 0}",
+    "expected": "{\"basis\": \"tidak ada\", \"concordance\": null, \"pattern\": null}",
+    "actual": "{\"basis\": \"tidak ada\", \"concordance\": null, \"pattern\": null}",
+    "unit": "",
+    "status": "PASSED",
+    "elapsed_ms": 0.20599999697878957
+  },
+  {
+    "section": "07_multimodal_fusion",
+    "case_id": "F_019",
+    "input": "{\"speech\": false, \"gaze\": false, \"wer\": 20.01, \"wpm\": 60, \"regression\": 40, \"shared\": 2}",
+    "expected": "{\"basis\": \"tidak ada\", \"concordance\": null, \"pattern\": null}",
+    "actual": "{\"basis\": \"tidak ada\", \"concordance\": null, \"pattern\": null}",
+    "unit": "",
+    "status": "PASSED",
+    "elapsed_ms": 0.2057999954558909
+  },
+  {
+    "section": "07_multimodal_fusion",
+    "case_id": "F_020",
+    "input": "{\"speech\": false, \"gaze\": false, \"wer\": 20.01, \"wpm\": 60, \"regression\": 40, \"shared\": 3}",
+    "expected": "{\"basis\": \"tidak ada\", \"concordance\": null, \"pattern\": null}",
+    "actual": "{\"basis\": \"tidak ada\", \"concordance\": null, \"pattern\": null}",
+    "unit": "",
+    "status": "PASSED",
+    "elapsed_ms": 0.5237000004854053
+  },
+  {
+    "section": "07_multimodal_fusion",
+    "case_id": "F_021",
+    "input": "{\"speech\": false, \"gaze\": false, \"wer\": 20.01, \"wpm\": 60, \"regression\": 40.01, \"shared\": 0}",
+    "expected": "{\"basis\": \"tidak ada\", \"concordance\": null, \"pattern\": null}",
+    "actual": "{\"basis\": \"tidak ada\", \"concordance\": null, \"pattern\": null}",
+    "unit": "",
+    "status": "PASSED",
+    "elapsed_ms": 0.27879999834112823
+  },
+  {
+    "section": "07_multimodal_fusion",
+    "case_id": "F_022",
+    "input": "{\"speech\": false, \"gaze\": false, \"wer\": 20.01, \"wpm\": 60, \"regression\": 40.01, \"shared\": 2}",
+    "expected": "{\"basis\": \"tidak ada\", \"concordance\": null, \"pattern\": null}",
+    "actual": "{\"basis\": \"tidak ada\", \"concordance\": null, \"pattern\": null}",
+    "unit": "",
+    "status": "PASSED",
+    "elapsed_ms": 0.24279998615384102
+  },
+  {
+    "section": "07_multimodal_fusion",
+    "case_id": "F_023",
+    "input": "{\"speech\": false, \"gaze\": false, \"wer\": 20.01, \"wpm\": 60, \"regression\": 40.01, \"shared\": 3}",
+    "expected": "{\"basis\": \"tidak ada\", \"concordance\": null, \"pattern\": null}",
+    "actual": "{\"basis\": \"tidak ada\", \"concordance\": null, \"pattern\": null}",
+    "unit": "",
+    "status": "PASSED",
+    "elapsed_ms": 0.24459999985992908
+  },
+  {
+    "section": "07_multimodal_fusion",
+    "case_id": "F_024",
+    "input": "{\"speech\": false, \"gaze\": true, \"wer\": 20, \"wpm\": 59.99, \"regression\": 40, \"shared\": 0}",
+    "expected": "{\"basis\": \"tatapan saja\", \"concordance\": null, \"pattern\": null}",
+    "actual": "{\"basis\": \"tatapan saja\", \"concordance\": null, \"pattern\": null}",
+    "unit": "",
+    "status": "PASSED",
+    "elapsed_ms": 3.0032999929971993
+  },
+  {
+    "section": "07_multimodal_fusion",
+    "case_id": "F_025",
+    "input": "{\"speech\": false, \"gaze\": true, \"wer\": 20, \"wpm\": 59.99, \"regression\": 40, \"shared\": 2}",
+    "expected": "{\"basis\": \"tatapan saja\", \"concordance\": null, \"pattern\": null}",
+    "actual": "{\"basis\": \"tatapan saja\", \"concordance\": null, \"pattern\": null}",
+    "unit": "",
+    "status": "PASSED",
+    "elapsed_ms": 2.1063000021968037
+  },
+  {
+    "section": "07_multimodal_fusion",
+    "case_id": "F_026",
+    "input": "{\"speech\": false, \"gaze\": true, \"wer\": 20, \"wpm\": 59.99, \"regression\": 40, \"shared\": 3}",
+    "expected": "{\"basis\": \"tatapan saja\", \"concordance\": null, \"pattern\": null}",
+    "actual": "{\"basis\": \"tatapan saja\", \"concordance\": null, \"pattern\": null}",
+    "unit": "",
+    "status": "PASSED",
+    "elapsed_ms": 1.2882999872090295
+  },
+  {
+    "section": "07_multimodal_fusion",
+    "case_id": "F_027",
+    "input": "{\"speech\": false, \"gaze\": true, \"wer\": 20, \"wpm\": 59.99, \"regression\": 40.01, \"shared\": 0}",
+    "expected": "{\"basis\": \"tatapan saja\", \"concordance\": null, \"pattern\": null}",
+    "actual": "{\"basis\": \"tatapan saja\", \"concordance\": null, \"pattern\": null}",
+    "unit": "",
+    "status": "PASSED",
+    "elapsed_ms": 1.2949999945703894
+  },
+  {
+    "section": "07_multimodal_fusion",
+    "case_id": "F_028",
+    "input": "{\"speech\": false, \"gaze\": true, \"wer\": 20, \"wpm\": 59.99, \"regression\": 40.01, \"shared\": 2}",
+    "expected": "{\"basis\": \"tatapan saja\", \"concordance\": null, \"pattern\": null}",
+    "actual": "{\"basis\": \"tatapan saja\", \"concordance\": null, \"pattern\": null}",
+    "unit": "",
+    "status": "PASSED",
+    "elapsed_ms": 2.0434999896679074
+  },
+  {
+    "section": "07_multimodal_fusion",
+    "case_id": "F_029",
+    "input": "{\"speech\": false, \"gaze\": true, \"wer\": 20, \"wpm\": 59.99, \"regression\": 40.01, \"shared\": 3}",
+    "expected": "{\"basis\": \"tatapan saja\", \"concordance\": null, \"pattern\": null}",
+    "actual": "{\"basis\": \"tatapan saja\", \"concordance\": null, \"pattern\": null}",
+    "unit": "",
+    "status": "PASSED",
+    "elapsed_ms": 0.8740999910514802
+  },
+  {
+    "section": "07_multimodal_fusion",
+    "case_id": "F_030",
+    "input": "{\"speech\": false, \"gaze\": true, \"wer\": 20, \"wpm\": 60, \"regression\": 40, \"shared\": 0}",
+    "expected": "{\"basis\": \"tatapan saja\", \"concordance\": null, \"pattern\": null}",
+    "actual": "{\"basis\": \"tatapan saja\", \"concordance\": null, \"pattern\": null}",
+    "unit": "",
+    "status": "PASSED",
+    "elapsed_ms": 0.8018999942578375
+  },
+  {
+    "section": "07_multimodal_fusion",
+    "case_id": "F_031",
+    "input": "{\"speech\": false, \"gaze\": true, \"wer\": 20, \"wpm\": 60, \"regression\": 40, \"shared\": 2}",
+    "expected": "{\"basis\": \"tatapan saja\", \"concordance\": null, \"pattern\": null}",
+    "actual": "{\"basis\": \"tatapan saja\", \"concordance\": null, \"pattern\": null}",
+    "unit": "",
+    "status": "PASSED",
+    "elapsed_ms": 0.8093000069493428
+  },
+  {
+    "section": "07_multimodal_fusion",
+    "case_id": "F_032",
+    "input": "{\"speech\": false, \"gaze\": true, \"wer\": 20, \"wpm\": 60, \"regression\": 40, \"shared\": 3}",
+    "expected": "{\"basis\": \"tatapan saja\", \"concordance\": null, \"pattern\": null}",
+    "actual": "{\"basis\": \"tatapan saja\", \"concordance\": null, \"pattern\": null}",
+    "unit": "",
+    "status": "PASSED",
+    "elapsed_ms": 0.9622000070521608
+  },
+  {
+    "section": "07_multimodal_fusion",
+    "case_id": "F_033",
+    "input": "{\"speech\": false, \"gaze\": true, \"wer\": 20, \"wpm\": 60, \"regression\": 40.01, \"shared\": 0}",
+    "expected": "{\"basis\": \"tatapan saja\", \"concordance\": null, \"pattern\": null}",
+    "actual": "{\"basis\": \"tatapan saja\", \"concordance\": null, \"pattern\": null}",
+    "unit": "",
+    "status": "PASSED",
+    "elapsed_ms": 1.1149000056320801
+  },
+  {
+    "section": "07_multimodal_fusion",
+    "case_id": "F_034",
+    "input": "{\"speech\": false, \"gaze\": true, \"wer\": 20, \"wpm\": 60, \"regression\": 40.01, \"shared\": 2}",
+    "expected": "{\"basis\": \"tatapan saja\", \"concordance\": null, \"pattern\": null}",
+    "actual": "{\"basis\": \"tatapan saja\", \"concordance\": null, \"pattern\": null}",
+    "unit": "",
+    "status": "PASSED",
+    "elapsed_ms": 2.602599997771904
+  },
+  {
+    "section": "07_multimodal_fusion",
+    "case_id": "F_035",
+    "input": "{\"speech\": false, \"gaze\": true, \"wer\": 20, \"wpm\": 60, \"regression\": 40.01, \"shared\": 3}",
+    "expected": "{\"basis\": \"tatapan saja\", \"concordance\": null, \"pattern\": null}",
+    "actual": "{\"basis\": \"tatapan saja\", \"concordance\": null, \"pattern\": null}",
+    "unit": "",
+    "status": "PASSED",
+    "elapsed_ms": 0.9054999973159283
+  },
+  {
+    "section": "07_multimodal_fusion",
+    "case_id": "F_036",
+    "input": "{\"speech\": false, \"gaze\": true, \"wer\": 20.01, \"wpm\": 59.99, \"regression\": 40, \"shared\": 0}",
+    "expected": "{\"basis\": \"tatapan saja\", \"concordance\": null, \"pattern\": null}",
+    "actual": "{\"basis\": \"tatapan saja\", \"concordance\": null, \"pattern\": null}",
+    "unit": "",
+    "status": "PASSED",
+    "elapsed_ms": 2.0170999923720956
+  },
+  {
+    "section": "07_multimodal_fusion",
+    "case_id": "F_037",
+    "input": "{\"speech\": false, \"gaze\": true, \"wer\": 20.01, \"wpm\": 59.99, \"regression\": 40, \"shared\": 2}",
+    "expected": "{\"basis\": \"tatapan saja\", \"concordance\": null, \"pattern\": null}",
+    "actual": "{\"basis\": \"tatapan saja\", \"concordance\": null, \"pattern\": null}",
+    "unit": "",
+    "status": "PASSED",
+    "elapsed_ms": 1.2694000033661723
+  },
+  {
+    "section": "07_multimodal_fusion",
+    "case_id": "F_038",
+    "input": "{\"speech\": false, \"gaze\": true, \"wer\": 20.01, \"wpm\": 59.99, \"regression\": 40, \"shared\": 3}",
+    "expected": "{\"basis\": \"tatapan saja\", \"concordance\": null, \"pattern\": null}",
+    "actual": "{\"basis\": \"tatapan saja\", \"concordance\": null, \"pattern\": null}",
+    "unit": "",
+    "status": "PASSED",
+    "elapsed_ms": 0.870300005772151
+  },
+  {
+    "section": "07_multimodal_fusion",
+    "case_id": "F_039",
+    "input": "{\"speech\": false, \"gaze\": true, \"wer\": 20.01, \"wpm\": 59.99, \"regression\": 40.01, \"shared\": 0}",
+    "expected": "{\"basis\": \"tatapan saja\", \"concordance\": null, \"pattern\": null}",
+    "actual": "{\"basis\": \"tatapan saja\", \"concordance\": null, \"pattern\": null}",
+    "unit": "",
+    "status": "PASSED",
+    "elapsed_ms": 0.9457999985897914
+  },
+  {
+    "section": "07_multimodal_fusion",
+    "case_id": "F_040",
+    "input": "{\"speech\": false, \"gaze\": true, \"wer\": 20.01, \"wpm\": 59.99, \"regression\": 40.01, \"shared\": 2}",
+    "expected": "{\"basis\": \"tatapan saja\", \"concordance\": null, \"pattern\": null}",
+    "actual": "{\"basis\": \"tatapan saja\", \"concordance\": null, \"pattern\": null}",
+    "unit": "",
+    "status": "PASSED",
+    "elapsed_ms": 1.1478000087663531
+  },
+  {
+    "section": "07_multimodal_fusion",
+    "case_id": "F_041",
+    "input": "{\"speech\": false, \"gaze\": true, \"wer\": 20.01, \"wpm\": 59.99, \"regression\": 40.01, \"shared\": 3}",
+    "expected": "{\"basis\": \"tatapan saja\", \"concordance\": null, \"pattern\": null}",
+    "actual": "{\"basis\": \"tatapan saja\", \"concordance\": null, \"pattern\": null}",
+    "unit": "",
+    "status": "PASSED",
+    "elapsed_ms": 0.7880000048317015
+  },
+  {
+    "section": "07_multimodal_fusion",
+    "case_id": "F_042",
+    "input": "{\"speech\": false, \"gaze\": true, \"wer\": 20.01, \"wpm\": 60, \"regression\": 40, \"shared\": 0}",
+    "expected": "{\"basis\": \"tatapan saja\", \"concordance\": null, \"pattern\": null}",
+    "actual": "{\"basis\": \"tatapan saja\", \"concordance\": null, \"pattern\": null}",
+    "unit": "",
+    "status": "PASSED",
+    "elapsed_ms": 1.672600003075786
+  },
+  {
+    "section": "07_multimodal_fusion",
+    "case_id": "F_043",
+    "input": "{\"speech\": false, \"gaze\": true, \"wer\": 20.01, \"wpm\": 60, \"regression\": 40, \"shared\": 2}",
+    "expected": "{\"basis\": \"tatapan saja\", \"concordance\": null, \"pattern\": null}",
+    "actual": "{\"basis\": \"tatapan saja\", \"concordance\": null, \"pattern\": null}",
+    "unit": "",
+    "status": "PASSED",
+    "elapsed_ms": 1.519700002972968
+  },
+  {
+    "section": "07_multimodal_fusion",
+    "case_id": "F_044",
+    "input": "{\"speech\": false, \"gaze\": true, \"wer\": 20.01, \"wpm\": 60, \"regression\": 40, \"shared\": 3}",
+    "expected": "{\"basis\": \"tatapan saja\", \"concordance\": null, \"pattern\": null}",
+    "actual": "{\"basis\": \"tatapan saja\", \"concordance\": null, \"pattern\": null}",
+    "unit": "",
+    "status": "PASSED",
+    "elapsed_ms": 0.9707000135676935
+  },
+  {
+    "section": "07_multimodal_fusion",
+    "case_id": "F_045",
+    "input": "{\"speech\": false, \"gaze\": true, \"wer\": 20.01, \"wpm\": 60, \"regression\": 40.01, \"shared\": 0}",
+    "expected": "{\"basis\": \"tatapan saja\", \"concordance\": null, \"pattern\": null}",
+    "actual": "{\"basis\": \"tatapan saja\", \"concordance\": null, \"pattern\": null}",
+    "unit": "",
+    "status": "PASSED",
+    "elapsed_ms": 1.040700008161366
+  },
+  {
+    "section": "07_multimodal_fusion",
+    "case_id": "F_046",
+    "input": "{\"speech\": false, \"gaze\": true, \"wer\": 20.01, \"wpm\": 60, \"regression\": 40.01, \"shared\": 2}",
+    "expected": "{\"basis\": \"tatapan saja\", \"concordance\": null, \"pattern\": null}",
+    "actual": "{\"basis\": \"tatapan saja\", \"concordance\": null, \"pattern\": null}",
+    "unit": "",
+    "status": "PASSED",
+    "elapsed_ms": 1.0320000001229346
+  },
+  {
+    "section": "07_multimodal_fusion",
+    "case_id": "F_047",
+    "input": "{\"speech\": false, \"gaze\": true, \"wer\": 20.01, \"wpm\": 60, \"regression\": 40.01, \"shared\": 3}",
+    "expected": "{\"basis\": \"tatapan saja\", \"concordance\": null, \"pattern\": null}",
+    "actual": "{\"basis\": \"tatapan saja\", \"concordance\": null, \"pattern\": null}",
+    "unit": "",
+    "status": "PASSED",
+    "elapsed_ms": 1.0028000106103718
+  },
+  {
+    "section": "07_multimodal_fusion",
+    "case_id": "F_048",
+    "input": "{\"speech\": true, \"gaze\": false, \"wer\": 20, \"wpm\": 59.99, \"regression\": 40, \"shared\": 0}",
+    "expected": "{\"basis\": \"suara saja\", \"concordance\": null, \"pattern\": null}",
+    "actual": "{\"basis\": \"suara saja\", \"concordance\": null, \"pattern\": null}",
+    "unit": "",
+    "status": "PASSED",
+    "elapsed_ms": 0.33490000350866467
+  },
+  {
+    "section": "07_multimodal_fusion",
+    "case_id": "F_049",
+    "input": "{\"speech\": true, \"gaze\": false, \"wer\": 20, \"wpm\": 59.99, \"regression\": 40, \"shared\": 2}",
+    "expected": "{\"basis\": \"suara saja\", \"concordance\": null, \"pattern\": null}",
+    "actual": "{\"basis\": \"suara saja\", \"concordance\": null, \"pattern\": null}",
+    "unit": "",
+    "status": "PASSED",
+    "elapsed_ms": 0.3772999916691333
+  },
+  {
+    "section": "07_multimodal_fusion",
+    "case_id": "F_050",
+    "input": "{\"speech\": true, \"gaze\": false, \"wer\": 20, \"wpm\": 59.99, \"regression\": 40, \"shared\": 3}",
+    "expected": "{\"basis\": \"suara saja\", \"concordance\": null, \"pattern\": null}",
+    "actual": "{\"basis\": \"suara saja\", \"concordance\": null, \"pattern\": null}",
+    "unit": "",
+    "status": "PASSED",
+    "elapsed_ms": 0.2834000042639673
+  },
+  {
+    "section": "07_multimodal_fusion",
+    "case_id": "F_051",
+    "input": "{\"speech\": true, \"gaze\": false, \"wer\": 20, \"wpm\": 59.99, \"regression\": 40.01, \"shared\": 0}",
+    "expected": "{\"basis\": \"suara saja\", \"concordance\": null, \"pattern\": null}",
+    "actual": "{\"basis\": \"suara saja\", \"concordance\": null, \"pattern\": null}",
+    "unit": "",
+    "status": "PASSED",
+    "elapsed_ms": 0.23899998632259667
+  },
+  {
+    "section": "07_multimodal_fusion",
+    "case_id": "F_052",
+    "input": "{\"speech\": true, \"gaze\": false, \"wer\": 20, \"wpm\": 59.99, \"regression\": 40.01, \"shared\": 2}",
+    "expected": "{\"basis\": \"suara saja\", \"concordance\": null, \"pattern\": null}",
+    "actual": "{\"basis\": \"suara saja\", \"concordance\": null, \"pattern\": null}",
+    "unit": "",
+    "status": "PASSED",
+    "elapsed_ms": 0.21680000645574182
+  },
+  {
+    "section": "07_multimodal_fusion",
+    "case_id": "F_053",
+    "input": "{\"speech\": true, \"gaze\": false, \"wer\": 20, \"wpm\": 59.99, \"regression\": 40.01, \"shared\": 3}",
+    "expected": "{\"basis\": \"suara saja\", \"concordance\": null, \"pattern\": null}",
+    "actual": "{\"basis\": \"suara saja\", \"concordance\": null, \"pattern\": null}",
+    "unit": "",
+    "status": "PASSED",
+    "elapsed_ms": 0.44319999869912863
+  },
+  {
+    "section": "07_multimodal_fusion",
+    "case_id": "F_054",
+    "input": "{\"speech\": true, \"gaze\": false, \"wer\": 20, \"wpm\": 60, \"regression\": 40, \"shared\": 0}",
+    "expected": "{\"basis\": \"suara saja\", \"concordance\": null, \"pattern\": null}",
+    "actual": "{\"basis\": \"suara saja\", \"concordance\": null, \"pattern\": null}",
+    "unit": "",
+    "status": "PASSED",
+    "elapsed_ms": 0.24610001128166914
+  },
+  {
+    "section": "07_multimodal_fusion",
+    "case_id": "F_055",
+    "input": "{\"speech\": true, \"gaze\": false, \"wer\": 20, \"wpm\": 60, \"regression\": 40, \"shared\": 2}",
+    "expected": "{\"basis\": \"suara saja\", \"concordance\": null, \"pattern\": null}",
+    "actual": "{\"basis\": \"suara saja\", \"concordance\": null, \"pattern\": null}",
+    "unit": "",
+    "status": "PASSED",
+    "elapsed_ms": 0.21300000662449747
+  },
+  {
+    "section": "07_multimodal_fusion",
+    "case_id": "F_056",
+    "input": "{\"speech\": true, \"gaze\": false, \"wer\": 20, \"wpm\": 60, \"regression\": 40, \"shared\": 3}",
+    "expected": "{\"basis\": \"suara saja\", \"concordance\": null, \"pattern\": null}",
+    "actual": "{\"basis\": \"suara saja\", \"concordance\": null, \"pattern\": null}",
+    "unit": "",
+    "status": "PASSED",
+    "elapsed_ms": 0.3116000007139519
+  },
+  {
+    "section": "07_multimodal_fusion",
+    "case_id": "F_057",
+    "input": "{\"speech\": true, \"gaze\": false, \"wer\": 20, \"wpm\": 60, \"regression\": 40.01, \"shared\": 0}",
+    "expected": "{\"basis\": \"suara saja\", \"concordance\": null, \"pattern\": null}",
+    "actual": "{\"basis\": \"suara saja\", \"concordance\": null, \"pattern\": null}",
+    "unit": "",
+    "status": "PASSED",
+    "elapsed_ms": 0.23520000104326755
+  },
+  {
+    "section": "07_multimodal_fusion",
+    "case_id": "F_058",
+    "input": "{\"speech\": true, \"gaze\": false, \"wer\": 20, \"wpm\": 60, \"regression\": 40.01, \"shared\": 2}",
+    "expected": "{\"basis\": \"suara saja\", \"concordance\": null, \"pattern\": null}",
+    "actual": "{\"basis\": \"suara saja\", \"concordance\": null, \"pattern\": null}",
+    "unit": "",
+    "status": "PASSED",
+    "elapsed_ms": 0.149200001033023
+  },
+  {
+    "section": "07_multimodal_fusion",
+    "case_id": "F_059",
+    "input": "{\"speech\": true, \"gaze\": false, \"wer\": 20, \"wpm\": 60, \"regression\": 40.01, \"shared\": 3}",
+    "expected": "{\"basis\": \"suara saja\", \"concordance\": null, \"pattern\": null}",
+    "actual": "{\"basis\": \"suara saja\", \"concordance\": null, \"pattern\": null}",
+    "unit": "",
+    "status": "PASSED",
+    "elapsed_ms": 0.14569998893421143
+  },
+  {
+    "section": "07_multimodal_fusion",
+    "case_id": "F_060",
+    "input": "{\"speech\": true, \"gaze\": false, \"wer\": 20.01, \"wpm\": 59.99, \"regression\": 40, \"shared\": 0}",
+    "expected": "{\"basis\": \"suara saja\", \"concordance\": null, \"pattern\": null}",
+    "actual": "{\"basis\": \"suara saja\", \"concordance\": null, \"pattern\": null}",
+    "unit": "",
+    "status": "PASSED",
+    "elapsed_ms": 0.1644000003580004
+  },
+  {
+    "section": "07_multimodal_fusion",
+    "case_id": "F_061",
+    "input": "{\"speech\": true, \"gaze\": false, \"wer\": 20.01, \"wpm\": 59.99, \"regression\": 40, \"shared\": 2}",
+    "expected": "{\"basis\": \"suara saja\", \"concordance\": null, \"pattern\": null}",
+    "actual": "{\"basis\": \"suara saja\", \"concordance\": null, \"pattern\": null}",
+    "unit": "",
+    "status": "PASSED",
+    "elapsed_ms": 0.22020000324118882
+  },
+  {
+    "section": "07_multimodal_fusion",
+    "case_id": "F_062",
+    "input": "{\"speech\": true, \"gaze\": false, \"wer\": 20.01, \"wpm\": 59.99, \"regression\": 40, \"shared\": 3}",
+    "expected": "{\"basis\": \"suara saja\", \"concordance\": null, \"pattern\": null}",
+    "actual": "{\"basis\": \"suara saja\", \"concordance\": null, \"pattern\": null}",
+    "unit": "",
+    "status": "PASSED",
+    "elapsed_ms": 0.22190000163391232
+  },
+  {
+    "section": "07_multimodal_fusion",
+    "case_id": "F_063",
+    "input": "{\"speech\": true, \"gaze\": false, \"wer\": 20.01, \"wpm\": 59.99, \"regression\": 40.01, \"shared\": 0}",
+    "expected": "{\"basis\": \"suara saja\", \"concordance\": null, \"pattern\": null}",
+    "actual": "{\"basis\": \"suara saja\", \"concordance\": null, \"pattern\": null}",
+    "unit": "",
+    "status": "PASSED",
+    "elapsed_ms": 0.2553999947849661
+  },
+  {
+    "section": "07_multimodal_fusion",
+    "case_id": "F_064",
+    "input": "{\"speech\": true, \"gaze\": false, \"wer\": 20.01, \"wpm\": 59.99, \"regression\": 40.01, \"shared\": 2}",
+    "expected": "{\"basis\": \"suara saja\", \"concordance\": null, \"pattern\": null}",
+    "actual": "{\"basis\": \"suara saja\", \"concordance\": null, \"pattern\": null}",
+    "unit": "",
+    "status": "PASSED",
+    "elapsed_ms": 0.23939998936839402
+  },
+  {
+    "section": "07_multimodal_fusion",
+    "case_id": "F_065",
+    "input": "{\"speech\": true, \"gaze\": false, \"wer\": 20.01, \"wpm\": 59.99, \"regression\": 40.01, \"shared\": 3}",
+    "expected": "{\"basis\": \"suara saja\", \"concordance\": null, \"pattern\": null}",
+    "actual": "{\"basis\": \"suara saja\", \"concordance\": null, \"pattern\": null}",
+    "unit": "",
+    "status": "PASSED",
+    "elapsed_ms": 0.4000000044470653
+  },
+  {
+    "section": "07_multimodal_fusion",
+    "case_id": "F_066",
+    "input": "{\"speech\": true, \"gaze\": false, \"wer\": 20.01, \"wpm\": 60, \"regression\": 40, \"shared\": 0}",
+    "expected": "{\"basis\": \"suara saja\", \"concordance\": null, \"pattern\": null}",
+    "actual": "{\"basis\": \"suara saja\", \"concordance\": null, \"pattern\": null}",
+    "unit": "",
+    "status": "PASSED",
+    "elapsed_ms": 0.3690000012284145
+  },
+  {
+    "section": "07_multimodal_fusion",
+    "case_id": "F_067",
+    "input": "{\"speech\": true, \"gaze\": false, \"wer\": 20.01, \"wpm\": 60, \"regression\": 40, \"shared\": 2}",
+    "expected": "{\"basis\": \"suara saja\", \"concordance\": null, \"pattern\": null}",
+    "actual": "{\"basis\": \"suara saja\", \"concordance\": null, \"pattern\": null}",
+    "unit": "",
+    "status": "PASSED",
+    "elapsed_ms": 0.2889000024879351
+  },
+  {
+    "section": "07_multimodal_fusion",
+    "case_id": "F_068",
+    "input": "{\"speech\": true, \"gaze\": false, \"wer\": 20.01, \"wpm\": 60, \"regression\": 40, \"shared\": 3}",
+    "expected": "{\"basis\": \"suara saja\", \"concordance\": null, \"pattern\": null}",
+    "actual": "{\"basis\": \"suara saja\", \"concordance\": null, \"pattern\": null}",
+    "unit": "",
+    "status": "PASSED",
+    "elapsed_ms": 0.19120000069960952
+  },
+  {
+    "section": "07_multimodal_fusion",
+    "case_id": "F_069",
+    "input": "{\"speech\": true, \"gaze\": false, \"wer\": 20.01, \"wpm\": 60, \"regression\": 40.01, \"shared\": 0}",
+    "expected": "{\"basis\": \"suara saja\", \"concordance\": null, \"pattern\": null}",
+    "actual": "{\"basis\": \"suara saja\", \"concordance\": null, \"pattern\": null}",
+    "unit": "",
+    "status": "PASSED",
+    "elapsed_ms": 0.1483999949414283
+  },
+  {
+    "section": "07_multimodal_fusion",
+    "case_id": "F_070",
+    "input": "{\"speech\": true, \"gaze\": false, \"wer\": 20.01, \"wpm\": 60, \"regression\": 40.01, \"shared\": 2}",
+    "expected": "{\"basis\": \"suara saja\", \"concordance\": null, \"pattern\": null}",
+    "actual": "{\"basis\": \"suara saja\", \"concordance\": null, \"pattern\": null}",
+    "unit": "",
+    "status": "PASSED",
+    "elapsed_ms": 0.17040000238921493
+  },
+  {
+    "section": "07_multimodal_fusion",
+    "case_id": "F_071",
+    "input": "{\"speech\": true, \"gaze\": false, \"wer\": 20.01, \"wpm\": 60, \"regression\": 40.01, \"shared\": 3}",
+    "expected": "{\"basis\": \"suara saja\", \"concordance\": null, \"pattern\": null}",
+    "actual": "{\"basis\": \"suara saja\", \"concordance\": null, \"pattern\": null}",
+    "unit": "",
+    "status": "PASSED",
+    "elapsed_ms": 0.22339999850373715
+  },
+  {
+    "section": "07_multimodal_fusion",
+    "case_id": "F_072",
+    "input": "{\"speech\": true, \"gaze\": true, \"wer\": 20, \"wpm\": 59.99, \"regression\": 40, \"shared\": 0}",
+    "expected": "{\"basis\": \"suara + tatapan\", \"concordance\": 0.0, \"pattern\": \"Bacaan lambat tanpa hambatan visual yang jelas\"}",
+    "actual": "{\"basis\": \"suara + tatapan\", \"concordance\": 0.0, \"pattern\": \"Bacaan lambat tanpa hambatan visual yang jelas\"}",
+    "unit": "",
+    "status": "PASSED",
+    "elapsed_ms": 2.01349999406375
+  },
+  {
+    "section": "07_multimodal_fusion",
+    "case_id": "F_073",
+    "input": "{\"speech\": true, \"gaze\": true, \"wer\": 20, \"wpm\": 59.99, \"regression\": 40, \"shared\": 2}",
+    "expected": "{\"basis\": \"suara + tatapan\", \"concordance\": 40.0, \"pattern\": \"Bacaan lambat tanpa hambatan visual yang jelas\"}",
+    "actual": "{\"basis\": \"suara + tatapan\", \"concordance\": 40.0, \"pattern\": \"Bacaan lambat tanpa hambatan visual yang jelas\"}",
+    "unit": "",
+    "status": "PASSED",
+    "elapsed_ms": 0.7985999982338399
+  },
+  {
+    "section": "07_multimodal_fusion",
+    "case_id": "F_074",
+    "input": "{\"speech\": true, \"gaze\": true, \"wer\": 20, \"wpm\": 59.99, \"regression\": 40, \"shared\": 3}",
+    "expected": "{\"basis\": \"suara + tatapan\", \"concordance\": 60.0, \"pattern\": \"Bacaan lambat tanpa hambatan visual yang jelas\"}",
+    "actual": "{\"basis\": \"suara + tatapan\", \"concordance\": 60.0, \"pattern\": \"Bacaan lambat tanpa hambatan visual yang jelas\"}",
+    "unit": "",
+    "status": "PASSED",
+    "elapsed_ms": 0.949399996898137
+  },
+  {
+    "section": "07_multimodal_fusion",
+    "case_id": "F_075",
+    "input": "{\"speech\": true, \"gaze\": true, \"wer\": 20, \"wpm\": 59.99, \"regression\": 40.01, \"shared\": 0}",
+    "expected": "{\"basis\": \"suara + tatapan\", \"concordance\": 0.0, \"pattern\": \"Bacaan lambat dengan alur visual tidak teratur\"}",
+    "actual": "{\"basis\": \"suara + tatapan\", \"concordance\": 0.0, \"pattern\": \"Bacaan lambat dengan alur visual tidak teratur\"}",
+    "unit": "",
+    "status": "PASSED",
+    "elapsed_ms": 0.9071000094991177
+  },
+  {
+    "section": "07_multimodal_fusion",
+    "case_id": "F_076",
+    "input": "{\"speech\": true, \"gaze\": true, \"wer\": 20, \"wpm\": 59.99, \"regression\": 40.01, \"shared\": 2}",
+    "expected": "{\"basis\": \"suara + tatapan\", \"concordance\": 40.0, \"pattern\": \"Bacaan lambat dengan alur visual tidak teratur\"}",
+    "actual": "{\"basis\": \"suara + tatapan\", \"concordance\": 40.0, \"pattern\": \"Bacaan lambat dengan alur visual tidak teratur\"}",
+    "unit": "",
+    "status": "PASSED",
+    "elapsed_ms": 0.8027000003494322
+  },
+  {
+    "section": "07_multimodal_fusion",
+    "case_id": "F_077",
+    "input": "{\"speech\": true, \"gaze\": true, \"wer\": 20, \"wpm\": 59.99, \"regression\": 40.01, \"shared\": 3}",
+    "expected": "{\"basis\": \"suara + tatapan\", \"concordance\": 60.0, \"pattern\": \"Bacaan lambat dengan alur visual tidak teratur\"}",
+    "actual": "{\"basis\": \"suara + tatapan\", \"concordance\": 60.0, \"pattern\": \"Bacaan lambat dengan alur visual tidak teratur\"}",
+    "unit": "",
+    "status": "PASSED",
+    "elapsed_ms": 0.926900000195019
+  },
+  {
+    "section": "07_multimodal_fusion",
+    "case_id": "F_078",
+    "input": "{\"speech\": true, \"gaze\": true, \"wer\": 20, \"wpm\": 60, \"regression\": 40, \"shared\": 0}",
+    "expected": "{\"basis\": \"suara + tatapan\", \"concordance\": 0.0, \"pattern\": \"Suara dan tatapan sama-sama lancar\"}",
+    "actual": "{\"basis\": \"suara + tatapan\", \"concordance\": 0.0, \"pattern\": \"Suara dan tatapan sama-sama lancar\"}",
+    "unit": "",
+    "status": "PASSED",
+    "elapsed_ms": 1.0005999938584864
+  },
+  {
+    "section": "07_multimodal_fusion",
+    "case_id": "F_079",
+    "input": "{\"speech\": true, \"gaze\": true, \"wer\": 20, \"wpm\": 60, \"regression\": 40, \"shared\": 2}",
+    "expected": "{\"basis\": \"suara + tatapan\", \"concordance\": 40.0, \"pattern\": \"Suara dan tatapan sama-sama lancar\"}",
+    "actual": "{\"basis\": \"suara + tatapan\", \"concordance\": 40.0, \"pattern\": \"Suara dan tatapan sama-sama lancar\"}",
+    "unit": "",
+    "status": "PASSED",
+    "elapsed_ms": 1.4995999954408035
+  },
+  {
+    "section": "07_multimodal_fusion",
+    "case_id": "F_080",
+    "input": "{\"speech\": true, \"gaze\": true, \"wer\": 20, \"wpm\": 60, \"regression\": 40, \"shared\": 3}",
+    "expected": "{\"basis\": \"suara + tatapan\", \"concordance\": 60.0, \"pattern\": \"Suara dan tatapan sama-sama lancar\"}",
+    "actual": "{\"basis\": \"suara + tatapan\", \"concordance\": 60.0, \"pattern\": \"Suara dan tatapan sama-sama lancar\"}",
+    "unit": "",
+    "status": "PASSED",
+    "elapsed_ms": 1.70980000984855
+  },
+  {
+    "section": "07_multimodal_fusion",
+    "case_id": "F_081",
+    "input": "{\"speech\": true, \"gaze\": true, \"wer\": 20, \"wpm\": 60, \"regression\": 40.01, \"shared\": 0}",
+    "expected": "{\"basis\": \"suara + tatapan\", \"concordance\": 0.0, \"pattern\": \"Alur visual tidak teratur meski ucapan tepat\"}",
+    "actual": "{\"basis\": \"suara + tatapan\", \"concordance\": 0.0, \"pattern\": \"Alur visual tidak teratur meski ucapan tepat\"}",
+    "unit": "",
+    "status": "PASSED",
+    "elapsed_ms": 2.7237999893259257
+  },
+  {
+    "section": "07_multimodal_fusion",
+    "case_id": "F_082",
+    "input": "{\"speech\": true, \"gaze\": true, \"wer\": 20, \"wpm\": 60, \"regression\": 40.01, \"shared\": 2}",
+    "expected": "{\"basis\": \"suara + tatapan\", \"concordance\": 40.0, \"pattern\": \"Alur visual tidak teratur meski ucapan tepat\"}",
+    "actual": "{\"basis\": \"suara + tatapan\", \"concordance\": 40.0, \"pattern\": \"Alur visual tidak teratur meski ucapan tepat\"}",
+    "unit": "",
+    "status": "PASSED",
+    "elapsed_ms": 3.759300001547672
+  },
+  {
+    "section": "07_multimodal_fusion",
+    "case_id": "F_083",
+    "input": "{\"speech\": true, \"gaze\": true, \"wer\": 20, \"wpm\": 60, \"regression\": 40.01, \"shared\": 3}",
+    "expected": "{\"basis\": \"suara + tatapan\", \"concordance\": 60.0, \"pattern\": \"Alur visual tidak teratur meski ucapan tepat\"}",
+    "actual": "{\"basis\": \"suara + tatapan\", \"concordance\": 60.0, \"pattern\": \"Alur visual tidak teratur meski ucapan tepat\"}",
+    "unit": "",
+    "status": "PASSED",
+    "elapsed_ms": 1.7168000049423426
+  },
+  {
+    "section": "07_multimodal_fusion",
+    "case_id": "F_084",
+    "input": "{\"speech\": true, \"gaze\": true, \"wer\": 20.01, \"wpm\": 59.99, \"regression\": 40, \"shared\": 0}",
+    "expected": "{\"basis\": \"suara + tatapan\", \"concordance\": 0.0, \"pattern\": \"Kesalahan ucap tanpa hambatan visual yang jelas\"}",
+    "actual": "{\"basis\": \"suara + tatapan\", \"concordance\": 0.0, \"pattern\": \"Kesalahan ucap tanpa hambatan visual yang jelas\"}",
+    "unit": "",
+    "status": "PASSED",
+    "elapsed_ms": 4.4670999923255295
+  },
+  {
+    "section": "07_multimodal_fusion",
+    "case_id": "F_085",
+    "input": "{\"speech\": true, \"gaze\": true, \"wer\": 20.01, \"wpm\": 59.99, \"regression\": 40, \"shared\": 2}",
+    "expected": "{\"basis\": \"suara + tatapan\", \"concordance\": 40.0, \"pattern\": \"Kesulitan pengenalan kata (didukung suara dan tatapan)\"}",
+    "actual": "{\"basis\": \"suara + tatapan\", \"concordance\": 40.0, \"pattern\": \"Kesulitan pengenalan kata (didukung suara dan tatapan)\"}",
+    "unit": "",
+    "status": "PASSED",
+    "elapsed_ms": 1.4177999983076006
+  },
+  {
+    "section": "07_multimodal_fusion",
+    "case_id": "F_086",
+    "input": "{\"speech\": true, \"gaze\": true, \"wer\": 20.01, \"wpm\": 59.99, \"regression\": 40, \"shared\": 3}",
+    "expected": "{\"basis\": \"suara + tatapan\", \"concordance\": 60.0, \"pattern\": \"Kesulitan pengenalan kata (didukung suara dan tatapan)\"}",
+    "actual": "{\"basis\": \"suara + tatapan\", \"concordance\": 60.0, \"pattern\": \"Kesulitan pengenalan kata (didukung suara dan tatapan)\"}",
+    "unit": "",
+    "status": "PASSED",
+    "elapsed_ms": 0.8442999969702214
+  },
+  {
+    "section": "07_multimodal_fusion",
+    "case_id": "F_087",
+    "input": "{\"speech\": true, \"gaze\": true, \"wer\": 20.01, \"wpm\": 59.99, \"regression\": 40.01, \"shared\": 0}",
+    "expected": "{\"basis\": \"suara + tatapan\", \"concordance\": 0.0, \"pattern\": \"Kesalahan ucap dan alur visual tidak teratur (belum pada kata yang sama)\"}",
+    "actual": "{\"basis\": \"suara + tatapan\", \"concordance\": 0.0, \"pattern\": \"Kesalahan ucap dan alur visual tidak teratur (belum pada kata yang sama)\"}",
+    "unit": "",
+    "status": "PASSED",
+    "elapsed_ms": 3.9286999963223934
+  },
+  {
+    "section": "07_multimodal_fusion",
+    "case_id": "F_088",
+    "input": "{\"speech\": true, \"gaze\": true, \"wer\": 20.01, \"wpm\": 59.99, \"regression\": 40.01, \"shared\": 2}",
+    "expected": "{\"basis\": \"suara + tatapan\", \"concordance\": 40.0, \"pattern\": \"Kesulitan pengenalan kata (didukung suara dan tatapan)\"}",
+    "actual": "{\"basis\": \"suara + tatapan\", \"concordance\": 40.0, \"pattern\": \"Kesulitan pengenalan kata (didukung suara dan tatapan)\"}",
+    "unit": "",
+    "status": "PASSED",
+    "elapsed_ms": 1.7255999991903082
+  },
+  {
+    "section": "07_multimodal_fusion",
+    "case_id": "F_089",
+    "input": "{\"speech\": true, \"gaze\": true, \"wer\": 20.01, \"wpm\": 59.99, \"regression\": 40.01, \"shared\": 3}",
+    "expected": "{\"basis\": \"suara + tatapan\", \"concordance\": 60.0, \"pattern\": \"Kesulitan pengenalan kata (didukung suara dan tatapan)\"}",
+    "actual": "{\"basis\": \"suara + tatapan\", \"concordance\": 60.0, \"pattern\": \"Kesulitan pengenalan kata (didukung suara dan tatapan)\"}",
+    "unit": "",
+    "status": "PASSED",
+    "elapsed_ms": 3.6106999905314296
+  },
+  {
+    "section": "07_multimodal_fusion",
+    "case_id": "F_090",
+    "input": "{\"speech\": true, \"gaze\": true, \"wer\": 20.01, \"wpm\": 60, \"regression\": 40, \"shared\": 0}",
+    "expected": "{\"basis\": \"suara + tatapan\", \"concordance\": 0.0, \"pattern\": \"Kesalahan ucap tanpa hambatan visual yang jelas\"}",
+    "actual": "{\"basis\": \"suara + tatapan\", \"concordance\": 0.0, \"pattern\": \"Kesalahan ucap tanpa hambatan visual yang jelas\"}",
+    "unit": "",
+    "status": "PASSED",
+    "elapsed_ms": 1.2627999967662618
+  },
+  {
+    "section": "07_multimodal_fusion",
+    "case_id": "F_091",
+    "input": "{\"speech\": true, \"gaze\": true, \"wer\": 20.01, \"wpm\": 60, \"regression\": 40, \"shared\": 2}",
+    "expected": "{\"basis\": \"suara + tatapan\", \"concordance\": 40.0, \"pattern\": \"Kesulitan pengenalan kata (didukung suara dan tatapan)\"}",
+    "actual": "{\"basis\": \"suara + tatapan\", \"concordance\": 40.0, \"pattern\": \"Kesulitan pengenalan kata (didukung suara dan tatapan)\"}",
+    "unit": "",
+    "status": "PASSED",
+    "elapsed_ms": 1.1038999946322292
+  },
+  {
+    "section": "07_multimodal_fusion",
+    "case_id": "F_092",
+    "input": "{\"speech\": true, \"gaze\": true, \"wer\": 20.01, \"wpm\": 60, \"regression\": 40, \"shared\": 3}",
+    "expected": "{\"basis\": \"suara + tatapan\", \"concordance\": 60.0, \"pattern\": \"Kesulitan pengenalan kata (didukung suara dan tatapan)\"}",
+    "actual": "{\"basis\": \"suara + tatapan\", \"concordance\": 60.0, \"pattern\": \"Kesulitan pengenalan kata (didukung suara dan tatapan)\"}",
+    "unit": "",
+    "status": "PASSED",
+    "elapsed_ms": 1.0242999996989965
+  },
+  {
+    "section": "07_multimodal_fusion",
+    "case_id": "F_093",
+    "input": "{\"speech\": true, \"gaze\": true, \"wer\": 20.01, \"wpm\": 60, \"regression\": 40.01, \"shared\": 0}",
+    "expected": "{\"basis\": \"suara + tatapan\", \"concordance\": 0.0, \"pattern\": \"Kesalahan ucap dan alur visual tidak teratur (belum pada kata yang sama)\"}",
+    "actual": "{\"basis\": \"suara + tatapan\", \"concordance\": 0.0, \"pattern\": \"Kesalahan ucap dan alur visual tidak teratur (belum pada kata yang sama)\"}",
+    "unit": "",
+    "status": "PASSED",
+    "elapsed_ms": 1.1754000006476417
+  },
+  {
+    "section": "07_multimodal_fusion",
+    "case_id": "F_094",
+    "input": "{\"speech\": true, \"gaze\": true, \"wer\": 20.01, \"wpm\": 60, \"regression\": 40.01, \"shared\": 2}",
+    "expected": "{\"basis\": \"suara + tatapan\", \"concordance\": 40.0, \"pattern\": \"Kesulitan pengenalan kata (didukung suara dan tatapan)\"}",
+    "actual": "{\"basis\": \"suara + tatapan\", \"concordance\": 40.0, \"pattern\": \"Kesulitan pengenalan kata (didukung suara dan tatapan)\"}",
+    "unit": "",
+    "status": "PASSED",
+    "elapsed_ms": 1.241600009961985
+  },
+  {
+    "section": "07_multimodal_fusion",
+    "case_id": "F_095",
+    "input": "{\"speech\": true, \"gaze\": true, \"wer\": 20.01, \"wpm\": 60, \"regression\": 40.01, \"shared\": 3}",
+    "expected": "{\"basis\": \"suara + tatapan\", \"concordance\": 60.0, \"pattern\": \"Kesulitan pengenalan kata (didukung suara dan tatapan)\"}",
+    "actual": "{\"basis\": \"suara + tatapan\", \"concordance\": 60.0, \"pattern\": \"Kesulitan pengenalan kata (didukung suara dan tatapan)\"}",
+    "unit": "",
+    "status": "PASSED",
+    "elapsed_ms": 1.219500001752749
+  },
+  {
+    "section": "07_multimodal_fusion",
+    "case_id": "F_absent",
+    "input": "{\"accuracy\": null, \"gaze_usable\": false, \"gaze\": null}",
+    "expected": "{\"basis\": \"tidak ada\", \"concordance\": null}",
+    "actual": "{\"basis\": \"tidak ada\", \"concordance\": null}",
+    "unit": "",
+    "status": "PASSED",
+    "elapsed_ms": 0.21410000044852495
+  },
+  {
+    "section": "07_multimodal_fusion",
+    "case_id": "F_zero_errors",
+    "input": "{\"accuracy\": 100, \"wer\": 0, \"wpm\": 80, \"gaze_usable\": true, \"gaze\": {\"words\": []}}",
+    "expected": "{\"basis\": \"suara + tatapan\", \"concordance\": null}",
+    "actual": "{\"basis\": \"suara + tatapan\", \"concordance\": null}",
+    "unit": "",
+    "status": "PASSED",
+    "elapsed_ms": 0.142400007462129
+  },
+  {
+    "section": "07_multimodal_fusion",
+    "case_id": "F_one_gaze_word",
+    "input": "{\"accuracy\": 100, \"wer\": 0, \"wpm\": 80, \"gaze_usable\": true, \"gaze\": {\"words\": [{\"index\": 0, \"ms\": 100, \"visits\": 1}]}}",
+    "expected": "{\"basis\": \"suara + tatapan\", \"concordance\": null}",
+    "actual": "{\"basis\": \"suara + tatapan\", \"concordance\": null}",
+    "unit": "",
+    "status": "PASSED",
+    "elapsed_ms": 0.9808000031625852
+  },
+  {
+    "section": "07_multimodal_fusion",
+    "case_id": "F_dwell",
+    "input": "{\"accuracy\": 70, \"wer\": 30, \"wpm\": 80, \"gaze_usable\": true, \"annotations\": [{\"index\": 0, \"type\": \"delete\"}], \"gaze\": {\"words\": [{\"index\": 0, \"ms\": 150, \"visits\": 1}, {\"index\": 1, \"ms\": 100, \"visits\": 1}, {\"index\": 2, \"ms\": 100, \"visits\": 1}, {\"index\": 3, \"ms\": 100, \"visits\": 1}, {\"index\": 4, \"ms\": 100, \"visits\": 1}, {\"index\": 5, \"ms\": 100, \"visits\": 1}, {\"index\": 6, \"ms\": 100, \"visits\": 1}, {\"index\": 7, \"ms\": 100, \"visits\": 1}, {\"index\": 8, \"ms\": 100, \"visits\": 1}, {\"index\": 9, \"ms\": 100, \"visits\": 1}]}}",
+    "expected": "{\"basis\": \"suara + tatapan\", \"concordance\": 100.0}",
+    "actual": "{\"basis\": \"suara + tatapan\", \"concordance\": 100.0}",
+    "unit": "",
+    "status": "PASSED",
+    "elapsed_ms": 1.4184999890858307
+  },
+  {
+    "section": "07_multimodal_fusion",
+    "case_id": "F_outside",
+    "input": "{\"accuracy\": 100, \"wer\": 0, \"wpm\": 80, \"gaze_usable\": true, \"on_text_percent\": 64.99, \"gaze\": {\"words\": []}}",
+    "expected": "\"Alur visual tidak teratur meski ucapan tepat\"",
+    "actual": "\"Alur visual tidak teratur meski ucapan tepat\"",
+    "unit": "",
+    "status": "PASSED",
+    "elapsed_ms": 0.20129999029450119
+  },
+  {
+    "section": "07_multimodal_fusion",
+    "case_id": "F_skipped",
+    "input": "{\"accuracy\": 100, \"wer\": 0, \"wpm\": 80, \"gaze_usable\": true, \"on_text_percent\": 90, \"gaze\": {\"words\": [], \"skipped_words_percent\": 50.01}}",
+    "expected": "\"Alur visual tidak teratur meski ucapan tepat\"",
+    "actual": "\"Alur visual tidak teratur meski ucapan tepat\"",
+    "unit": "",
+    "status": "PASSED",
+    "elapsed_ms": 0.16239999968092889
+  },
+  {
+    "section": "07_multimodal_fusion",
+    "case_id": "F_exact_boundary_399",
+    "input": "{\"error_words\": 1000, \"shared_words\": 399}",
+    "expected": "[39.9, false]",
+    "actual": "[39.9, false]",
+    "unit": "",
+    "status": "PASSED",
+    "elapsed_ms": 23.475600013625808
+  },
+  {
+    "section": "07_multimodal_fusion",
+    "case_id": "F_exact_boundary_400",
+    "input": "{\"error_words\": 1000, \"shared_words\": 400}",
+    "expected": "[40.0, true]",
+    "actual": "[40.0, true]",
+    "unit": "",
+    "status": "PASSED",
+    "elapsed_ms": 18.89040000969544
+  },
+  {
+    "section": "07_multimodal_fusion",
+    "case_id": "F_exact_boundary_401",
+    "input": "{\"error_words\": 1000, \"shared_words\": 401}",
+    "expected": "[40.1, true]",
+    "actual": "[40.1, true]",
+    "unit": "",
+    "status": "PASSED",
+    "elapsed_ms": 17.40569999674335
+  },
+  {
+    "section": "03_eye_tracking",
+    "case_id": "cal_124",
+    "input": "{\"median_error\": 0.159, \"passed\": false, \"validation_samples\": 14}",
+    "expected": "false",
+    "actual": "false",
+    "unit": "",
+    "status": "PASSED",
+    "elapsed_ms": 0.8614999969722703
+  },
+  {
+    "section": "03_eye_tracking",
+    "case_id": "cal_125",
+    "input": "{\"median_error\": 0.159, \"passed\": false, \"validation_samples\": 15}",
+    "expected": "false",
+    "actual": "false",
+    "unit": "",
+    "status": "PASSED",
+    "elapsed_ms": 0.1520000078016892
+  },
+  {
+    "section": "03_eye_tracking",
+    "case_id": "cal_126",
+    "input": "{\"median_error\": 0.159, \"passed\": true, \"validation_samples\": 14}",
+    "expected": "false",
+    "actual": "false",
+    "unit": "",
+    "status": "PASSED",
+    "elapsed_ms": 0.055199998314492404
+  },
+  {
+    "section": "03_eye_tracking",
+    "case_id": "cal_127",
+    "input": "{\"median_error\": 0.159, \"passed\": true, \"validation_samples\": 15}",
+    "expected": "true",
+    "actual": "true",
+    "unit": "",
+    "status": "PASSED",
+    "elapsed_ms": 0.04579999949783087
+  },
+  {
+    "section": "03_eye_tracking",
+    "case_id": "cal_128",
+    "input": "{\"median_error\": 0.16, \"passed\": false, \"validation_samples\": 14}",
+    "expected": "false",
+    "actual": "false",
+    "unit": "",
+    "status": "PASSED",
+    "elapsed_ms": 0.04359999729786068
+  },
+  {
+    "section": "03_eye_tracking",
+    "case_id": "cal_129",
+    "input": "{\"median_error\": 0.16, \"passed\": false, \"validation_samples\": 15}",
+    "expected": "false",
+    "actual": "false",
+    "unit": "",
+    "status": "PASSED",
+    "elapsed_ms": 0.04889999399892986
+  },
+  {
+    "section": "03_eye_tracking",
+    "case_id": "cal_130",
+    "input": "{\"median_error\": 0.16, \"passed\": true, \"validation_samples\": 14}",
+    "expected": "false",
+    "actual": "false",
+    "unit": "",
+    "status": "PASSED",
+    "elapsed_ms": 0.06399999256245792
+  },
+  {
+    "section": "03_eye_tracking",
+    "case_id": "cal_131",
+    "input": "{\"median_error\": 0.16, \"passed\": true, \"validation_samples\": 15}",
+    "expected": "true",
+    "actual": "true",
+    "unit": "",
+    "status": "PASSED",
+    "elapsed_ms": 0.048999994760379195
+  },
+  {
+    "section": "03_eye_tracking",
+    "case_id": "cal_132",
+    "input": "{\"median_error\": 0.161, \"passed\": false, \"validation_samples\": 14}",
+    "expected": "false",
+    "actual": "false",
+    "unit": "",
+    "status": "PASSED",
+    "elapsed_ms": 0.04120000812690705
+  },
+  {
+    "section": "03_eye_tracking",
+    "case_id": "cal_133",
+    "input": "{\"median_error\": 0.161, \"passed\": false, \"validation_samples\": 15}",
+    "expected": "false",
+    "actual": "false",
+    "unit": "",
+    "status": "PASSED",
+    "elapsed_ms": 0.04129999433644116
+  },
+  {
+    "section": "03_eye_tracking",
+    "case_id": "cal_134",
+    "input": "{\"median_error\": 0.161, \"passed\": true, \"validation_samples\": 14}",
+    "expected": "false",
+    "actual": "false",
+    "unit": "",
+    "status": "PASSED",
+    "elapsed_ms": 0.042799991206265986
+  },
+  {
+    "section": "03_eye_tracking",
+    "case_id": "cal_135",
+    "input": "{\"median_error\": 0.161, \"passed\": true, \"validation_samples\": 15}",
+    "expected": "false",
+    "actual": "false",
+    "unit": "",
+    "status": "PASSED",
+    "elapsed_ms": 0.04339999577496201
+  },
+  {
+    "section": "03_eye_tracking",
+    "case_id": "cal_136",
+    "input": "{\"median_error\": null, \"passed\": false, \"validation_samples\": 14}",
+    "expected": "false",
+    "actual": "false",
+    "unit": "",
+    "status": "PASSED",
+    "elapsed_ms": 0.039699996705166996
+  },
+  {
+    "section": "03_eye_tracking",
+    "case_id": "cal_137",
+    "input": "{\"median_error\": null, \"passed\": false, \"validation_samples\": 15}",
+    "expected": "false",
+    "actual": "false",
+    "unit": "",
+    "status": "PASSED",
+    "elapsed_ms": 0.03960001049563289
+  },
+  {
+    "section": "03_eye_tracking",
+    "case_id": "cal_138",
+    "input": "{\"median_error\": null, \"passed\": true, \"validation_samples\": 14}",
+    "expected": "false",
+    "actual": "false",
+    "unit": "",
+    "status": "PASSED",
+    "elapsed_ms": 0.04029998672194779
+  },
+  {
+    "section": "03_eye_tracking",
+    "case_id": "cal_139",
+    "input": "{\"median_error\": null, \"passed\": true, \"validation_samples\": 15}",
+    "expected": "false",
+    "actual": "false",
+    "unit": "",
+    "status": "PASSED",
+    "elapsed_ms": 0.03989999822806567
+  },
+  {
+    "section": "03_eye_tracking",
+    "case_id": "cal_140",
+    "input": "{\"median_error\": NaN, \"passed\": false, \"validation_samples\": 14}",
+    "expected": "false",
+    "actual": "false",
+    "unit": "",
+    "status": "PASSED",
+    "elapsed_ms": 0.03999999898951501
+  },
+  {
+    "section": "03_eye_tracking",
+    "case_id": "cal_141",
+    "input": "{\"median_error\": NaN, \"passed\": false, \"validation_samples\": 15}",
+    "expected": "false",
+    "actual": "false",
+    "unit": "",
+    "status": "PASSED",
+    "elapsed_ms": 0.0509000092279166
+  },
+  {
+    "section": "03_eye_tracking",
+    "case_id": "cal_142",
+    "input": "{\"median_error\": NaN, \"passed\": true, \"validation_samples\": 14}",
+    "expected": "false",
+    "actual": "false",
+    "unit": "",
+    "status": "PASSED",
+    "elapsed_ms": 0.04119999357499182
+  },
+  {
+    "section": "03_eye_tracking",
+    "case_id": "cal_143",
+    "input": "{\"median_error\": NaN, \"passed\": true, \"validation_samples\": 15}",
+    "expected": "false",
+    "actual": "false",
+    "unit": "",
+    "status": "PASSED",
+    "elapsed_ms": 0.04389999958220869
+  },
+  {
+    "section": "03_eye_tracking",
+    "case_id": "coverage_10_23",
+    "input": "{\"duration\": 10, \"samples\": 23}",
+    "expected": "false",
+    "actual": "false",
+    "unit": "",
+    "status": "PASSED",
+    "elapsed_ms": 1.0642999986885116
+  },
+  {
+    "section": "03_eye_tracking",
+    "case_id": "coverage_10_24",
+    "input": "{\"duration\": 10, \"samples\": 24}",
+    "expected": "true",
+    "actual": "true",
+    "unit": "",
+    "status": "PASSED",
+    "elapsed_ms": 1.0094000026583672
+  },
+  {
+    "section": "03_eye_tracking",
+    "case_id": "coverage_2_19",
+    "input": "{\"duration\": 2, \"samples\": 19}",
+    "expected": "false",
+    "actual": "false",
+    "unit": "",
+    "status": "PASSED",
+    "elapsed_ms": 0.5188000068301335
+  },
+  {
+    "section": "03_eye_tracking",
+    "case_id": "coverage_2_20",
+    "input": "{\"duration\": 2, \"samples\": 20}",
+    "expected": "true",
+    "actual": "true",
+    "unit": "",
+    "status": "PASSED",
+    "elapsed_ms": 0.6646000110777095
+  },
+  {
+    "section": "03_eye_tracking",
+    "case_id": "coverage_0_24",
+    "input": "{\"duration\": 0, \"samples\": 24}",
+    "expected": "false",
+    "actual": "false",
+    "unit": "",
+    "status": "PASSED",
+    "elapsed_ms": 0.9447000047657639
+  },
+  {
+    "section": "03_eye_tracking",
+    "case_id": "clean_dirty",
+    "input": "\"duplicate, NaN, negative/out-of-range time\"",
+    "expected": "{\"valid\": 2, \"duplicates\": 1, \"invalid\": 2, \"out_of_range\": 1}",
+    "actual": "{\"valid\": 2, \"duplicates\": 1, \"invalid\": 2, \"out_of_range\": 1}",
+    "unit": "",
+    "status": "PASSED",
+    "elapsed_ms": 2.5521000061417
+  },
+  {
+    "section": "03_eye_tracking",
+    "case_id": "mapped_revisit",
+    "input": "{\"sequence\": [0, 2, 0], \"unvisited\": [1]}",
+    "expected": "{\"regressions_within_line\": 1, \"progressions\": 1, \"revisited_words\": 1, \"skipped_words_percent\": 33.3}",
+    "actual": "{\"regressions_within_line\": 1, \"progressions\": 1, \"revisited_words\": 1, \"skipped_words_percent\": 33.3}",
+    "unit": "",
+    "status": "PASSED",
+    "elapsed_ms": 0.0447999918833375
+  },
+  {
+    "section": "03_eye_tracking",
+    "case_id": "viewport_800",
+    "input": "{\"width\": 800, \"jitter\": 0.05}",
+    "expected": "1",
+    "actual": "1",
+    "unit": "",
+    "status": "PASSED",
+    "elapsed_ms": 0.2629999944474548
+  },
+  {
+    "section": "03_eye_tracking",
+    "case_id": "viewport_2000",
+    "input": "{\"width\": 2000, \"jitter\": 0.05}",
+    "expected": "0",
+    "actual": "0",
+    "unit": "",
+    "status": "PASSED",
+    "elapsed_ms": 0.1379000023007393
+  },
+  {
+    "section": "07_multimodal_fusion",
+    "case_id": "speech_gate_4.99_0.9_False",
+    "input": "{\"duration\": 4.99, \"probability\": 0.9, \"reviewed\": false}",
+    "expected": "false",
+    "actual": "false",
+    "unit": "",
+    "status": "PASSED",
+    "elapsed_ms": 0.291000003926456
+  },
+  {
+    "section": "07_multimodal_fusion",
+    "case_id": "speech_gate_5_0.6_False",
+    "input": "{\"duration\": 5, \"probability\": 0.6, \"reviewed\": false}",
+    "expected": "true",
+    "actual": "true",
+    "unit": "",
+    "status": "PASSED",
+    "elapsed_ms": 0.16719999257475138
+  },
+  {
+    "section": "07_multimodal_fusion",
+    "case_id": "speech_gate_5_0.599_False",
+    "input": "{\"duration\": 5, \"probability\": 0.599, \"reviewed\": false}",
+    "expected": "false",
+    "actual": "false",
+    "unit": "",
+    "status": "PASSED",
+    "elapsed_ms": 0.159399991389364
+  },
+  {
+    "section": "07_multimodal_fusion",
+    "case_id": "speech_gate_5_None_False",
+    "input": "{\"duration\": 5, \"probability\": null, \"reviewed\": false}",
+    "expected": "false",
+    "actual": "false",
+    "unit": "",
+    "status": "PASSED",
+    "elapsed_ms": 0.13000000035390258
+  },
+  {
+    "section": "07_multimodal_fusion",
+    "case_id": "speech_gate_5_None_True",
+    "input": "{\"duration\": 5, \"probability\": null, \"reviewed\": true}",
+    "expected": "true",
+    "actual": "true",
+    "unit": "",
+    "status": "PASSED",
+    "elapsed_ms": 0.1252999936696142
+  },
+  {
+    "section": "02_vad",
+    "case_id": "VAD_empty",
+    "input": "[]",
+    "expected": "[]",
+    "actual": "[]",
+    "unit": "",
+    "status": "PASSED",
+    "elapsed_ms": 0.32310000096913427
+  },
+  {
+    "section": "02_vad",
+    "case_id": "VAD_40ms",
+    "input": "[1, 1]",
+    "expected": "[]",
+    "actual": "[]",
+    "unit": "",
+    "status": "PASSED",
+    "elapsed_ms": 0.06090001261327416
+  },
+  {
+    "section": "02_vad",
+    "case_id": "VAD_60ms",
+    "input": "[1, 1, 1]",
+    "expected": "[[0.0, 0.06]]",
+    "actual": "[[0.0, 0.06]]",
+    "unit": "",
+    "status": "PASSED",
+    "elapsed_ms": 0.03700000524986535
+  },
+  {
+    "section": "02_vad",
+    "case_id": "VAD_fill100",
+    "input": "[1, 1, 1, 0, 0, 0, 0, 0, 1, 1, 1]",
+    "expected": "[[0.0, 0.22]]",
+    "actual": "[[0.0, 0.22]]",
+    "unit": "",
+    "status": "PASSED",
+    "elapsed_ms": 0.05679999594576657
+  },
+  {
+    "section": "02_vad",
+    "case_id": "VAD_gap120",
+    "input": "[1, 1, 1, 0, 0, 0, 0, 0, 0, 1, 1, 1]",
+    "expected": "[[0.0, 0.06], [0.18, 0.24]]",
+    "actual": "[[0.0, 0.06], [0.18, 0.24]]",
+    "unit": "",
+    "status": "PASSED",
+    "elapsed_ms": 0.0543000060133636
+  },
+  {
+    "section": "02_vad",
+    "case_id": "VAD_mode_reset",
+    "input": "\"Five calls create five VAD instances\"",
+    "expected": "[2, 2, 2, 2, 2]",
+    "actual": "[2, 2, 2, 2, 2]",
+    "unit": "",
+    "status": "PASSED",
+    "elapsed_ms": 0.010399991879239678
+  },
+  {
+    "section": "02_vad",
+    "case_id": "valid_boundaries_silence",
+    "input": "\"silence\"",
+    "expected": "true",
+    "actual": "true",
+    "unit": "",
+    "status": "PASSED",
+    "elapsed_ms": 0.1455999881727621
+  },
+  {
+    "section": "02_vad",
+    "case_id": "valid_boundaries_noise",
+    "input": "\"noise\"",
+    "expected": "true",
+    "actual": "true",
+    "unit": "",
+    "status": "PASSED",
+    "elapsed_ms": 0.1787999935913831
+  },
+  {
+    "section": "02_vad",
+    "case_id": "valid_boundaries_public_speech_fixture",
+    "input": "\"public_speech_fixture\"",
+    "expected": "true",
+    "actual": "true",
+    "unit": "",
+    "status": "PASSED",
+    "elapsed_ms": 0.2842999965650961
+  },
+  {
+    "section": "02_vad",
+    "case_id": "silence_no_segments",
+    "input": "\"digital zero PCM\"",
+    "expected": "[]",
+    "actual": "[]",
+    "unit": "",
+    "status": "PASSED",
+    "elapsed_ms": 0.3819999983534217
+  },
+  {
+    "section": "06_fluency",
+    "case_id": "formula_pause_0.24",
+    "input": "{\"regions\": [[0.5, 1], [1.24, 1.74]], \"words\": 2, \"syllables\": 4}",
+    "expected": "{\"wpm\": 96.774194, \"articulation_rate_syllables_per_sec\": 4.0, \"mlr_syllables_per_run\": 4.0, \"pause_frequency_per_min\": 0.0, \"mean_pause_duration_sec\": null, \"long_pause_count\": 0}",
+    "actual": "{\"wpm\": 96.774194, \"articulation_rate_syllables_per_sec\": 4.0, \"mlr_syllables_per_run\": 4.0, \"pause_frequency_per_min\": 0.0, \"mean_pause_duration_sec\": null, \"long_pause_count\": 0}",
+    "unit": "",
+    "status": "PASSED",
+    "elapsed_ms": 0.045200009481050074
+  },
+  {
+    "section": "06_fluency",
+    "case_id": "formula_pause_0.25",
+    "input": "{\"regions\": [[0.5, 1], [1.25, 1.75]], \"words\": 2, \"syllables\": 4}",
+    "expected": "{\"wpm\": 96.0, \"articulation_rate_syllables_per_sec\": 4.0, \"mlr_syllables_per_run\": 2.0, \"pause_frequency_per_min\": 48.0, \"mean_pause_duration_sec\": 0.25, \"long_pause_count\": 0}",
+    "actual": "{\"wpm\": 96.0, \"articulation_rate_syllables_per_sec\": 4.0, \"mlr_syllables_per_run\": 2.0, \"pause_frequency_per_min\": 48.0, \"mean_pause_duration_sec\": 0.25, \"long_pause_count\": 0}",
+    "unit": "",
+    "status": "PASSED",
+    "elapsed_ms": 0.02239999594166875
+  },
+  {
+    "section": "06_fluency",
+    "case_id": "formula_pause_0.499",
+    "input": "{\"regions\": [[0.5, 1], [1.499, 1.999]], \"words\": 2, \"syllables\": 4}",
+    "expected": "{\"wpm\": 80.053369, \"articulation_rate_syllables_per_sec\": 4.0, \"mlr_syllables_per_run\": 2.0, \"pause_frequency_per_min\": 40.026684, \"mean_pause_duration_sec\": 0.499, \"long_pause_count\": 0}",
+    "actual": "{\"wpm\": 80.053369, \"articulation_rate_syllables_per_sec\": 4.0, \"mlr_syllables_per_run\": 2.0, \"pause_frequency_per_min\": 40.026684, \"mean_pause_duration_sec\": 0.499, \"long_pause_count\": 0}",
+    "unit": "",
+    "status": "PASSED",
+    "elapsed_ms": 0.021599989850074053
+  },
+  {
+    "section": "06_fluency",
+    "case_id": "formula_pause_0.5",
+    "input": "{\"regions\": [[0.5, 1], [1.5, 2.0]], \"words\": 2, \"syllables\": 4}",
+    "expected": "{\"wpm\": 80.0, \"articulation_rate_syllables_per_sec\": 4.0, \"mlr_syllables_per_run\": 2.0, \"pause_frequency_per_min\": 40.0, \"mean_pause_duration_sec\": 0.5, \"long_pause_count\": 1}",
+    "actual": "{\"wpm\": 80.0, \"articulation_rate_syllables_per_sec\": 4.0, \"mlr_syllables_per_run\": 2.0, \"pause_frequency_per_min\": 40.0, \"mean_pause_duration_sec\": 0.5, \"long_pause_count\": 1}",
+    "unit": "",
+    "status": "PASSED",
+    "elapsed_ms": 0.018999999156221747
+  },
+  {
+    "section": "06_fluency",
+    "case_id": "mismatch",
+    "input": "[{\"word\": \"baca\", \"start\": 0.5, \"end\": 1}]",
+    "expected": "null",
+    "actual": "null",
+    "unit": "",
+    "status": "PASSED",
+    "elapsed_ms": 0.03429999924264848
+  },
+  {
+    "section": "06_fluency",
+    "case_id": "zero_time",
+    "input": "[{\"word\": \"saya\", \"start\": 1, \"end\": 1}]",
+    "expected": "null",
+    "actual": "null",
+    "unit": "",
+    "status": "PASSED",
+    "elapsed_ms": 0.026399997295811772
+  },
+  {
+    "section": "06_fluency",
+    "case_id": "out_of_range",
+    "input": "[{\"word\": \"saya\", \"start\": 1, \"end\": 5}]",
+    "expected": "null",
+    "actual": "null",
+    "unit": "",
+    "status": "PASSED",
+    "elapsed_ms": 0.02300000051036477
+  },
+  {
+    "section": "06_fluency",
+    "case_id": "absent",
+    "input": "[]",
+    "expected": "null",
+    "actual": "null",
+    "unit": "",
+    "status": "PASSED",
+    "elapsed_ms": 0.017099999240599573
+  },
+  {
+    "section": "06_fluency",
+    "case_id": "no_pause_null",
+    "input": "\"continuous speech\"",
+    "expected": "null",
+    "actual": "null",
+    "unit": "",
+    "status": "PASSED",
+    "elapsed_ms": 0.04569999873638153
+  },
+  {
+    "section": "06_fluency",
+    "case_id": "legacy_vs_utterance",
+    "input": "{\"words\": 2, \"recording\": 3, \"span\": 1.5}",
+    "expected": "[40.0, 80.0]",
+    "actual": "[40.0, 80.0]",
+    "unit": "",
+    "status": "PASSED",
+    "elapsed_ms": 0.10479999764356762
+  },
+  {
+    "section": "05_pronunciation",
+    "case_id": "cost_pb",
+    "input": "[\"p\", \"b\"]",
+    "expected": "0.3",
+    "actual": "0.3",
+    "unit": "",
+    "status": "PASSED",
+    "elapsed_ms": 0.26440000510774553
+  },
+  {
+    "section": "05_pronunciation",
+    "case_id": "cost_ie",
+    "input": "[\"i\", \"e\"]",
+    "expected": "0.4",
+    "actual": "0.4",
+    "unit": "",
+    "status": "PASSED",
+    "elapsed_ms": 0.07339999137911946
+  },
+  {
+    "section": "05_pronunciation",
+    "case_id": "cost_iu",
+    "input": "[\"i\", \"u\"]",
+    "expected": "0.7",
+    "actual": "0.7",
+    "unit": "",
+    "status": "PASSED",
+    "elapsed_ms": 0.05370000144466758
+  },
+  {
+    "section": "05_pronunciation",
+    "case_id": "cost_mn",
+    "input": "[\"m\", \"n\"]",
+    "expected": "0.5",
+    "actual": "0.5",
+    "unit": "",
+    "status": "PASSED",
+    "elapsed_ms": 0.07770000956952572
+  },
+  {
+    "section": "05_pronunciation",
+    "case_id": "cost_ts",
+    "input": "[\"t\", \"s\"]",
+    "expected": "0.6",
+    "actual": "0.6",
+    "unit": "",
+    "status": "PASSED",
+    "elapsed_ms": 0.05280000914353877
+  },
+  {
+    "section": "05_pronunciation",
+    "case_id": "cost_lr",
+    "input": "[\"l\", \"r\"]",
+    "expected": "0.4",
+    "actual": "0.6",
+    "unit": "",
+    "status": "FAILED",
+    "elapsed_ms": 0.10590000601951033
+  },
+  {
+    "section": "05_pronunciation",
+    "case_id": "cost_ap",
+    "input": "[\"a\", \"p\"]",
+    "expected": "1",
+    "actual": "1.0",
+    "unit": "",
+    "status": "PASSED",
+    "elapsed_ms": 0.062000006437301636
+  },
+  {
+    "section": "05_pronunciation",
+    "case_id": "cost_pp",
+    "input": "[\"p\", \"p\"]",
+    "expected": "0",
+    "actual": "0.0",
+    "unit": "",
+    "status": "PASSED",
+    "elapsed_ms": 0.05490001058205962
+  },
+  {
+    "section": "05_pronunciation",
+    "case_id": "cost_!?",
+    "input": "[\"!\", \"?\"]",
+    "expected": "1",
+    "actual": "1.0",
+    "unit": "",
+    "status": "PASSED",
+    "elapsed_ms": 0.057600002037361264
+  },
+  {
+    "section": "05_pronunciation",
+    "case_id": "distance_bakupaku",
+    "input": "[\"baku\", \"paku\"]",
+    "expected": "0.3",
+    "actual": "0.3",
+    "unit": "",
+    "status": "PASSED",
+    "elapsed_ms": 0.155999994603917
+  },
+  {
+    "section": "05_pronunciation",
+    "case_id": "distance_banbang",
+    "input": "[\"ban\", \"bang\"]",
+    "expected": "0.5",
+    "actual": "0.5",
+    "unit": "",
+    "status": "PASSED",
+    "elapsed_ms": 0.09590000263415277
+  },
+  {
+    "section": "05_pronunciation",
+    "case_id": "distance_akilaqil",
+    "input": "[\"akil\", \"aqil\"]",
+    "expected": "0",
+    "actual": "0.0",
+    "unit": "",
+    "status": "PASSED",
+    "elapsed_ms": 0.0965999934123829
+  },
+  {
+    "section": "05_pronunciation",
+    "case_id": "distance_sapisapi",
+    "input": "[\"sapi\", \"sapi\"]",
+    "expected": "0",
+    "actual": "0.0",
+    "unit": "",
+    "status": "PASSED",
+    "elapsed_ms": 0.0822000001790002
+  },
+  {
+    "section": "05_pronunciation",
+    "case_id": "verdict_None",
+    "input": "null",
+    "expected": "null",
+    "actual": "null",
+    "unit": "",
+    "status": "PASSED",
+    "elapsed_ms": 0.013500000932253897
+  },
+  {
+    "section": "05_pronunciation",
+    "case_id": "verdict_0",
+    "input": "0",
+    "expected": "\"latihan\"",
+    "actual": "\"latihan\"",
+    "unit": "",
+    "status": "PASSED",
+    "elapsed_ms": 0.009700001101009548
+  },
+  {
+    "section": "05_pronunciation",
+    "case_id": "verdict_59.99",
+    "input": "59.99",
+    "expected": "\"latihan\"",
+    "actual": "\"latihan\"",
+    "unit": "",
+    "status": "PASSED",
+    "elapsed_ms": 0.008199989679269493
+  },
+  {
+    "section": "05_pronunciation",
+    "case_id": "verdict_60",
+    "input": "60",
+    "expected": "\"hampir\"",
+    "actual": "\"hampir\"",
+    "unit": "",
+    "status": "PASSED",
+    "elapsed_ms": 0.007299997378140688
+  },
+  {
+    "section": "05_pronunciation",
+    "case_id": "verdict_84.99",
+    "input": "84.99",
+    "expected": "\"hampir\"",
+    "actual": "\"hampir\"",
+    "unit": "",
+    "status": "PASSED",
+    "elapsed_ms": 0.006799993570894003
+  },
+  {
+    "section": "05_pronunciation",
+    "case_id": "verdict_85",
+    "input": "85",
+    "expected": "\"tepat\"",
+    "actual": "\"tepat\"",
+    "unit": "",
+    "status": "PASSED",
+    "elapsed_ms": 0.006400005077011883
+  },
+  {
+    "section": "05_pronunciation",
+    "case_id": "verdict_100",
+    "input": "100",
+    "expected": "\"tepat\"",
+    "actual": "\"tepat\"",
+    "unit": "",
+    "status": "PASSED",
+    "elapsed_ms": 0.006400005077011883
+  },
+  {
+    "section": "05_pronunciation",
+    "case_id": "score_target",
+    "input": "{\"free\": \"apel\", \"forced\": \"apel\", \"confidence\": 0.8}",
+    "expected": "87.0",
+    "actual": "87.0",
+    "unit": "",
+    "status": "PASSED",
+    "elapsed_ms": 0.6395000091288239
+  },
+  {
+    "section": "05_pronunciation",
+    "case_id": "score_competitor",
+    "input": "{\"free\": \"apes\", \"forced\": \"apes\", \"confidence\": 0.8}",
+    "expected": "26.2",
+    "actual": "26.2",
+    "unit": "",
+    "status": "PASSED",
+    "elapsed_ms": 0.49029999354388565
+  },
+  {
+    "section": "05_pronunciation",
+    "case_id": "score_oov",
+    "input": "{\"free\": \"apel\", \"forced\": \"apel\", \"confidence\": 0.8}",
+    "expected": "100.0",
+    "actual": "100.0",
+    "unit": "",
+    "status": "PASSED",
+    "elapsed_ms": 0.4344000044511631
+  },
+  {
+    "section": "05_pronunciation",
+    "case_id": "score_no_competitor",
+    "input": "{\"free\": \"apel\", \"forced\": \"apel\", \"confidence\": 0.8}",
+    "expected": "100.0",
+    "actual": "100.0",
+    "unit": "",
+    "status": "PASSED",
+    "elapsed_ms": 0.5295000009937212
+  },
+  {
+    "section": "05_pronunciation",
+    "case_id": "score_no_speech",
+    "input": "{\"free\": \"\", \"forced\": \"\", \"confidence\": 0.8}",
+    "expected": "null",
+    "actual": "null",
+    "unit": "",
+    "status": "PASSED",
+    "elapsed_ms": 0.22909999825060368
+  }
+]

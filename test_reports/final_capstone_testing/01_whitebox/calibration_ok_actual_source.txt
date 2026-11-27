@@ -1,0 +1,5 @@
+112: def calibration_ok(calibration):
+113:     """Kalibrasi layak hanya bila frontend menyatakan `passed` DAN galat median serta jumlah sampel validasi memenuhi batas."""
+114:     c=calibration or {}
+115:     err=c.get('median_error')
+116:     return bool(c.get('passed') is True and _finite(err) and float(err)<=MAX_CALIBRATION_ERROR and (c.get('validation_samples') or 0)>=MIN_VALIDATION_SAMPLES)

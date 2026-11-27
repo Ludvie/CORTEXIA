@@ -1,0 +1,22 @@
+471: def speech_metrics(reference,transcript,duration,words,reviewed=False,asr_transcript=None):
+472:     """Metrik suara. WER/accuracy lama dipertahankan untuk kompatibilitas API; sumbernya dinyatakan di `wer_source`.
+473:     - Sebelum koreksi: WER = referensi vs transkrip otomatis (gabungan galat ASR + galat membaca).
+474:     - Setelah koreksi: `reading_error_rate` = referensi vs transkrip manual; `asr_wer` = transkrip manual vs otomatis."""
+475:     speech=bool(normalize(transcript))
+476:     m=align(reference,transcript) if speech else dict(EMPTY_ALIGNMENT,annotations=[])
+477:     duration=float(duration) if _finite(duration) and float(duration)>0 else None
+478:     words,dropped=clean_words(words)
+479:     n_words=len(normalize(transcript).split())
+480:     m['wpm']=round(n_words/duration*60,1) if speech and duration else None
+481:     pauses=[round(b['start']-a['end'],2) for a,b in zip(words,words[1:]) if b['start']-a['end']>=0.5]
+482:     m['pauses']=len(pauses) if words else None;m['pause_seconds']=round(sum(pauses),2) if words else None
+483:     m['asr_words_dropped']=dropped
+484:     m['wer_source']='transkrip_manual' if reviewed else 'transkrip_otomatis' if speech else None
+485:     m['reading_error_rate']=m['wer'] if reviewed else None
+486:     m['asr_wer']=word_error_rate(transcript,asr_transcript) if reviewed and asr_transcript is not None and speech else None
+487:     confidence,uncertain=(None,[]) if reviewed else asr_confidence(words)
+488:     enough=bool(speech and duration and duration>=MIN_SPEECH_S and n_words>=MIN_SPEECH_WORDS)
+489:     # Keyakinan tidak diketahui (tanpa probabilitas kata) diperlakukan belum andal sampai ditinjau pendamping.
+490:     reliable=enough and (reviewed or (confidence is not None and confidence>=MIN_ASR_CONFIDENCE))
+491:     m.update({'asr_confidence':confidence,'asr_uncertain_words':uncertain[:10],'speech_reliable':reliable})
+492:     return m,speech,enough,reliable,confidence,uncertain

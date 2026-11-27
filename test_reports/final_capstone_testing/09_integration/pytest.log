@@ -1,0 +1,106 @@
+============================= test session starts =============================
+platform win32 -- Python 3.13.7, pytest-9.2.0, pluggy-1.7.0
+rootdir: C:\Users\LENOVO PC\CORTEXIA-contribute\backend
+configfile: pytest.ini
+plugins: cov-7.1.0, xdist-3.8.0, anyio-4.16.0
+created: 2/2 workers
+2 workers [139 items]
+
+.........................................F..Fs..sss..................... [ 51%]
+....................F.FF.F......s...................F....sF........      [100%]
+================================== FAILURES ===================================
+______________________ test_speech_synthesis_returns_wav ______________________
+[gw0] win32 -- Python 3.13.7 C:\Users\LENOVO PC\CORTEXIA-contribute\backend\.venv\Scripts\python.exe
+tests\test_api_integration.py:196: in test_speech_synthesis_returns_wav
+    assert response.status_code == 200
+E   assert 503 == 200
+E    +  where 503 = <Response [503]>.status_code
+_____________ test_create_session_with_generated_audio_and_review _____________
+[gw0] win32 -- Python 3.13.7 C:\Users\LENOVO PC\CORTEXIA-contribute\backend\.venv\Scripts\python.exe
+tests\test_api_integration.py:253: in test_create_session_with_generated_audio_and_review
+    assert wav.status_code == 200
+E   assert 503 == 200
+E    +  where 503 = <Response [503]>.status_code
+______________________ test_health_reports_local_models _______________________
+[gw0] win32 -- Python 3.13.7 C:\Users\LENOVO PC\CORTEXIA-contribute\backend\.venv\Scripts\python.exe
+tests\test_revisions.py:46: in test_health_reports_local_models
+    assert h["tts"].startswith("piper")
+E   AssertionError: assert False
+E    +  where False = <built-in method startswith of str object at 0x000002BF2B01C7F0>('piper')
+E    +    where <built-in method startswith of str object at 0x000002BF2B01C7F0> = 'browser-fallback'.startswith
+_____________________________ test_tts_uses_piper _____________________________
+[gw0] win32 -- Python 3.13.7 C:\Users\LENOVO PC\CORTEXIA-contribute\backend\.venv\Scripts\python.exe
+tests\test_revisions.py:51: in test_tts_uses_piper
+    assert r.status_code == 200
+E   assert 503 == 200
+E    +  where 503 = <Response [503]>.status_code
+________ test_pronunciation_correct_word_scores_higher_than_wrong_word ________
+[gw0] win32 -- Python 3.13.7 C:\Users\LENOVO PC\CORTEXIA-contribute\backend\.venv\Scripts\python.exe
+tests\test_revisions.py:58: in test_pronunciation_correct_word_scores_higher_than_wrong_word
+    good = client.post(f"{API}/pronunciation", data={"word": "apel", "consent": "true"}, files={"audio": ("a.wav", tts(client, "apel"))}, timeout=120).json()
+                                                                                                                   ^^^^^^^^^^^^^^^^^^^
+tests\test_revisions.py:31: in tts
+    assert r.status_code == 200 and r.content[:4] == b"RIFF", r.text[:200]
+E   AssertionError: {"detail":"Contoh suara lokal belum tersedia."}
+E   assert (503 == 200)
+E    +  where 503 = <Response [503]>.status_code
+____________ test_pronunciation_reduplicated_word_uses_competitors ____________
+[gw0] win32 -- Python 3.13.7 C:\Users\LENOVO PC\CORTEXIA-contribute\backend\.venv\Scripts\python.exe
+tests\test_revisions.py:69: in test_pronunciation_reduplicated_word_uses_competitors
+    r = client.post(f"{API}/pronunciation", data={"word": "kupu-kupu", "consent": "true"}, files={"audio": ("k.wav", tts(client, "kupu-kupu"))}, timeout=120).json()
+                                                                                                                     ^^^^^^^^^^^^^^^^^^^^^^^^
+tests\test_revisions.py:31: in tts
+    assert r.status_code == 200 and r.content[:4] == b"RIFF", r.text[:200]
+E   AssertionError: {"detail":"Contoh suara lokal belum tersedia."}
+E   assert (503 == 200)
+E    +  where 503 = <Response [503]>.status_code
+____________ test_reading_session_audio_gets_pronunciation_clarity ____________
+[gw0] win32 -- Python 3.13.7 C:\Users\LENOVO PC\CORTEXIA-contribute\backend\.venv\Scripts\python.exe
+tests\test_revisions.py:152: in test_reading_session_audio_gets_pronunciation_clarity
+    audio = tts(client, " ".join(text["content"].split(" ")[:12]))
+            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+tests\test_revisions.py:31: in tts
+    assert r.status_code == 200 and r.content[:4] == b"RIFF", r.text[:200]
+E   AssertionError: {"detail":"Contoh suara lokal belum tersedia."}
+E   assert (503 == 200)
+E    +  where 503 = <Response [503]>.status_code
+____________ test_gaze_game_levels_finish_and_dashboard_practices _____________
+[gw0] win32 -- Python 3.13.7 C:\Users\LENOVO PC\CORTEXIA-contribute\backend\.venv\Scripts\python.exe
+tests\test_revisions.py:172: in test_gaze_game_levels_finish_and_dashboard_practices
+    assert "gaze_game" in kinds and "pronunciation" in kinds
+E   AssertionError: assert ('gaze_game' in {'gaze_game'} and 'pronunciation' in {'gaze_game'})
+============================== warnings summary ===============================
+.venv\Lib\site-packages\starlette\formparsers.py:12
+.venv\Lib\site-packages\starlette\formparsers.py:12
+  C:\Users\LENOVO PC\CORTEXIA-contribute\backend\.venv\Lib\site-packages\starlette\formparsers.py:12: PendingDeprecationWarning: Please use `import python_multipart` instead.
+    import multipart
+
+-- Docs: https://docs.pytest.org/en/stable/how-to/capture-warnings.html
+- generated xml file: C:\Users\LENOVO PC\CORTEXIA-contribute\test_reports\final_capstone_testing\09_integration\pytest_results.xml -
+=============================== tests coverage ================================
+_______________ coverage: platform win32, python 3.13.7-final-0 _______________
+
+Name               Stmts   Miss Branch BrPart  Cover   Missing
+--------------------------------------------------------------
+analytics.py         434     35    170     15    90%   17, 24-27, 32-47, 53, 148, 263->272, 269-271, 275->257, 278, 329, 331, 347->345, 442->448, 453, 524-525, 527-528, 530-531, 543->545
+core.py               37     11     12      2    57%   15->exit, 16->exit, 29-36, 39-40, 43
+fluency.py            77      4     30      3    93%   61-62, 85, 87
+pronunciation.py     219      4     96      4    97%   34, 55, 160, 169
+sessions.py          232    128     72      6    38%   15-23, 69, 80-82, 87, 88->101, 90-100, 103-105, 111->exit, 129-131, 135-169, 173, 176-182, 185->exit, 189-192, 196-205, 209, 213-233, 237-259
+--------------------------------------------------------------
+TOTAL                999    182    380     30    79%
+Coverage JSON written to file C:\Users\LENOVO PC\CORTEXIA-contribute\test_reports\final_capstone_testing\01_whitebox\coverage.json
+=========================== short test summary info ===========================
+SKIPPED [1] tests\test_api_integration.py:301: No session id created
+SKIPPED [3] tests\test_api_integration.py: Existing research retained; training/import/stat participant access excluded from final verification.
+SKIPPED [1] tests\test_hardening_integration.py: Existing research retained; training/import/stat participant access excluded from final verification.
+SKIPPED [1] tests\test_real_audio_unit.py:17: Model Whisper belum tersedia
+FAILED tests/test_api_integration.py::test_speech_synthesis_returns_wav - ass...
+FAILED tests/test_api_integration.py::test_create_session_with_generated_audio_and_review
+FAILED tests/test_revisions.py::test_health_reports_local_models - AssertionE...
+FAILED tests/test_revisions.py::test_tts_uses_piper - assert 503 == 200
+FAILED tests/test_revisions.py::test_pronunciation_correct_word_scores_higher_than_wrong_word
+FAILED tests/test_revisions.py::test_pronunciation_reduplicated_word_uses_competitors
+FAILED tests/test_revisions.py::test_reading_session_audio_gets_pronunciation_clarity
+FAILED tests/test_revisions.py::test_gaze_game_levels_finish_and_dashboard_practices
+============ 8 failed, 125 passed, 6 skipped, 2 warnings in 26.21s ============

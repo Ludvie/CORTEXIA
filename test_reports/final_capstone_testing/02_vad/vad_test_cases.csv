@@ -1,0 +1,11 @@
+﻿section,case_id,input,expected,actual,unit,status,elapsed_ms
+02_vad,VAD_empty,[],[],[],,PASSED,0.32310000096913427
+02_vad,VAD_40ms,"[1, 1]",[],[],,PASSED,0.06090001261327416
+02_vad,VAD_60ms,"[1, 1, 1]","[[0.0, 0.06]]","[[0.0, 0.06]]",,PASSED,0.03700000524986535
+02_vad,VAD_fill100,"[1, 1, 1, 0, 0, 0, 0, 0, 1, 1, 1]","[[0.0, 0.22]]","[[0.0, 0.22]]",,PASSED,0.05679999594576657
+02_vad,VAD_gap120,"[1, 1, 1, 0, 0, 0, 0, 0, 0, 1, 1, 1]","[[0.0, 0.06], [0.18, 0.24]]","[[0.0, 0.06], [0.18, 0.24]]",,PASSED,0.0543000060133636
+02_vad,VAD_mode_reset,"""Five calls create five VAD instances""","[2, 2, 2, 2, 2]","[2, 2, 2, 2, 2]",,PASSED,0.010399991879239678
+02_vad,valid_boundaries_silence,"""silence""",true,true,,PASSED,0.1455999881727621
+02_vad,valid_boundaries_noise,"""noise""",true,true,,PASSED,0.1787999935913831
+02_vad,valid_boundaries_public_speech_fixture,"""public_speech_fixture""",true,true,,PASSED,0.2842999965650961
+02_vad,silence_no_segments,"""digital zero PCM""",[],[],,PASSED,0.3819999983534217

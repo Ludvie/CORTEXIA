@@ -1,0 +1,83 @@
+222: def gaze_metrics(points,duration,calibration,layouts=None):
+223:     calibrated=calibration_ok(calibration)
+224:     valid,stats=clean_gaze(points,duration)
+225:     layouts,dropped_boxes=clean_layouts(layouts)
+226:     stats['layout_boxes_dropped']=dropped_boxes
+227:     duration=float(duration) if _finite(duration) and float(duration)>0 else 0.0
+228:     rate=len(valid)/duration if duration>0 else 0.0
+229:     # Tanpa durasi valid, cakupan tidak dapat dihitung -> 0 (bukan 100% seperti pembagian dengan max(0,1)).
+230:     coverage=min(1.0,len(valid)/max(duration*EXPECTED_HZ,1)) if duration>0 else 0.0
+231:     analyzable=len(valid)>=MIN_GAZE_SAMPLES
+232:     usable=calibrated and analyzable and coverage*100>=MIN_GAZE_COVERAGE
+233:     base=_empty_gaze(stats,calibrated,coverage,rate)
+234:     base.update({'gaze_usable':usable,'gaze_analyzable':analyzable})
+235:     if not analyzable:return base
+236:     inside=[p for p in valid if -0.03<=p['x']<=1.03 and -0.05<=p['y']<=1.05]
+237:     def dims(t):
+238:         if not layouts:return 760,400
+239:         l=layout_at(layouts,t);return l['width'],l['height']
+240:     pts=[]
+241:     for p in inside:
+242:         w,h=dims(p['t']);pts.append((p['x']*w,p['y']*h,p['t'],p['x'],p['y']))
+243:     fix=_idt(pts)
+244:     base['on_text_percent']=round(len(inside)/len(valid)*100,1)
+245:     base['fixations']=len(fix)
+246:     base['mean_fixation_ms']=round(float(np.mean([f['d'] for f in fix])),1) if fix else None
+247:     detail={'fixation_total_ms':round(sum(f['d'] for f in fix),1),'scanpath':[],'line_timeline':[],'words':[],'lines':0}
+248:     if not layouts:
+249:         centers=[(f['x'],f['y']) for f in fix]
+250:         base['regressions']=sum(1 for a,b in zip(centers,centers[1:]) if b[0]<a[0]-0.04 and abs(b[1]-a[1])<0.06)
+251:         detail['scanpath']=[{'x':round(f['x'],4),'y':round(f['y'],4),'d':f['d'],'t':round(f['start'],2)} for f in fix[:800]]
+252:         base['gaze']=detail;return base
+253:     words=layouts[-1]['words'];total_words=len(words)
+254:     dwell={};visits={};seq=[];unmapped=0
+255:     first_visits = {}
+256:     previous_word = None
+257:     for f in fix:
+258:         layout=layout_at(layouts,f['start']);line,word=assign_word(f,layout)
+259:         w,h=layout['width'],layout['height']
+260:         detail['scanpath'].append({'x':round(f['x'],4),'y':round(f['y'],4),'d':f['d'],'t':round(f['start'],2),'line':line,'word':word['i'] if word else None})
+261:         if line is not None:detail['line_timeline'].append({'t':round(f['start'],2),'line':line+1})
+262:         index = word['i'] if word else None
+263:         if index is not None:
+264:             if index not in first_visits:
+265:                 first_visits[index] = {'first_fixation_ms': f['d'], 'first_visit_ms': f['d'],
+266:                                        'first_visit_fixations': 1, 'visit_closed': False}
+267:             elif previous_word != index:
+268:                 first_visits[index]['visit_closed'] = True
+269:             elif not first_visits[index]['visit_closed']:
+270:                 first_visits[index]['first_visit_ms'] += f['d']
+271:                 first_visits[index]['first_visit_fixations'] += 1
+272:         previous_word = index
+273:         if word:
+274:             dwell[word['i']]=dwell.get(word['i'],0)+f['d']
+275:             if not seq or seq[-1]['word']!=word['i']:
+276:                 visits[word['i']]=visits.get(word['i'],0)+1
+277:                 seq.append({'word':word['i'],'line':line,'x':f['x']*w,'y':f['y']*h})
+278:         else:unmapped+=1
+279:     within,between,forward,sweeps=classify_transitions(seq)
+280:     amps=[float(np.hypot(b['x']-a['x'],b['y']-a['y'])) for a,b in zip(seq,seq[1:])]
+281:     transitions=max(len(seq)-1,1)
+282:     fixated=len(dwell);skipped=max(total_words-fixated,0)
+283:     by_index={w['i']:w for w in words}
+284:     detail.update({
+285:         'lines':len({w['line'] for w in words}),
+286:         'words_total':total_words,'words_fixated':fixated,'fixations_unmapped':unmapped,
+287:         'words_fixated_percent':round(fixated/total_words*100,1) if total_words else None,
+288:         'skipped_words_percent':round(skipped/total_words*100,1) if total_words else None,
+289:         'regressions_within_line':within,'regressions_between_line':between,'progressions':forward,'return_sweeps':sweeps,
+290:         'regression_rate':round((within+between)/transitions*100,1) if len(seq)>1 else None,
+291:         'reading_order_percent':round((forward+sweeps)/transitions*100,1) if len(seq)>1 else None,
+292:         'revisited_words':sum(1 for v in visits.values() if v>1),
+293:         'mean_saccade_px':round(float(np.mean(amps)),1) if amps else None,
+294:         'longest_dwell':[{'index':i,'word':re.sub(r'[^\w-]','',by_index[i]['text']) if i in by_index else '','ms':round(ms,1),'visits':visits.get(i,0)} for i,ms in sorted(dwell.items(),key=lambda kv:-kv[1])[:6]],
+295:         'words':[{'index':i,'ms':round(ms,1),'visits':visits.get(i,0),
+296:                   'first_fixation_ms':first_visits[i]['first_fixation_ms'],
+297:                   'first_visit_ms':round(first_visits[i]['first_visit_ms'],1),
+298:                   'first_visit_fixations':first_visits[i]['first_visit_fixations']}
+299:                  for i,ms in sorted(dwell.items())],
+300:     })
+301:     detail['scanpath']=detail['scanpath'][:800];detail['line_timeline']=detail['line_timeline'][:800]
+302:     base['regressions']=within+between
+303:     base['gaze']=detail
+304:     return base

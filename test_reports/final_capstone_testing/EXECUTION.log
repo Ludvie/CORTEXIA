@@ -1,0 +1,20 @@
+2026-11-27T16:54:39 Protected source and model snapshots recorded. No training scheduled.
+2026-11-27T16:57:32 Algorithm checks: 197; passed=196; failed=1
+2026-11-27T16:59:27 Algorithm checks: 199; passed=198; failed=1
+2026-11-27T16:59:28 Dedicated local integration server ready=True; DB=cortexia_finaltest_20261127
+2026-11-27T17:01:54 Existing + source-directed pytest finished; exit=1
+2026-11-27T17:03:50 Audio inference and performance completed; no models downloaded. Whisper ready=False
+2026-11-27T17:04:45 Reused ML, TURead and BAHANA aggregate results without training, cleaning or dataset feature extraction.
+2026-11-27T17:04:49 Dedicated local integration server ready=True; DB=cortexia_finaltest_20261127
+2026-11-27T17:05:19 Existing + source-directed pytest finished; exit=1
+2026-11-27T17:08:12 BAHANA VAD regression sample: 6 audio; matches=6. No dataset regeneration.
+2026-11-27T17:08:32 Algorithm checks: 203; passed=202; failed=1
+2026-11-27T17:09:48 Dedicated local integration server ready=True; DB=cortexia_finaltest_20261127
+2026-11-27T17:09:54 Existing + source-directed pytest finished; exit=1
+2026-11-27T17:10:40 Dedicated local integration server ready=True; DB=cortexia_finaltest_20261127
+2026-11-27T17:10:57 Existing + source-directed pytest finished; exit=0
+2026-11-27T17:12:11 Technical UI check completed; frontend test exit=0
+2026-11-27T17:26:41 Reports generated from measured outputs; source integrity=True
+2026-11-27T17:26:42 Evidence ZIP created (reports, aggregate/synthetic CSV, figures, XML; no audio/datasets/models/database/dependencies).
+2026-11-27T17:30:11 Reports generated from measured outputs; source integrity=True
+2026-11-27T17:30:15 Evidence ZIP created (reports, aggregate/synthetic CSV, figures, XML; no audio/datasets/models/database/dependencies).

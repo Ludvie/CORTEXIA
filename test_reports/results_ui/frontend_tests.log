@@ -1,0 +1,18 @@
+Final test summary generated from frontend_tests.json
+Suites passed: 1; tests passed: 16; failed: 0
+passed: uses backend findings, keeps three shared words and separate WPM definitions
+passed: no fusion for audio=true, gaze=false, even with stale fusion data
+passed: no fusion for audio=false, gaze=true, even with stale fusion data
+passed: no fusion for audio=false, gaze=false, even with stale fusion data
+passed: legacy data without multimodal_complete cannot claim fusion
+passed: null mean pause is unavailable, while a measured zero stays zero
+passed: missing legacy fields render every tab without undefined or NaN
+passed: loading, API error, and retry are usable
+passed: empty successful response shows an empty state
+passed: tab keyboard navigation moves focus and selected state
+passed: teacher review posts correction and renders returned metrics without replacing original fluency
+passed: student cannot see the transcript correction control
+passed: PDF keeps the existing endpoint and blob download contract
+passed: gaze tab retains the replay component and word observation table
+passed: additional backend recommendation opens the transcript tab
+passed: null profile and non-finite measurements remain safe

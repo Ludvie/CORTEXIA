@@ -1,0 +1,4 @@
+2026-11-27 11:46:08,925 INFO Validated 210 records, 70 participants, 16 features; no participant overlap
+2026-11-27 11:46:08,926 INFO Running existing ml_pipeline.train(logistic)
+2026-11-27 11:46:13,842 INFO Running existing ml_pipeline.train(forest)
+2026-11-27 11:46:35,704 INFO Completed. Winners: {'rekaman': ('Random Forest', np.float64(0.7809325108853411), np.float64(0.010524347620034957)), 'peserta': ('Logistic Regression', np.float64(0.8420512820512821), np.float64(0.02810730331482747))}

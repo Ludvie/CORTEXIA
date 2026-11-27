@@ -1,0 +1,2 @@
+﻿audio_id,annotator_id,segment_start_sec,segment_end_sec,label_speech_or_silence,boundary_tolerance_ms,notes
+PUBLIC_FIXTURE,,,,,,Isi independen; jangan salin prediksi VAD
